@@ -1,9 +1,10 @@
 # DisTypo — typography and text correction
 <img src="distypo-logo.png" height="200" alt="distypo - typography and text correctness"></img>
-## 1. MVP Feature List
 
 ## OverView
 Deterministic desktop tool for typographic and text-level error correction in plain text and XML documents.
+
+## 1. MVP Feature List
 
 ### 1.1 Core Text Processing
 - Paste or load plain text into an editor
