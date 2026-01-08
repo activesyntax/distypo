@@ -1,4 +1,4 @@
-# DisTypo — MVP Definition
+# DisTypo — typography and text correctness
 <img src="distypo-logo.png" height="200" alt="distypo - typography and text correctness"></img>
 ## 1. MVP Feature List
 
