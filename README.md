@@ -1,5 +1,5 @@
 # DisTypo — MVP Definition
-
+<img src="distypo-logo.png" height="200" alt="distypo - typography and text correctness"></img>
 ## 1. MVP Feature List
 
 ### 1.1 Core Text Processing
