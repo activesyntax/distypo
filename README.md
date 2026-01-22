@@ -4,7 +4,7 @@
 ## Overview
 Deterministic desktop tool for typographic and text-level error correction in plain text and XML documents.
 
-<a href="image.png"><img src="image.png" height="400" alt="distypo - typography and text correctness"></img></a>
+<a href="image.png"><img src="image.png" width="100%" alt="distypo - typography and text correctness"></img></a>
 
 ## 1. MVP Feature List
 
