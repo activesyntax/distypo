@@ -1,12 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Workspace } from './workspace/workspace';
-import { MatToolbar } from '@angular/material/toolbar';
-
+import { Header } from './header/header'
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatToolbar, Workspace],
+  imports: [RouterOutlet, Header, Workspace],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
