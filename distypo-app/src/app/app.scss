@@ -42,8 +42,30 @@ main {
     user-select: none;
     -webkit-user-drag: none;
   }
+
+  &__tagline {
+    font-family: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--mat-sys-on-surface-variant);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+
+    padding-left: 1rem;
+    border-left: 1px solid var(--mat-sys-outline-variant);
+    margin-left: 0.5rem;
+
+    // Optical nudge: the wordmark sits in the lower part of the logo,
+    // so geometric centering looks slightly high. Push the tagline
+    // down a hair to align with the wordmark's visual baseline.
+    align-self: center;
+    transform: translateY(0.5em);
+  }
 }
 
 @media (max-width: 600px) {
-  .app-header__logo { height: 2rem; }
+  .app-header__tagline { display: none; }
+  .app-header__logo    { height: 2rem; }
 }
