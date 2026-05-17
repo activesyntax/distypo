@@ -1,3 +1,42 @@
 <div class="article-frame">
-  <pre class="article-frame__content">{{ articleText }}</pre>
+  <pre class="article-frame__content">
+    <pre class="article-frame__content">
+      DisTypo is a typography corrector. You paste in your text, and the application points out the small mechanical
+      mistakes that spell-checkers ignore — the wrong dash, the missing space, the straight quote in a paragraph of
+      curly ones. It does not rewrite your prose. It only fixes what is unambiguously wrong.
+
+      The issues DisTypo currently detects include the following.
+
+      Sentences beginning with a lowercase letter:
+      <span class="bad">the meeting starts at noon.</span> → <span class="good">The meeting starts at noon.</span>
+
+      Missing space after punctuation:
+      <span class="bad">noon.We started.</span> → <span class="good">noon. We started.</span>
+
+      Double spaces between words:
+      <span class="bad">the quick brown fox</span> → <span class="good">the quick brown fox</span>
+
+      Space before punctuation:
+      <span class="bad">Are you serious ?</span> → <span class="good">Are you serious?</span>
+
+      Straight quotes instead of typographic ones:
+      <span class="bad">"hello," she said</span> → <span class="good">“hello,” she said</span>
+
+      Hyphens used in place of dashes:
+      <span class="bad">pages 12-18</span> → <span class="good">pages 12–18</span>
+      <span class="bad">she paused - then continued</span> → <span class="good">she paused — then continued</span>
+
+      Three periods instead of an ellipsis:
+      <span class="bad">and then...nothing</span> → <span class="good">and then… nothing</span>
+
+      Inconsistent spacing around parentheses:
+      <span class="bad">result( see figure 3 )is clear</span> → <span class="good">result (see figure 3) is clear</span>
+
+      None of these mistakes are serious on their own. What makes them worth
+      fixing is that they accumulate. DisTypo takes that residue out of your
+      text so the words can do their job.
+    </pre>
+
+  </pre>
+  <!-- <pre class="article-frame__content">{{ articleText }}</pre> -->
 </div>
