@@ -1,5 +1,5 @@
 
 :host ::ng-deep .tab-right {
   margin-left: auto;
-  /* border-left: 1px solid rgba(133, 0, 0, 0.12); /* optional divider */ */
+  /* border-left: 1px solid rgba(133, 0, 0, 0.12); /* optional divider */
 }
