@@ -1,0 +1,49 @@
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.app-header {
+  // Toolbar spans the viewport; the inner wrapper centers content.
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  padding: 0;        // let the inner wrapper own horizontal padding
+  height: auto;      // allow growth with the logo
+  min-height: 4rem;  // sensible floor
+
+  &__inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;  // matches main's horizontal padding
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: var(--mat-sys-corner-small, 4px);
+
+    &:focus-visible {
+      outline: 2px solid var(--mat-sys-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &__logo {
+    display: block;
+    height: 5rem;
+    width: auto;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-header__logo { height: 2rem; }
+}

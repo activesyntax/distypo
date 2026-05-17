@@ -1,6 +1,0 @@
-
-main {
-  max-width: 1200px;   /* or 960px, 1024px, 65rem — whatever fits your design */
-  margin: 0 auto;      /* auto left/right margins center the block */
-  padding: 0 1rem;     /* breathing room on narrow screens so content doesn't touch edges */
-}
