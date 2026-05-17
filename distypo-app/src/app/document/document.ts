@@ -6,4 +6,9 @@ import { Component } from '@angular/core';
   templateUrl: './document.html',
   styleUrl: './document.scss',
 })
-export class Document {}
+export class Document {
+  articleText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+(More paragraphs here…)`;
+}
