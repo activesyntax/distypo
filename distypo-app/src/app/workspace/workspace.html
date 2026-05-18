@@ -1,4 +1,7 @@
 <mat-sidenav-container class="workspace" autosize>
+
+
+  <!-- SIDENAV -->
   <mat-sidenav #sidenav mode="side" opened>
     <mat-nav-list>
 
@@ -29,8 +32,58 @@
         <span matListItemTitle>Help</span>
       </a>
     </mat-nav-list>
+
+
+    <!-- SUMMARY -->
+    @if (hasFile()) {
+    <div class="summary">
+      <div class="progress-ring" role="img"
+        [attr.aria-label]="resolvedIssues() + ' of ' + detectedIssues() + ' issues resolved'">
+        <svg class="progress-ring__svg" viewBox="0 0 100 100">
+          <circle class="progress-ring__track" cx="50" cy="50" r="42" />
+          <circle class="progress-ring__fill" cx="50" cy="50" r="42" [style.stroke-dasharray]="ringCircumference"
+            [style.stroke-dashoffset]="ringOffset()" />
+        </svg>
+        <div class="progress-ring__label">
+          <span class="progress-ring__resolved">{{ resolvedIssues() }}</span>
+          <span class="progress-ring__sep">/</span>
+          <span class="progress-ring__total">{{ detectedIssues() }}</span>
+        </div>
+      </div>
+
+      <mat-card class="summary__card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ filename() }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <dl class="summary__stats">
+            <dt>Size</dt>
+            <dd>{{ formattedSize() }}</dd>
+            <dt>Words</dt>
+            <dd>{{ wordCount() }}</dd>
+            <dt>Sentences</dt>
+            <dd>{{ sentenceCount() }}</dd>
+            <dt>Lines</dt>
+            <dd>{{ lineCount() }}</dd>
+          </dl>
+
+          <div class="summary__issues">
+            <div class="summary__issues-label">Issues</div>
+            <div class="summary__issues-counts">
+              <span class="summary__remaining">{{ remainingIssues() }} remaining</span>
+              <span class="summary__resolved">{{ resolvedIssues() }} resolved</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    }
+
+
+
   </mat-sidenav>
 
+  <!-- CONTENT -->
   <mat-sidenav-content>
     @switch (view()) {
     @case ('document') { <app-document /> }
