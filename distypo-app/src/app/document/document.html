@@ -1,42 +1,87 @@
 <div class="article-frame">
-  <pre class="article-frame__content">
-    <pre class="article-frame__content">
-      DisTypo is a typography corrector. You paste in your text, and the application points out the small mechanical
-      mistakes that spell-checkers ignore — the wrong dash, the missing space, the straight quote in a paragraph of
-      curly ones. It does not rewrite your prose. It only fixes what is unambiguously wrong.
+  <article class="article-frame__content">
+    <p>
+      DisTypo is a typography corrector. You paste in your text, and the
+      application points out the small mechanical mistakes that spell-checkers
+      ignore — the wrong dash, the missing space, the straight quote in a
+      paragraph of curly ones. It does not rewrite your prose. It only fixes
+      what is unambiguously wrong.
+    </p>
 
-      The issues DisTypo currently detects include the following.
+    <p>The issues DisTypo currently detects include the following.</p>
 
-      Sentences beginning with a lowercase letter:
-      <span class="bad">the meeting starts at noon.</span> → <span class="good">The meeting starts at noon.</span>
+    <section class="example">
+      <p class="example__label">Sentences beginning with a lowercase letter:</p>
+      <p class="example__pair">
+        <!-- prettier-ignore -->
+        <span class="issue" [class.selected]="selected() === 'noon'" (click)="select('noon')"><span class="bad" data-hint="keep" (click)="keep('noon'); $event.stopPropagation()">the meeting starts at noon.</span> → <span class="good" data-hint="fix" (click)="fix('noon'); $event.stopPropagation()">The meeting starts at noon.</span><button class="issue__edit" (click)="edit('noon'); $event.stopPropagation()">✎ EDIT</button></span>
+      </p>
+    </section>
 
-      Missing space after punctuation:
-      <span class="bad">noon.We started.</span> → <span class="good">noon. We started.</span>
+    <section class="example">
+      <p class="example__label">Missing space after punctuation:</p>
+      <p class="example__pair">
+        <span class="bad">noon.We started.</span> →
+        <span class="good">noon. We started.</span>
+      </p>
+    </section>
 
-      Double spaces between words:
-      <span class="bad">the quick brown fox</span> → <span class="good">the quick brown fox</span>
+    <section class="example">
+      <p class="example__label">Double spaces between words:</p>
+      <p class="example__pair">
+        <span class="bad">the quick&nbsp;&nbsp;brown fox</span> →
+        <span class="good">the quick brown fox</span>
+      </p>
+    </section>
 
-      Space before punctuation:
-      <span class="bad">Are you serious ?</span> → <span class="good">Are you serious?</span>
+    <section class="example">
+      <p class="example__label">Space before punctuation:</p>
+      <p class="example__pair">
+        <span class="bad">Are you serious ?</span> →
+        <span class="good">Are you serious?</span>
+      </p>
+    </section>
 
-      Straight quotes instead of typographic ones:
-      <span class="bad">"hello," she said</span> → <span class="good">“hello,” she said</span>
+    <section class="example">
+      <p class="example__label">Straight quotes instead of typographic ones:</p>
+      <p class="example__pair">
+        <span class="bad">"hello," she said</span> →
+        <span class="good">“hello,” she said</span>
+      </p>
+    </section>
 
-      Hyphens used in place of dashes:
-      <span class="bad">pages 12-18</span> → <span class="good">pages 12–18</span>
-      <span class="bad">she paused - then continued</span> → <span class="good">she paused — then continued</span>
+    <section class="example">
+      <p class="example__label">Hyphens used in place of dashes:</p>
+      <p class="example__pair">
+        <span class="bad">pages 12-18</span> →
+        <span class="good">pages 12–18</span>
+      </p>
+      <p class="example__pair">
+        <span class="bad">she paused - then continued</span> →
+        <span class="good">she paused — then continued</span>
+      </p>
+    </section>
 
-      Three periods instead of an ellipsis:
-      <span class="bad">and then...nothing</span> → <span class="good">and then… nothing</span>
+    <section class="example">
+      <p class="example__label">Three periods instead of an ellipsis:</p>
+      <p class="example__pair">
+        <span class="bad">and then...nothing</span> →
+        <span class="good">and then… nothing</span>
+      </p>
+    </section>
 
-      Inconsistent spacing around parentheses:
-      <span class="bad">result( see figure 3 )is clear</span> → <span class="good">result (see figure 3) is clear</span>
+    <section class="example">
+      <p class="example__label">Inconsistent spacing around parentheses:</p>
+      <p class="example__pair">
+        <span class="bad">result( see figure 3 )is clear</span> →
+        <span class="good">result (see figure 3) is clear</span>
+      </p>
+    </section>
 
+    <p>
       None of these mistakes are serious on their own. What makes them worth
       fixing is that they accumulate. DisTypo takes that residue out of your
       text so the words can do their job.
-    </pre>
-
-  </pre>
-  <!-- <pre class="article-frame__content">{{ articleText }}</pre> -->
+    </p>
+  </article>
 </div>

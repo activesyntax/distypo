@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-document',
@@ -7,8 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './document.scss',
 })
 export class Document {
-  articleText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  selected = signal<string | null>(null);
 
-(More paragraphs here…)`;
+  select(id: string) { this.selected.set(id); }
+  keep(id: string) { /* az eredeti marad — issue feloldva */ }
+  fix(id: string) { /* javasolt csere alkalmazása */ }
+  edit(id: string) { /* inline szerkesztő megnyitása */ }
 }
