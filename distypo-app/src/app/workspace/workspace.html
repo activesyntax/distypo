@@ -26,7 +26,7 @@
         <mat-icon matListItemIcon>settings</mat-icon>
         <span matListItemTitle>Settings</span>
       </a>
-      <a mat-list-item (click)="view.set('help')" [activated]="view() === 'help'">
+      <a mat-list-item (click)="view.set('help-page')" [activated]="view() === 'help-page'">
         <mat-icon matListItemIcon>help_outline</mat-icon>
         <span matListItemTitle>Help</span>
       </a>
@@ -93,7 +93,7 @@
     @switch (view()) {
       @case ('document') { <app-document /> }
       @case ('settings') { <app-settings /> }
-      <!-- @case ('help') { <app-help /> } -->
+      @case ('help-page') { <app-help-page /> }
     }
   </mat-sidenav-content>
 </mat-sidenav-container>

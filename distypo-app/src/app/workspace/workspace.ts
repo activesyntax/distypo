@@ -6,8 +6,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { Document } from '@app/document/document';
 import { Settings } from '@app/settings/settings';
+import { HelpPage } from '@app/help-page/help-page';
 
-type View = 'document' | 'settings' | 'help';
+type View = 'document' | 'settings' | 'help-page';
 
 const RING_RADIUS = 42;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
@@ -17,7 +18,7 @@ const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
   imports: [
     MatSidenavModule, MatListModule, MatIconModule,
     MatDividerModule, MatCardModule,
-    Document, Settings
+    Document, Settings, HelpPage
   ],
   templateUrl: './workspace.html',
   styleUrl: './workspace.scss',
