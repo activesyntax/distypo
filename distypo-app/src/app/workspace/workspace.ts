@@ -4,7 +4,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { Document } from '../document/document';
+import { Document } from '@app/document/document';
 
 type View = 'document' | 'settings' | 'help';
 
