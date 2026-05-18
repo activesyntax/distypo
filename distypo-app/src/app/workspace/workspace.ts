@@ -23,7 +23,7 @@ const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 })
 export class Workspace {
   view = signal<View>('document');
-  filename = signal<string | null>('introduction.txt');
+  filename = signal<string | null>('intro.txt');
 
   fileSize = signal(1234);          // bytes
   wordCount = signal(186);

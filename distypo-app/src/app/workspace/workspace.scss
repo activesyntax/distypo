@@ -46,38 +46,41 @@
       font-variant-numeric: tabular-nums;
     }
   }
+}
 
-  // Issues block — visually distinct from the plain stats above
-  &__issues {
-    margin-top: 0.9rem;
+.issues {
+  &__card {
+    width: 100%;
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.3rem 0.75rem;
+    margin: 1rem 0 0;
     padding-top: 0.75rem;
     border-top: 1px solid var(--mat-sys-outline-variant);
+    font-size: 0.875rem;
+
+    dt {
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    dd {
+      margin: 0;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
   }
 
-  &__issues-label {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--mat-sys-error);
-    margin-bottom: 0.4rem;
-  }
-
-  &__issues-counts {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    font-variant-numeric: tabular-nums;
-  }
-
+  // Emphasized counts — bold + themed color set them apart from "Detected"
   &__remaining {
     font-weight: 700;
     color: var(--mat-sys-error);
   }
 
   &__resolved {
+    font-weight: 600;
     color: var(--mat-sys-tertiary);
   }
 }
@@ -86,6 +89,7 @@
   position: relative;
   width: 120px;
   height: 120px;
+  margin: 0 auto; // center inside mat-card-content
 
   &__svg {
     width: 100%;
@@ -132,5 +136,15 @@
   &__total {
     font-size: 1rem;
     opacity: 0.7;
+  }
+}
+
+.summary__card,
+.issues__card {
+  mat-card-header {
+    background: var(--mat-sys-surface-container-high);
+    padding: 0.85rem 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
   }
 }
