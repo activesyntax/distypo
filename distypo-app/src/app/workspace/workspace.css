@@ -1,5 +1,25 @@
+/**/
+/* :host ::ng-deep .tab-right { */
+/*   margin-left: auto; */
+/*   /* border-left: 1px solid rgba(133, 0, 0, 0.12); /* optional divider */ */
+/* } */
 
-:host ::ng-deep .tab-right {
-  margin-left: auto;
-  /* border-left: 1px solid rgba(133, 0, 0, 0.12); /* optional divider */
+:host {
+  display: block;
+  height: 100%;
+}
+
+.workspace {
+  height: 100%;
+  background: transparent;
+  border-top: 5px solid var(--mat-sys-primary);
+}
+
+.workspace mat-sidenav {
+  width: 220px;
+  padding-top: 1.2rem;
+}
+
+.workspace mat-sidenav-content {
+  padding: 1.5rem 2rem;
 }

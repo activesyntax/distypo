@@ -1,11 +1,41 @@
-<mat-tab-group [mat-stretch-tabs]="false">
-  <mat-tab label="article.txt">
+<mat-sidenav-container class="workspace" autosize>
+  <mat-sidenav #sidenav mode="side" opened>
+    <mat-nav-list>
 
-    <app-document></app-document>
+      <a mat-list-item (click)="view.set('document')" [activated]="view() === 'document'">
+        <mat-icon matListItemIcon>description</mat-icon>
+        <span matListItemTitle>Document</span>
+      </a>
 
-  </mat-tab>
+      <a mat-list-item (click)="openFile()">
+        <mat-icon matListItemIcon>content_paste_go</mat-icon>
+        <span matListItemTitle>Paste</span>
+      </a>
 
-  <!-- this tab and everything after gets pushed right -->
-  <mat-tab label="Settings" labelClass="tab-right">…</mat-tab>
-  <mat-tab label="Help">…</mat-tab>
-</mat-tab-group>
+      <a mat-list-item (click)="openFile()">
+        <mat-icon matListItemIcon>folder_open</mat-icon>
+        <span matListItemTitle>Open…</span>
+      </a>
+      <a mat-list-item (click)="saveFile()" [disabled]="!hasFile()">
+        <mat-icon matListItemIcon>save</mat-icon>
+        <span matListItemTitle>Save</span>
+      </a>
+      <a mat-list-item (click)="view.set('settings')" [activated]="view() === 'settings'">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        <span matListItemTitle>Settings</span>
+      </a>
+      <a mat-list-item (click)="view.set('help')" [activated]="view() === 'help'">
+        <mat-icon matListItemIcon>help_outline</mat-icon>
+        <span matListItemTitle>Help</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    @switch (view()) {
+    @case ('document') { <app-document /> }
+    <!-- @case ('settings') { <app-settings /> } -->
+    <!-- @case ('help') { <app-help /> } -->
+    }
+  </mat-sidenav-content>
+</mat-sidenav-container>
