@@ -7,8 +7,7 @@ import { Component, signal } from '@angular/core';
   styleUrl: './document.scss',
 })
 export class Document {
-  selected = signal<string | null>(null);
-
+selected = signal<string | null>('noon');
   select(id: string) { this.selected.set(id); }
   keep(id: string) { /* az eredeti marad — issue feloldva */ }
   fix(id: string) { /* javasolt csere alkalmazása */ }
