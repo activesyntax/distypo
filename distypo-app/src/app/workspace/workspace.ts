@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Document } from '@app/document/document';
 import { Settings } from '@app/settings/settings';
 import { HelpPage } from '@app/help-page/help-page';
+import { DocumentInfo } from '@app/document-info/document-info';
 
 type View = 'document' | 'settings' | 'help-page';
 
@@ -18,25 +19,17 @@ const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
   imports: [
     MatSidenavModule, MatListModule, MatIconModule,
     MatDividerModule, MatCardModule,
-    Document, Settings, HelpPage
+    Document, Settings, HelpPage, DocumentInfo
   ],
   templateUrl: './workspace.html',
   styleUrl: './workspace.scss',
 })
 export class Workspace {
   view = signal<View>('document');
-  filename = signal<string | null>('intro.txt');
-
-  fileSize = signal(1234);          // bytes
-  wordCount = signal(186);
-  sentenceCount = signal(14);
-  lineCount = signal(22);
   detectedIssues = signal(20);
   resolvedIssues = signal(12);
 
-  hasFile = computed(() => this.filename() !== null);
   remainingIssues = computed(() => this.detectedIssues() - this.resolvedIssues());
-  formattedSize = computed(() => formatBytes(this.fileSize()));
 
   // Progress ring
   readonly ringCircumference = RING_CIRCUMFERENCE;
@@ -50,8 +43,3 @@ export class Workspace {
   saveFile() { /* … */ }
 }
 
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
