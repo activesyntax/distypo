@@ -24,40 +24,9 @@
 <!-- // TODO file loaded -->
     @if (true) {
       <div class="info-panel">
+        <app-issues></app-issues>
 
         <app-document-info></app-document-info>
-
-        <!-- Issues -->
-        <mat-card class="issues__card" appearance="outlined">
-          <mat-card-header>
-            <mat-card-title>Issues</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-
-            <div class="progress-ring" role="img"
-                 [attr.aria-label]="resolvedIssues() + ' of ' + detectedIssues() + ' issues resolved'">
-              <svg class="progress-ring__svg" viewBox="0 0 100 100">
-                <circle class="progress-ring__track" cx="50" cy="50" r="42" />
-                <circle class="progress-ring__fill" cx="50" cy="50" r="42"
-                        [style.stroke-dasharray]="ringCircumference"
-                        [style.stroke-dashoffset]="ringOffset()" />
-              </svg>
-              <div class="progress-ring__label">
-                <span class="progress-ring__resolved">{{ resolvedIssues() }}</span>
-                <span class="progress-ring__sep">/</span>
-                <span class="progress-ring__total">{{ detectedIssues() }}</span>
-              </div>
-            </div>
-
-            <dl class="issues__stats">
-              <dt>Detected</dt>  <dd>{{ detectedIssues() }}</dd>
-              <dt>Remaining</dt> <dd class="issues__remaining">{{ remainingIssues() }}</dd>
-              <dt>Resolved</dt>  <dd class="issues__resolved">{{ resolvedIssues() }}</dd>
-            </dl>
-
-          </mat-card-content>
-        </mat-card>
-
       </div>
     }
 
