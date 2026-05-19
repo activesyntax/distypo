@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
+
 @Component({
   selector: 'app-document-info',
   imports: [MatCardModule],
@@ -9,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class DocumentInfo {
 
-  filename = signal<string | null>('intro.txt');
+  filename = signal<string | undefined>('intro.txt');
 
   fileSize = signal(1234);          // bytes
   wordCount = signal(186);

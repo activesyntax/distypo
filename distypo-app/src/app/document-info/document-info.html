@@ -1,9 +1,15 @@
 <mat-card class="summary__card" appearance="outlined">
   <mat-card-header>
-    <mat-card-title>{{ filename() }}</mat-card-title>
+    <mat-card-title>Info</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <dl class="summary__stats">
+
+      @if(hasFile()) {
+      <dt>Filename</dt>
+      <dd>{{ filename() }}</dd>
+      }
+
       <dt>Size</dt>
       <dd>{{ formattedSize() }}</dd>
       <dt>Words</dt>
