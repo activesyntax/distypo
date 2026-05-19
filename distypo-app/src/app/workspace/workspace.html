@@ -9,19 +9,6 @@
         <span matListItemTitle>Document</span>
       </a>
 
-      <a mat-list-item (click)="openFile()">
-        <mat-icon matListItemIcon>content_paste_go</mat-icon>
-        <span matListItemTitle>Paste</span>
-      </a>
-
-      <a mat-list-item (click)="openFile()">
-        <mat-icon matListItemIcon>folder_open</mat-icon>
-        <span matListItemTitle>Open…</span>
-      </a>
-      <a mat-list-item (click)="saveFile()" [disabled]="!hasFile()">
-        <mat-icon matListItemIcon>save</mat-icon>
-        <span matListItemTitle>Save</span>
-      </a>
       <a mat-list-item (click)="view.set('settings')" [activated]="view() === 'settings'">
         <mat-icon matListItemIcon>settings</mat-icon>
         <span matListItemTitle>Settings</span>
