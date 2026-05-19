@@ -72,9 +72,6 @@
   }
 
 
-  &__save {
-    margin-left: 0.5rem;  // group separator: Open + Paste | Save
-  }
 }
 @media (max-width: 600px) {
   .app-header__tagline       { display: none; }
