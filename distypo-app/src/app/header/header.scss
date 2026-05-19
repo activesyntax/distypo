@@ -58,9 +58,25 @@
     align-self: center;
     transform: translateY(0.5em);
   }
-}
 
+  &__actions {
+    margin-left: auto;     // pushes the group to the right
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__action-label {
+    margin-left: 0.25rem;  // breathing room between icon and label
+  }
+
+
+  &__save {
+    margin-left: 0.5rem;  // group separator: Open + Paste | Save
+  }
+}
 @media (max-width: 600px) {
-  .app-header__tagline { display: none; }
-  .app-header__logo    { height: 2rem; }
+  .app-header__tagline       { display: none; }
+  .app-header__logo          { height: 2rem; }
+  .app-header__action-label  { display: none; }  // icons only on narrow screens
 }
