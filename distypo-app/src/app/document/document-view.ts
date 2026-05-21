@@ -3,8 +3,8 @@ import { Component, signal } from '@angular/core';
 @Component({
   selector: 'app-document',
   imports: [],
-  templateUrl: './document.html',
-  styleUrl: './document.scss',
+  templateUrl: './document-view.html',
+  styleUrl: './document-view.scss',
 })
 export class DocumentView {
   selected = signal<string | null>('noon');
