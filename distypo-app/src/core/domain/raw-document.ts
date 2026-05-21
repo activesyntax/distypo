@@ -1,6 +1,6 @@
 import { RawDocument } from './model';
 
-export function fromContent(name: string, content: string): RawDocument {
+export function from(name: string, content: string): RawDocument {
   return { kind: 'raw', name, content };
 }
 
