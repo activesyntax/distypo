@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { DocumentView } from '@app/document/document-view';
+import { DocumentView } from '@app/document-view/document-view';
 import { Settings } from '@app/settings/settings';
 import { HelpPage } from '@app/help-page/help-page';
 import { DocumentInfo } from '@app/document-info/document-info';
