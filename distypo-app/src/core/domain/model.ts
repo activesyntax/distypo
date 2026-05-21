@@ -1,4 +1,4 @@
-import { Result, UniqId } from "@core/utils";
+import { UniqId } from "@core/utils";
 import { TextRange } from "@core/domain/text-range";
 
 export type RawDocument = { kind: "raw"; name: string; content: string };
@@ -18,7 +18,3 @@ export type Correction = {
   // rule: string;
 };
 
-// function lint(doc: RawDocument): LintedDocument { }
-// function polish(doc: LintedDocument): PolishedDocument { }
-//
-// function renderTab(doc: TextDocument) { }

@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Document } from '@app/document/document';
+import { DocumentView } from '@app/document/document';
 import { Settings } from '@app/settings/settings';
 import { HelpPage } from '@app/help-page/help-page';
 import { DocumentInfo } from '@app/document-info/document-info';
@@ -15,7 +15,7 @@ type View = 'document' | 'settings' | 'help-page';
   selector: 'app-workspace',
   imports: [
     MatSidenavModule, MatListModule, MatIconModule,
-    Document, Settings, HelpPage, DocumentInfo, Issues
+    DocumentView, Settings, HelpPage, DocumentInfo, Issues
   ],
   templateUrl: './workspace.html',
   styleUrl: './workspace.scss',

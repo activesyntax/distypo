@@ -6,7 +6,7 @@ import { Component, signal } from '@angular/core';
   templateUrl: './document.html',
   styleUrl: './document.scss',
 })
-export class Document {
+export class DocumentView {
   selected = signal<string | null>('noon');
   select(id: string) { this.selected.set(id); }
   keep(id: string) { /* az eredeti marad — issue feloldva */ }
