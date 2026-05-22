@@ -7,11 +7,11 @@
     }
 
     @if (documentError()) {
-      <p>Error: {{ documentError() }}</p>
+      <p>{{ documentError() }}</p>
     }
 
     @if (documentHTML()) {
-      <pre>{{ documentHTML() }}</pre>
+      <div [innerHTML]="documentHTML()"></div>
     }
 
 

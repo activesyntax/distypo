@@ -3,6 +3,9 @@ import { Component, computed, signal } from '@angular/core';
 import { lint, LintedDocument, RawDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+
 type InputFile = { name: string; path: string };
 
 @Component({
@@ -16,6 +19,7 @@ export class DocumentView {
 
   readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
 
+
   private readonly fileResource = httpResource.text(() => this.inputFile.path);
 
   readonly documentLoading = computed(() =>
@@ -24,11 +28,11 @@ export class DocumentView {
 
   readonly documentError = computed(() =>
     this.fileResource.status() === 'error'
-      ? this.fileResource.error()
+      ? "Failed to load document."
       : undefined
   );
 
-  readonly documentHTML = computed<string | undefined>(() => {
+  readonly documentHTML = computed<SafeHtml | undefined>(() => {
     if (this.fileResource.status() !== 'resolved') return undefined;
 
     const file = this.fileResource.value();
@@ -36,10 +40,16 @@ export class DocumentView {
 
     const rawDocument = RawDoc.from(this.inputFile.name, file);
     const lintedDocument = lint(rawDocument);
-    return lintedDocument.content;
-
-
+    const html = this.toHtml(lintedDocument);
+    return html;
   });
+
+  constructor(private sanitizer: DomSanitizer) {
+  }
+
+  toHtml(lintedDocument: LintedDocument): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(lintedDocument.content);
+  }
 
   select(id: string) { this.selected.set(id); }
   keep(id: string) { /* az eredeti marad — issue feloldva */ }
