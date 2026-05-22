@@ -19,14 +19,30 @@ export class DocumentView {
 
   private readonly fileResource = httpResource.text(() => this.inputFile.path);
 
-  readonly rawDocument: Signal<Result<RawDocument>> = computed(() => {
-    return this.fileResource.hasValue()
-      ? ok(RawDoc.from(this.inputFile.name, this.fileResource.value()))
-      : err('Failed to load file');
+  readonly lintedDocument: Signal<Result<LintedDocument>> = computed(() => {
+
+    const file = this.fileResource.value();
+    return file ? ok(lint(RawDoc.from(this.inputFile.name, file))) : err('Failed to load file');
   });
 
-  readonly lintedDocument: Signal<Result<LintedDocument>> = computed(() => {
-    return map(this.rawDocument(), lint);
+  readonly lintLoading = computed(() =>
+    this.fileResource.status() === 'loading'
+  );
+
+  readonly lintError = computed(() =>
+    this.fileResource.status() === 'error'
+      ? this.fileResource.error()
+      : null
+  );
+
+  readonly lintValue = computed<LintedDocument | null>(() => {
+    if (this.fileResource.status() !== 'resolved') return null;
+
+    const file = this.fileResource.value();
+    if (!file) return null;
+
+    const raw = RawDoc.from(this.inputFile.name, file);
+    return lint(raw);
   });
 
   select(id: string) { this.selected.set(id); }

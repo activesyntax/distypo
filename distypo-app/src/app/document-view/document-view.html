@@ -10,7 +10,18 @@
     <!-- <pre>{{ doc.value() }}</pre> -->
     <!-- } -->
 
-    <pre>{{ lintedDocument()?.content }}</pre>
+@if (lintLoading()) {
+  <p>Loading…</p>
+}
+
+@if (lintError()) {
+  <p>Error: {{ lintError() }}</p>
+}
+
+@if (lintValue()) {
+  <pre>{{ lintValue() }}</pre>
+}
+
 
     <p>
       DisTypo is a typography corrector. You paste in your text, and the
