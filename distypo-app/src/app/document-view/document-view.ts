@@ -48,11 +48,26 @@ export class DocumentView {
   }
 
   toHtml(lintedDocument: LintedDocument): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(lintedDocument.content);
+    const escaped = escapeHtml(lintedDocument.content);
+    const withBreaks = convertNewlines(escaped);
+
+    return this.sanitizer.bypassSecurityTrustHtml(withBreaks);
   }
 
   select(id: string) { this.selected.set(id); }
   keep(id: string) { /* az eredeti marad — issue feloldva */ }
   fix(id: string) { /* javasolt csere alkalmazása */ }
   edit(id: string) { /* inline szerkesztő megnyitása */ }
+}
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function convertNewlines(text: string): string {
+  return text.replace(/\n/g, '<br>');
 }
