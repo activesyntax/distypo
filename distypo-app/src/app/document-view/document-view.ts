@@ -1,9 +1,9 @@
 import { httpResource } from '@angular/common/http';
 import { Component, computed, signal } from '@angular/core';
-import { lint, LintedDocument, RawDocument } from '@core/index';
+import { lint, } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
-
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SafeHtmlService } from '@app/document-view/services/safe-html.service';
+import { SafeHtml } from '@angular/platform-browser';
 
 
 type InputFile = { name: string; path: string };
@@ -11,6 +11,7 @@ type InputFile = { name: string; path: string };
 @Component({
   selector: 'app-document',
   imports: [],
+  providers: [SafeHtmlService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
 })
@@ -40,18 +41,11 @@ export class DocumentView {
 
     const rawDocument = RawDoc.from(this.inputFile.name, file);
     const lintedDocument = lint(rawDocument);
-    const html = this.toHtml(lintedDocument);
+    const html = this.safeHtml.from(lintedDocument.content);
     return html;
   });
 
-  constructor(private sanitizer: DomSanitizer) {
-  }
-
-  toHtml(lintedDocument: LintedDocument): SafeHtml {
-    const escaped = escapeHtml(lintedDocument.content);
-    const withBreaks = convertNewlines(escaped);
-
-    return this.sanitizer.bypassSecurityTrustHtml(withBreaks);
+  constructor(private safeHtml: SafeHtmlService) {
   }
 
   select(id: string) { this.selected.set(id); }
@@ -60,14 +54,3 @@ export class DocumentView {
   edit(id: string) { /* inline szerkesztő megnyitása */ }
 }
 
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-function convertNewlines(text: string): string {
-  return text.replace(/\n/g, '<br>');
-}
