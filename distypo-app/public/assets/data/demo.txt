@@ -1,2 +1,2 @@
 This is a sentence. accidentally the sentence starts with lowercase.
-
+but this also should be capitalized. és még ez a mondat is.
