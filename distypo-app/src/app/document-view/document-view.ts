@@ -1,8 +1,7 @@
 import { httpResource } from '@angular/common/http';
-import { Component, computed, effect, Input, Signal, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { lint, LintedDocument, RawDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
-import { err, map, ok, Result } from '@core/fp';
 
 type InputFile = { name: string; path: string };
 
@@ -19,30 +18,27 @@ export class DocumentView {
 
   private readonly fileResource = httpResource.text(() => this.inputFile.path);
 
-  readonly lintedDocument: Signal<Result<LintedDocument>> = computed(() => {
-
-    const file = this.fileResource.value();
-    return file ? ok(lint(RawDoc.from(this.inputFile.name, file))) : err('Failed to load file');
-  });
-
-  readonly lintLoading = computed(() =>
+  readonly documentLoading = computed(() =>
     this.fileResource.status() === 'loading'
   );
 
-  readonly lintError = computed(() =>
+  readonly documentError = computed(() =>
     this.fileResource.status() === 'error'
       ? this.fileResource.error()
-      : null
+      : undefined
   );
 
-  readonly lintValue = computed<LintedDocument | null>(() => {
-    if (this.fileResource.status() !== 'resolved') return null;
+  readonly documentHTML = computed<string | undefined>(() => {
+    if (this.fileResource.status() !== 'resolved') return undefined;
 
     const file = this.fileResource.value();
-    if (!file) return null;
+    if (!file) return undefined;
 
-    const raw = RawDoc.from(this.inputFile.name, file);
-    return lint(raw);
+    const rawDocument = RawDoc.from(this.inputFile.name, file);
+    const lintedDocument = lint(rawDocument);
+    return lintedDocument.content;
+
+
   });
 
   select(id: string) { this.selected.set(id); }

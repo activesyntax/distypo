@@ -2,25 +2,17 @@
   <article class="article-frame__content">
 
 
-    <!-- @if (doc.isLoading()) { -->
-    <!-- <p>Loading…</p> -->
-    <!-- } @else if (doc.error()) { -->
-    <!-- <p>Could not load document.</p> -->
-    <!-- } @else if (doc.hasValue()) { -->
-    <!-- <pre>{{ doc.value() }}</pre> -->
-    <!-- } -->
+    @if (documentLoading()) {
+      <p>Loading…</p>
+    }
 
-@if (lintLoading()) {
-  <p>Loading…</p>
-}
+    @if (documentError()) {
+      <p>Error: {{ documentError() }}</p>
+    }
 
-@if (lintError()) {
-  <p>Error: {{ lintError() }}</p>
-}
-
-@if (lintValue()) {
-  <pre>{{ lintValue() }}</pre>
-}
+    @if (documentHTML()) {
+      <pre>{{ documentHTML() }}</pre>
+    }
 
 
     <p>
