@@ -1,11 +1,12 @@
 import { httpResource } from '@angular/common/http';
 import { Component, computed, signal } from '@angular/core';
-import { lint, LintedDocument, } from '@core/index';
+import { Correction, lint, LintedDocument, } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { SafeHtmlService } from '@app/document-view/services/safe-html.service';
 import { SafeHtml } from '@angular/platform-browser';
 import { Config } from "@config/config";
 import { CorrectionView } from '@app/correction-view/correction-view';
+import { SegmentationService } from './services/segmentation-service';
 
 
 type InputFile = { name: string; path: string };
@@ -13,13 +14,13 @@ type InputFile = { name: string; path: string };
 @Component({
   selector: 'app-document',
   imports: [],
-  providers: [SafeHtmlService],
+  providers: [SafeHtmlService, SegmentationService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
 })
 export class DocumentView {
 
-  constructor(private safeHtml: SafeHtmlService) { }
+  constructor(private safeHtml: SafeHtmlService, private segmentaion: SegmentationService) { }
 
   selected = signal<string | null>('noon');
 
