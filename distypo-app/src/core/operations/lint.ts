@@ -3,7 +3,6 @@ import { Rule } from "@core/domain/rules";
 import { TextRange } from "@core/domain/text-range";
 import { createGuid } from "@core/utils";
 
-
 export const lint = (doc: RawDocument, rules: readonly Rule[]): LintedDocument => ({
   kind: "linted",
   name: doc.name,

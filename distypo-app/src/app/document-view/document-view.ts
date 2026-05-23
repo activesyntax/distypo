@@ -1,6 +1,6 @@
 import { httpResource } from '@angular/common/http';
 import { Component, computed, signal } from '@angular/core';
-import { lint, } from '@core/index';
+import { lint, LintedDocument, } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { SafeHtmlService } from '@app/document-view/services/safe-html.service';
 import { SafeHtml } from '@angular/platform-browser';
@@ -17,6 +17,9 @@ type InputFile = { name: string; path: string };
   styleUrl: './document-view.scss',
 })
 export class DocumentView {
+
+  constructor(private safeHtml: SafeHtmlService) { }
+
   selected = signal<string | null>('noon');
 
   readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
@@ -43,15 +46,15 @@ export class DocumentView {
     const rawDocument = RawDoc.from(this.inputFile.name, file);
     const lintedDocument = lint(rawDocument, rules);
 
-
-    console.log("corrections", lintedDocument.corrections);
-
-    const html = this.safeHtml.from(lintedDocument.content);
-    return html;
+    return this.lintedHtml(lintedDocument);
   });
 
-  constructor(private safeHtml: SafeHtmlService) {
+  readonly lintedHtml = (lintedDocument: LintedDocument) => {
+
+    console.log("Corrections", lintedDocument.corrections);
+    return this.safeHtml.from(lintedDocument.content);
   }
+
 
   select(id: string) { this.selected.set(id); }
   keep(id: string) { /* az eredeti marad — issue feloldva */ }
