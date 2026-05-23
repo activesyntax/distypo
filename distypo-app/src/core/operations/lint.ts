@@ -36,7 +36,7 @@ export function lint(doc: RawDocument): LintedDocument {
   //   }));
   //
 
-  // console.log('Issues found:', issues);
+  console.log('Corrections:', corrections);
 
   const lintedDoc: LintedDocument = {
     kind: "linted",
@@ -48,18 +48,25 @@ export function lint(doc: RawDocument): LintedDocument {
 }
 
 function getCorrections(doc: RawDocument, rules: Rule[]): Correction[] {
-  const corrections: Correction[] = [];
 
-  return [];
+  const corrections: Correction[] = rules.flatMap(rule => {
+    return [...doc.content.matchAll(rule.regex)].map(matchToCorrection);
+  });
+
+  return corrections;
 }
 
-function matchToTextRange(match: RegExpMatchArray): TextRange {
-  return {
+function matchToCorrection(match: RegExpMatchArray): Correction {
+
+  const range: TextRange = {
     start: (match.index || 0),
     end: (match.index || 0) + match[0].length,
     __brand: 'TextRange',
-  }
-}
+  };
 
-function rangeToCorrection(range: unknown, rule: Rule) {
+  return {
+    id: createGuid("CorrectionId"),
+    range,
+    replacement: match[0].toUpperCase(),
+  };
 }
