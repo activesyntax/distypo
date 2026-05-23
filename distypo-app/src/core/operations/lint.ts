@@ -2,47 +2,32 @@ import { Correction, LintedDocument, RawDocument } from "@core/domain/model";
 import { Rule } from "@core/domain/rules";
 import { TextRange } from "@core/domain/text-range";
 import { createGuid } from "@core/utils";
-import { rules } from "@config/rules";
 
 
-export function lint(doc: RawDocument): LintedDocument {
+export const lint = (doc: RawDocument, rules: readonly Rule[]): LintedDocument => ({
+  kind: "linted",
+  name: doc.name,
+  content: doc.content,
+  corrections: collectCorrections(doc, rules),
+})
 
-  const corrections: Correction[] = getCorrections(doc, rules);
+const collectCorrections = (doc: RawDocument, rules: readonly Rule[]): Correction[] =>
+  rules.flatMap(rule =>
+    Array.from(doc.content.matchAll(rule.regex), match => toCorrection(rule, match))
+  );
 
-  console.log('Corrections:', corrections);
+const toTextRange = (match: RegExpMatchArray): TextRange => {
 
-  const lintedDoc: LintedDocument = {
-    kind: "linted",
-    name: doc.name,
-    content: doc.content,
-    corrections,
-  };
-  return lintedDoc;
-}
-
-function getCorrections(doc: RawDocument, rules: Rule[]): Correction[] {
-
-  const corrections: Correction[] = rules.flatMap(rule => {
-    const matches = [...doc.content.matchAll(rule.regex)];
-    return matches.map(match => toCorrection(rule, match));
-  });
-
-  return corrections;
-}
-
-function toTextRange(match: RegExpMatchArray): TextRange {
+  const start = match.index ?? 0;
   return {
-    start: (match.index || 0),
-    end: (match.index || 0) + match[0].length,
+    start,
+    end: start + match[0].length,
     __brand: 'TextRange',
   };
-}
+};
 
-function toCorrection(rule: Rule, match: RegExpMatchArray): Correction {
-
-  return {
-    id: createGuid("CorrectionId"),
-    range: toTextRange(match),
-    replacement: rule.corrector(match)
-  };
-}
+const toCorrection = (rule: Rule, match: RegExpMatchArray): Correction => ({
+  id: createGuid("CorrectionId"),
+  range: toTextRange(match),
+  replacement: rule.corrector(match)
+})
