@@ -7,8 +7,13 @@ import { createGuid } from "@core/utils";
 export const lowercaseSentenceStartRule: Rule = {
   name: 'lowercase-sentence-start',
   description: 'Detects sentences that start with a lowercase letter after punctuation.',
-  regex: /([.!?])\s+(\p{Ll})/gu,
-  replacement: '$1 $2'.toUpperCase() // you can adjust this logic later
+  regex: /([.!?])(\s+)(\p{Ll})/gu,
+  corrector: (match: RegExpMatchArray) => {
+    const punctuation = match[1];
+    const whitespace = match[2];
+    const lowercaseLetter = match[3];
+    return `${punctuation}${whitespace}${lowercaseLetter.toUpperCase()}`;
+  }
 };
 
 const rules: Rule[] = [
@@ -18,23 +23,6 @@ const rules: Rule[] = [
 export function lint(doc: RawDocument): LintedDocument {
 
   const corrections: Correction[] = getCorrections(doc, rules);
-
-  // const corrections: Correction[] = rules.flatMap(rule => {
-  //   const ranges = [...doc.content.matchAll(rule.regex)].map(matchToTextRange);
-  //
-  //   return ranges.map(range => { rangeToCorrection(range, rule) }
-  //   );
-  // }
-  // );
-
-  // const corrections: Correction[] =
-  //   matches.map(range => ({
-  //
-  //     id: createGuid("CorrectionId"),
-  //     range,
-  //     replacement: doc.content.slice(range.start, range.end).toUpperCase(), // example replacement logic
-  //   }));
-  //
 
   console.log('Corrections:', corrections);
 
@@ -50,23 +38,29 @@ export function lint(doc: RawDocument): LintedDocument {
 function getCorrections(doc: RawDocument, rules: Rule[]): Correction[] {
 
   const corrections: Correction[] = rules.flatMap(rule => {
-    return [...doc.content.matchAll(rule.regex)].map(matchToCorrection);
+    const matches = [...doc.content.matchAll(rule.regex)];
+
+    const corrections = matches.map(match => toCorrection(rule, match));
+
+    return corrections;
   });
 
   return corrections;
 }
 
-function matchToCorrection(match: RegExpMatchArray): Correction {
-
-  const range: TextRange = {
+function toTextRange(match: RegExpMatchArray): TextRange {
+  return {
     start: (match.index || 0),
     end: (match.index || 0) + match[0].length,
     __brand: 'TextRange',
   };
+}
+
+function toCorrection(rule: Rule, match: RegExpMatchArray): Correction {
 
   return {
     id: createGuid("CorrectionId"),
-    range,
-    replacement: match[0].toUpperCase(),
+    range: toTextRange(match),
+    replacement: rule.corrector(match)
   };
 }
