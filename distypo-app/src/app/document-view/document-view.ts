@@ -4,7 +4,8 @@ import { lint, LintedDocument, } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { SafeHtmlService } from '@app/document-view/services/safe-html.service';
 import { SafeHtml } from '@angular/platform-browser';
-import { rules } from "@config/rules";
+import { Config } from "@config/config";
+import { CorrectionView } from '@app/correction-view/correction-view';
 
 
 type InputFile = { name: string; path: string };
@@ -44,7 +45,7 @@ export class DocumentView {
     if (!file) return undefined;
 
     const rawDocument = RawDoc.from(this.inputFile.name, file);
-    const lintedDocument = lint(rawDocument, rules);
+    const lintedDocument = lint(rawDocument, Config.rules);
 
     return this.lintedHtml(lintedDocument);
   });

@@ -12,7 +12,5 @@ export const lowercaseSentenceStartRule: Rule = {
   }
 };
 
-export const rules: Rule[] = [
-  lowercaseSentenceStartRule,
-];
+
 
