@@ -24,10 +24,7 @@ function getCorrections(doc: RawDocument, rules: Rule[]): Correction[] {
 
   const corrections: Correction[] = rules.flatMap(rule => {
     const matches = [...doc.content.matchAll(rule.regex)];
-
-    const corrections = matches.map(match => toCorrection(rule, match));
-
-    return corrections;
+    return matches.map(match => toCorrection(rule, match));
   });
 
   return corrections;
