@@ -12,19 +12,28 @@ type SegmentBoundary = [number, number];
 type SegmentMap = [SegmentKind, SegmentBoundary];
 
 
-function findGaps(sortedCorrections: readonly Correction[], documentLength: number) {
+function findGaps(
+  sortedCorrections: readonly Correction[],
+  documentLength: number,
+): [number, number][] {
+  if (sortedCorrections.length === 0) return [[0, documentLength]];
 
-  if (sortedCorrections.length === 0) return [];
-  let gaps = [];
-  let i = sortedCorrections[0].range.end;
+  const gaps: [number, number][] = [];
+  let frontier = sortedCorrections[0].range.end;
+
   for (const correction of sortedCorrections.slice(1)) {
-    if (correction.range.start <= i) {
-      i = Math.max(i, correction.range.end);
+    if (correction.range.start <= frontier) {
+      frontier = Math.max(frontier, correction.range.end);
     } else {
-      gaps.push([i, correction.range.start]);
-      i = correction.range.end;
+      gaps.push([frontier, correction.range.start]);
+      frontier = correction.range.end;
     }
   }
+
+  if (frontier < documentLength) {
+    gaps.push([frontier, documentLength]);
+  }
+
   return gaps;
 }
 
