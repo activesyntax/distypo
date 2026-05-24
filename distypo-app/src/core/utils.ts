@@ -16,3 +16,6 @@ export const pairwise = <T>(arr: readonly T[]): [T, T][] => {
   }
   return result;
 }
+
+
+export const sum = (a: number, b: number): number => a + b;
