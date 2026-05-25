@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { pairwise, union, multiUnion, Interval } from '@core/utils';
+import { pairwise, union, multiUnion, complement, Interval } from '@core/utils';
 
 describe('pairwise', () => {
 
@@ -110,6 +110,19 @@ describe('multiUnion', () => {
     const interval3: Interval = [5, 25];
     const expected = [[0, 25]];
     const result = multiUnion(interval1, interval2, interval3);
+    expect(result).toEqual(expected);
+  });
+
+});
+
+
+describe('complement', () => {
+
+  it('returns the complement of two intervals', () => {
+    const intervals: Interval[] = [[1, 3], [5, 6]];
+    const within: Interval = [0, 10];
+    const expected = [[0, 1], [3, 5], [6, 10]];
+    const result = complement(intervals, within);
     expect(result).toEqual(expected);
   });
 

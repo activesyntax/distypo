@@ -1,3 +1,5 @@
+import { first } from "rxjs";
+
 export type UniqId<T extends string> = string & { readonly __brand: T };
 
 export function createGuid<T extends string>(_brand: T): UniqId<T> {
@@ -43,16 +45,24 @@ export function multiUnion(...intervals: readonly Interval[]): Interval[] {
 
 export function complement(intervals: readonly Interval[], within: Interval): Interval[] {
 
+  const axisStart = within[0];
   const axisEnd = within[1];
 
-  if (intervals.length === 0) return [[0, axisEnd]];
+  if (intervals.length === 0) return [[axisStart, axisEnd]];
 
-  const merge = multiUnion(...intervals);
-  const gaps = [...pairwise(merge)].map((ipair) => [ipair[0][1], ipair[1][0]] as Interval);
+  const unionOfIntervals = multiUnion(...intervals);
 
-  const lastInterval = merge[merge.length - 1];
+  const gaps = [...pairwise(unionOfIntervals)].map((ipair) => [ipair[0][1], ipair[1][0]] as Interval);
+
+  const firstInterval = unionOfIntervals[0];
+  if (firstInterval[0] > axisStart) {
+    gaps.unshift([axisStart, firstInterval[0]]);
+  }
+
+  const lastInterval = unionOfIntervals[unionOfIntervals.length - 1];
   if (lastInterval[1] < axisEnd) {
     gaps.push([lastInterval[1], axisEnd]);
   }
+
   return gaps;
 }
