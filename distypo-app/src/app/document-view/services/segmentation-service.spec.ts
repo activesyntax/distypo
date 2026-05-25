@@ -35,3 +35,4 @@ it('should split document into segments', () => {
     { kind: 'text', text: ' document.', range: [14, 24] },
   ]);
 });
+
