@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { pairwise } from '@core/utils';
+import { pairwise, union, Interval } from '@core/utils';
 
 describe('pairwise', () => {
 
@@ -29,5 +29,27 @@ describe('pairwise', () => {
     expect(result).toEqual(expected);
   });
 
+
+});
+
+
+describe('union', () => {
+
+  it('returns the union of two overlapping intervals', () => {
+    const interval1: Interval = [1, 3];
+    const interval2: Interval = [2, 4];
+    const expected = [[1, 4]];
+    const result = union(interval1, interval2);
+    expect(result).toEqual(expected);
+  });
+
+
+  it('returns the union of two non-overlapping intervals', () => {
+    const interval1: Interval = [1, 3];
+    const interval2: Interval = [4, 6];
+    const expected = [[1, 3], [4, 6]];
+    const result = union(interval1, interval2);
+    expect(result).toEqual(expected);
+  });
 
 });
