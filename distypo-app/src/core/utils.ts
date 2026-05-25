@@ -19,7 +19,7 @@ export function union(interval1: Interval, interval2: Interval): Interval[] {
     : [interval1, interval2];
 }
 
-export function multiUnion(intervals: readonly Interval[]): Interval[] {
+export function multiUnion(...intervals: readonly Interval[]): Interval[] {
 
   let mergedIntervals: Interval[] = [];
 

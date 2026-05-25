@@ -65,7 +65,7 @@ function findGaps(
   if (sortedCorrections.length === 0) return [[0, document.content.length]];
 
   const correctionIntervals: Interval[] = sortedCorrections.map(c => [c.range.start, c.range.end]);
-  const merge = multiUnion(correctionIntervals);
+  const merge = multiUnion(...correctionIntervals);
   const gaps = [...pairwise(merge)].map((ipair) => [ipair[0][1], ipair[1][0]] as Interval);
 
   const lastInterval = merge[merge.length - 1];
