@@ -152,4 +152,12 @@ describe('complement', () => {
     expect(result).toEqual(expected);
   });
 
+  it('return the complement of intervals that partially are outside the range', () => {
+    const intervals = [interval(-5, 2), interval(8, 15)];
+    const within = interval(0, 10);
+    const expected = [interval(2, 8)];
+    const result = complement(intervals, within);
+    expect(result).toEqual(expected);
+  });
+
 });
