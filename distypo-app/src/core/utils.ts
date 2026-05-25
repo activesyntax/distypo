@@ -17,7 +17,7 @@ export function interval(start: number, end: number): Interval {
 }
 
 
-export function union(interval1: Interval, interval2: Interval): Interval[] {
+function unionOperation(interval1: Interval, interval2: Interval): Interval[] {
 
   const isOverlap = interval1.start <= interval2.end && interval1.end >= interval2.start;
 
@@ -29,7 +29,7 @@ export function union(interval1: Interval, interval2: Interval): Interval[] {
     : [interval1, interval2];
 }
 
-export function multiUnion(...intervals: readonly Interval[]): Interval[] {
+export function union(...intervals: readonly Interval[]): Interval[] {
 
   let intervalUnion: Interval[] = [];
 
@@ -46,7 +46,7 @@ export function multiUnion(...intervals: readonly Interval[]): Interval[] {
 
       let merged: Interval[] = [];
       if (lastInterval) {
-        merged = union(lastInterval, interval);
+        merged = unionOperation(lastInterval, interval);
       }
 
 
@@ -61,7 +61,7 @@ export function complement(intervals: readonly Interval[], within: Interval): In
 
   if (intervals.length === 0) return [{ start: within.start, end: within.end }];
 
-  const unionOfIntervals = multiUnion(...intervals);
+  const unionOfIntervals = union(...intervals);
 
   const gaps = Array.from(pairwise(unionOfIntervals), ([prev, next]): Interval => ({
     start: prev.end,

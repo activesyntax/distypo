@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { pairwise, union, multiUnion, complement, interval, Interval } from '@core/utils';
+import { pairwise, union, complement, interval } from '@core/utils';
 
 describe('pairwise', () => {
 
@@ -57,7 +57,7 @@ describe('multiUnion', () => {
     const interval2 = interval(3, 4);
     const interval3 = interval(4, 6);
     const expected = [interval(1, 6)];
-    const result = multiUnion(interval1, interval2, interval3);
+    const result = union(interval1, interval2, interval3);
     expect(result).toEqual(expected);
   });
 
@@ -66,7 +66,7 @@ describe('multiUnion', () => {
     const interval2 = interval(4, 6);
     const interval3 = interval(7, 9);
     const expected = [interval(1, 3), interval(4, 6), interval(7, 9)];
-    const result = multiUnion(interval1, interval2, interval3);
+    const result = union(interval1, interval2, interval3);
     expect(result).toEqual(expected);
   });
 
@@ -75,7 +75,7 @@ describe('multiUnion', () => {
     const interval2 = interval(2, 4);
     const interval3 = interval(3, 5);
     const expected = [interval(1, 5)];
-    const result = multiUnion(interval1, interval2, interval3);
+    const result = union(interval1, interval2, interval3);
     expect(result).toEqual(expected);
   });
 
@@ -84,7 +84,7 @@ describe('multiUnion', () => {
     const interval2 = interval(2, 4);
     const interval3 = interval(10, 12);
     const expected = [interval(1, 4), interval(10, 12)];
-    const result = multiUnion(interval1, interval2, interval3);
+    const result = union(interval1, interval2, interval3);
     expect(result).toEqual(expected);
   });
 
@@ -93,7 +93,7 @@ describe('multiUnion', () => {
     const interval2 = interval(10, 12);
     const interval3 = interval(11, 14);
     const expected = [interval(1, 3), interval(10, 14)];
-    const result = multiUnion(interval1, interval2, interval3);
+    const result = union(interval1, interval2, interval3);
     expect(result).toEqual(expected);
   });
 
@@ -102,7 +102,7 @@ describe('multiUnion', () => {
     const interval2 = interval(10, 20);
     const interval3 = interval(5, 25);
     const expected = [interval(0, 25)];
-    const result = multiUnion(interval1, interval2, interval3);
+    const result = union(interval1, interval2, interval3);
     expect(result).toEqual(expected);
   });
 });
