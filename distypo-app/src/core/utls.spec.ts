@@ -29,11 +29,11 @@ describe('pairwise', () => {
     expect(result).toEqual(expected);
   });
 
-
 });
 
 
 describe('union', () => {
+
   it('returns the union of two overlapping intervals', () => {
     const interval1 = interval(1, 3);
     const interval2 = interval(2, 4);
@@ -49,9 +49,11 @@ describe('union', () => {
     const result = union(interval1, interval2);
     expect(result).toEqual(expected);
   });
+
 });
 
 describe('multiUnion', () => {
+
   it('returns the union of three continuous intervals', () => {
     const interval1 = interval(1, 3);
     const interval2 = interval(3, 4);
@@ -105,9 +107,11 @@ describe('multiUnion', () => {
     const result = union(interval1, interval2, interval3);
     expect(result).toEqual(expected);
   });
+
 });
 
 describe('complement', () => {
+
   it('returns the complement of two intervals', () => {
     const intervals = [interval(1, 3), interval(5, 6)];
     const within = interval(0, 10);
@@ -115,4 +119,5 @@ describe('complement', () => {
     const result = complement(intervals, within);
     expect(result).toEqual(expected);
   });
+
 });
