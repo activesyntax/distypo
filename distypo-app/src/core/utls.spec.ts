@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { pairwise, union, complement, interval } from '@core/utils';
+import { pairwise, union, complement, interval, Interval } from '@core/utils';
 
 describe('pairwise', () => {
 
@@ -116,6 +116,38 @@ describe('complement', () => {
     const intervals = [interval(1, 3), interval(5, 6)];
     const within = interval(0, 10);
     const expected = [interval(0, 1), interval(3, 5), interval(6, 10)];
+    const result = complement(intervals, within);
+    expect(result).toEqual(expected);
+  });
+
+  it('returns the complement of no intervals', () => {
+    const intervals: Interval[] = [];
+    const within = interval(2, 10);
+    const expected = [interval(2, 10)];
+    const result = complement(intervals, within);
+    expect(result).toEqual(expected);
+  });
+
+  it('returns the complement of intervals that cover the entire range', () => {
+    const intervals = [interval(0, 5), interval(5, 10)];
+    const within = interval(0, 10);
+    const expected: Interval[] = [];
+    const result = complement(intervals, within);
+    expect(result).toEqual(expected);
+  });
+
+  it('returns the complement of intervals that partially cover the range', () => {
+    const intervals = [interval(1, 3), interval(5, 7)];
+    const within = interval(0, 10);
+    const expected = [interval(0, 1), interval(3, 5), interval(7, 10)];
+    const result = complement(intervals, within);
+    expect(result).toEqual(expected);
+  });
+
+  it('returns the complement of intervals that are outside the range', () => {
+    const intervals = [interval(-5, -1), interval(11, 15)];
+    const within = interval(0, 10);
+    const expected = [interval(0, 10)];
     const result = complement(intervals, within);
     expect(result).toEqual(expected);
   });

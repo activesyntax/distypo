@@ -20,10 +20,7 @@ function unionOperation(interval1: Interval, interval2: Interval): Interval[] {
   const isOverlap = interval1.start <= interval2.end && interval1.end >= interval2.start;
 
   return isOverlap
-    ? [{
-      start: Math.min(interval1.start, interval2.start),
-      end: Math.max(interval1.end, interval2.end),
-    }]
+    ? [interval(Math.min(interval1.start, interval2.start), Math.max(interval1.end, interval2.end))]
     : [interval1, interval2];
 }
 
@@ -56,27 +53,27 @@ export function union(...intervals: readonly Interval[]): Interval[] {
 
 export function complement(intervals: readonly Interval[], within: Interval): Interval[] {
 
-
   if (intervals.length === 0) return [{ start: within.start, end: within.end }];
 
   const unionOfIntervals = union(...intervals);
 
-  const gaps = Array.from(pairwise(unionOfIntervals), ([prev, next]): Interval => ({
-    start: prev.end,
-    end: next.start,
-  }));
+  console.log("unionOfIntervals", unionOfIntervals);
+
+  const gaps = Array.from(pairwise(unionOfIntervals), ([prev, next]): Interval => interval(Math.max(prev.end, within.start), Math.min(next.start, within.end)));
+
+  console.log("gaps", gaps);
 
   if (unionOfIntervals.length === 0) {
     return [{ start: within.start, end: within.end }];
   }
   const firstInterval = unionOfIntervals[0];
   if (firstInterval.start > within.start) {
-    gaps.unshift({ start: within.start, end: firstInterval.start });
+    gaps.unshift(interval(within.start, firstInterval.start));
   }
 
   const lastInterval = unionOfIntervals[unionOfIntervals.length - 1];
   if (lastInterval.end < within.end) {
-    gaps.push({ start: lastInterval.end, end: within.end });
+    gaps.push(interval(lastInterval.end, within.end));
   }
 
   return gaps;
