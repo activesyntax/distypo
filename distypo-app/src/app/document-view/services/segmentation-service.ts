@@ -11,15 +11,25 @@ export type Segment =
 export class SegmentationService {
 
   split(document: LintedDocument): Segment[] {
+    const correctionSegments: Segment[] = document.corrections.map(c => ({
+      kind: 'correction',
+      correction: c,
+      range: c.range,
+    }));
 
-    const correctionSegments: Segment[] = document.corrections.map(c => ({ kind: 'correction', correction: c, range: [c.range.start, c.range.end] }));
+    const gaps = complement(
+      document.corrections.map(c => c.range),
+      { start: 0, end: document.content.length },
+    );
 
-    const correctionIntervals: Interval[] = document.corrections.map(c => [c.range.start, c.range.end]);
-    const gaps = complement(correctionIntervals, [0, document.content.length]);
-    const textSegments: Segment[] = gaps.map(([start, end]) => ({ kind: 'text', text: document.content.slice(start, end), range: [start, end] }));
+    const textSegments: Segment[] = gaps.map(range => ({
+      kind: 'text',
+      text: document.content.slice(range.start, range.end),
+      range,
+    }));
 
-    const segments = [...correctionSegments, ...textSegments].toSorted((a, b) => a.range[0] - b.range[0]);
-
-    return segments;
+    return [...correctionSegments, ...textSegments].toSorted(
+      (a, b) => a.range.start - b.range.start
+    );
   }
 }

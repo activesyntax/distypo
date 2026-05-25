@@ -1,17 +1,17 @@
 
 // import { Result, UniqId } from "@core/utils";
 
-export type TextRange = Readonly<{
-  readonly start: number;
-  readonly end: number;
-  readonly __brand: 'TextRange';
-}>;
-
-export type TextRangeError =
-  | { kind: 'negative-start'; start: number }
-  | { kind: 'start-after-end'; start: number; end: number }
-  | { kind: 'end-out-of-bounds'; end: number; textLength: number };
-
+// export type TextRange = Readonly<{
+//   readonly start: number;
+//   readonly end: number;
+//   readonly __brand: 'TextRange';
+// }>;
+//
+// export type TextRangeError =
+//   | { kind: 'negative-start'; start: number }
+//   | { kind: 'start-after-end'; start: number; end: number }
+//   | { kind: 'end-out-of-bounds'; end: number; textLength: number };
+//
 // export const TextRange = {
 //   create: (start: number, end: number, textLength: number): Result<TextRange, TextRangeError> => {
 //     if (start < 0) return { ok: false, error: { kind: 'negative-start', start } };

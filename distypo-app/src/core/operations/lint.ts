@@ -1,7 +1,6 @@
 import { Correction, LintedDocument, RawDocument } from "@core/domain/model";
 import { Rule } from "@core/domain/rules";
-import { TextRange } from "@core/domain/text-range";
-import { createGuid } from "@core/utils";
+import { createGuid, interval, Interval } from "@core/utils";
 
 export const lint = (doc: RawDocument, rules: readonly Rule[]): LintedDocument => ({
   kind: "linted",
@@ -15,14 +14,10 @@ const collectCorrections = (doc: RawDocument, rules: readonly Rule[]): Correctio
     Array.from(doc.content.matchAll(rule.regex), match => toCorrection(rule, match))
   );
 
-const toTextRange = (match: RegExpMatchArray): TextRange => {
+const toTextRange = (match: RegExpMatchArray): Interval => {
 
   const start = match.index ?? 0;
-  return {
-    start,
-    end: start + match[0].length,
-    __brand: 'TextRange',
-  };
+  return interval(start, start + match[0].length)
 };
 
 const toCorrection = (rule: Rule, match: RegExpMatchArray): Correction => ({

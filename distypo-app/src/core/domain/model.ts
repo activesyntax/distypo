@@ -1,5 +1,4 @@
-import { UniqId } from "@core/utils";
-import { TextRange } from "@core/domain/text-range";
+import { Interval, UniqId } from "@core/utils";
 
 export type RawDocument = { kind: "raw"; name: string; content: string };
 export type LintedDocument = { kind: "linted"; name: string; content: string; corrections: readonly Correction[] };
@@ -12,7 +11,7 @@ export type CorrectionId = UniqId<"CorrectionId">;
 
 export type Correction = {
   id: CorrectionId;
-  range: TextRange;
+  range: Interval;
   replacement: string;
   // description: string;
   // rule: string;

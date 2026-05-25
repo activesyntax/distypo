@@ -7,8 +7,6 @@ export type {
   Correction,
 } from './domain/model';
 
-export type { TextRange, TextRangeError } from './domain/text-range';
-
 
 //  Pure operations
 export { lint } from './operations/lint';
