@@ -21,35 +21,38 @@ export function union(interval1: Interval, interval2: Interval): Interval[] {
 
 export function multiUnion(...intervals: readonly Interval[]): Interval[] {
 
-  let mergedIntervals: Interval[] = [];
+  let intervalUnion: Interval[] = [];
 
-  for (const interval of intervals) {
+  const sortedIntervals = intervals.toSorted((a, b) => a[0] - b[0]);
 
-    console.log("Interval", interval);
+  for (const interval of sortedIntervals) {
 
-    console.log("Merged intervals", mergedIntervals);
-    if (mergedIntervals.length === 0) {
-      console.log("Pushing interval", interval);
-      mergedIntervals.push(interval);
+    if (intervalUnion.length === 0) {
+      intervalUnion.push(interval);
     }
     else {
 
-      const lastInterval: Interval = mergedIntervals.pop() ?? [0, 0];
-
-      console.log("Last interval", lastInterval);
-
+      const lastInterval: Interval = intervalUnion.pop() ?? [0, 0];
       const merged: Interval[] = union(lastInterval, interval);
 
-      console.log("Merged", merged);
-
-      mergedIntervals = mergedIntervals.concat(merged);
-
-      console.log("Merged intervals", mergedIntervals);
+      intervalUnion = intervalUnion.concat(merged);
     }
-
-    console.log("Merged intervals", mergedIntervals);
-    console.log("-----------------------------------------")
   }
-  return mergedIntervals;
+  return intervalUnion;
 }
 
+export function complement(intervals: readonly Interval[], within: Interval): Interval[] {
+
+  const axisEnd = within[1];
+
+  if (intervals.length === 0) return [[0, axisEnd]];
+
+  const merge = multiUnion(...intervals);
+  const gaps = [...pairwise(merge)].map((ipair) => [ipair[0][1], ipair[1][0]] as Interval);
+
+  const lastInterval = merge[merge.length - 1];
+  if (lastInterval[1] < axisEnd) {
+    gaps.push([lastInterval[1], axisEnd]);
+  }
+  return gaps;
+}

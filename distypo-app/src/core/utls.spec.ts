@@ -104,6 +104,13 @@ describe('multiUnion', () => {
     expect(result).toEqual(expected);
   });
 
-
+  it('returns the union of unsorted intervals', () => {
+    const interval1: Interval = [0, 10];
+    const interval2: Interval = [10, 20];
+    const interval3: Interval = [5, 25];
+    const expected = [[0, 25]];
+    const result = multiUnion(interval1, interval2, interval3);
+    expect(result).toEqual(expected);
+  });
 
 });
