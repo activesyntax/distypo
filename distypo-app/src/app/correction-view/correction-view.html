@@ -1,6 +1,6 @@
-<span class="issue" [class.selected]="selected()" (click)="onSelect($event)">
+<div class="issue" [class.selected]="selected()" (click)="onSelect($event)">
   <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ correction().original }}</span>
   →
   <span class="good" data-hint="fix" (click)="onFix($event)">{{ correction().replacement }}</span>
   <button class="issue__edit" (click)="onEdit($event)">✎ EDIT</button>
-</span>
+</div>

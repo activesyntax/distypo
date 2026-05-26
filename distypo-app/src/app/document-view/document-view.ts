@@ -1,11 +1,11 @@
 import { httpResource } from '@angular/common/http';
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { lint, LintedDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
-import { SafeHtmlService } from '@app/document-view/services/safe-html.service';
 import { Config } from "@config/config";
 import { CorrectionView } from '@app/correction-view/correction-view';
 import { Segment, SegmentationService } from './services/segmentation-service';
+import { CorrectionService } from '@app/correction-view/services/correction';
 
 
 type InputFile = { name: string; path: string };
@@ -13,15 +13,24 @@ type InputFile = { name: string; path: string };
 @Component({
   selector: 'app-document',
   imports: [CorrectionView],
-  providers: [SafeHtmlService, SegmentationService],
+  providers: [SegmentationService, CorrectionService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
 })
 export class DocumentView {
 
-  constructor(private segmentation: SegmentationService) { }
+  constructor(private segmentation: SegmentationService, private correctionService: CorrectionService) {
+    effect(() => {
+      if (this.initialSelectionApplied) return;
+      const first = this.segments().find(s => s.kind === 'correction');
+      if (first?.kind === 'correction') {
+        this.correctionService.select(first.correction.id);
+        this.initialSelectionApplied = true;
+      }
+    });
+  }
 
-  selected = signal<string | null>('noon');
+  private initialSelectionApplied = false;
 
   readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
 
@@ -54,7 +63,5 @@ export class DocumentView {
     const doc = this.lintedDocument();
     return doc ? this.segmentation.split(doc) : [];
   });
-
-  select(id: string) { this.selected.set(id); }
 }
 

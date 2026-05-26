@@ -5,7 +5,6 @@ import { CorrectionService } from './services/correction';
 @Component({
   selector: 'app-correction-view',
   imports: [],
-  providers: [CorrectionService],
   templateUrl: './correction-view.html',
   styleUrl: './correction-view.scss',
 })
