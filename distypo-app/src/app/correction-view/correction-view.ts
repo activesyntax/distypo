@@ -35,6 +35,7 @@ export class CorrectionView {
     return `${content.slice(prefixStart, prefixEnd)}${text}${content.slice(suffixStart, suffixEnd)}`;
   }
 
+
   onSelect(e: MouseEvent) {
     const id = this.correction().id;
     (e.metaKey || e.ctrlKey) ? this.correctionService.toggle(id) : this.correctionService.select(id);
@@ -44,3 +45,4 @@ export class CorrectionView {
   onFix(e: MouseEvent) { e.stopPropagation(); this.correctionService.fix(this.correction().id); }
   onEdit(e: MouseEvent) { e.stopPropagation(); this.correctionService.edit(this.correction().id); }
 }
+

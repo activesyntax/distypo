@@ -24,5 +24,6 @@ const toCorrection = (rule: Rule, match: RegExpMatchArray): Correction => ({
   id: createGuid("CorrectionId"),
   range: toTextRange(match),
   original: match[0],
-  replacement: rule.corrector(match)
+  replacement: rule.corrector(match),
 })
+

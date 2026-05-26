@@ -54,6 +54,17 @@
       &:has(.issue.selected) .example__label {
         margin-bottom: 1.1em;
       }
+
+    }
+
+    &__correction{
+      background-color: rgba(234, 179, 8, 0.18);
+      border-radius: 2px;
+      padding: 0 2px;
+      text-decoration: underline wavy #b45309;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      color: inherit;
     }
   }
 }
