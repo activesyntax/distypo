@@ -1,6 +1,6 @@
 import { httpResource } from '@angular/common/http';
 import { Component, computed, signal } from '@angular/core';
-import { Correction, lint, LintedDocument, } from '@core/index';
+import { lint, LintedDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { SafeHtmlService } from '@app/document-view/services/safe-html.service';
 import { Config } from "@config/config";
@@ -12,7 +12,7 @@ type InputFile = { name: string; path: string };
 
 @Component({
   selector: 'app-document',
-  imports: [],
+  imports: [CorrectionView],
   providers: [SafeHtmlService, SegmentationService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',

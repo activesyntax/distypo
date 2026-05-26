@@ -1,7 +1,6 @@
-<span class="issue" [class.selected]="selected()" (click)="select.emit()">
-  <span class="bad" data-hint="keep" (click)="keep.emit(); $event.stopPropagation()">{{ correction().original }}</span>
+<span class="issue" [class.selected]="selected()" (click)="onSelect($event)">
+  <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ correction().original }}</span>
   →
-  <span class="good" data-hint="fix" (click)="fix.emit(); $event.stopPropagation()">{{ correction().replacement
-    }}</span>
-  <button class="issue__edit" (click)="edit.emit(); $event.stopPropagation()">✎ EDIT</button>
+  <span class="good" data-hint="fix" (click)="onFix($event)">{{ correction().replacement }}</span>
+  <button class="issue__edit" (click)="onEdit($event)">✎ EDIT</button>
 </span>

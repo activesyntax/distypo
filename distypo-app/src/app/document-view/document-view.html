@@ -16,20 +16,12 @@
           <span class="segment-text">{{ segment.text }}</span>
         }
         @case ('correction') {
-            <span style="color: red;">{{ segment.correction.original }}</span>
-
-      <!--     <app-correction-view -->
-      <!--       [correction]="segment.correction" -->
-      <!--       [selected]="selected() === segment.correction.id" -->
-      <!--       (select)="select(segment.correction.id)" -->
-      <!--       (keep)="keep(segment.correction.id)" -->
-      <!--       (fix)="fix(segment.correction.id)" -->
-      <!--       (edit)="edit(segment.correction.id)" -->
-      <!--     /> -->
+              <app-correction-view [correction]="segment.correction" />
         }
       }
     }
-
+<hr>
+    <br>
     <p>
       DisTypo is a typography corrector. You paste in your text, and the
       application points out the small mechanical mistakes that spell-checkers
@@ -44,10 +36,10 @@
       <p class="example__label">Sentences beginning with a lowercase letter:</p>
       <p class="example__pair">
         <!-- prettier-ignore -->
-        <span class="issue" [class.selected]="selected() === 'noon'" (click)="select('noon')"><span class="bad" data-hint="keep" (click)="keep('noon'); $event.stopPropagation()">the meeting starts at noon.</span> → <span
-            class="good" data-hint="fix" (click)="fix('noon'); $event.stopPropagation()">The meeting starts at
-            noon.</span><button class="issue__edit" (click)="edit('noon'); $event.stopPropagation()">✎
-            EDIT</button></span>
+        <!-- <span class="issue" [class.selected]="selected() === 'noon'" (click)="select('noon')"><span class="bad" data-hint="keep" (click)="keep('noon'); $event.stopPropagation()">the meeting starts at noon.</span> → <span -->
+        <!--     class="good" data-hint="fix" (click)="fix('noon'); $event.stopPropagation()">The meeting starts at -->
+        <!--     noon.</span><button class="issue__edit" (click)="edit('noon'); $event.stopPropagation()">✎ -->
+        <!--     EDIT</button></span> -->
       </p>
     </section>
 

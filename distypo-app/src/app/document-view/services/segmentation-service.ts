@@ -20,8 +20,7 @@ export class SegmentationService {
 
     const textSegments: Segment[] = gaps.map(range => toTextSegment(range, document.content.slice(range.start, range.end)));
 
-    return [...correctionSegments, ...textSegments].toSorted(
-      (a, b) => a.range.start - b.range.start
+    return [...correctionSegments, ...textSegments].toSorted((a, b) => a.range.start - b.range.start
     );
   }
 }
