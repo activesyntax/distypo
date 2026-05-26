@@ -24,31 +24,22 @@ function unionOperation(interval1: Interval, interval2: Interval): Interval[] {
     : [interval1, interval2];
 }
 
+
 export function union(...intervals: readonly Interval[]): Interval[] {
 
-  let intervalUnion: Interval[] = [];
+  if (intervals.length === 0) return [];
 
   const sortedIntervals = intervals.toSorted((a, b) => a.start - b.start);
 
-  for (const interval of sortedIntervals) {
+  const result: Interval[] = [sortedIntervals[0]];
 
-    if (intervalUnion.length === 0) {
-      intervalUnion.push(interval);
-    }
-    else {
-
-      const lastInterval = intervalUnion.pop();
-
-      let merged: Interval[] = [];
-      if (lastInterval) {
-        merged = unionOperation(lastInterval, interval);
-      }
-
-
-      intervalUnion = intervalUnion.concat(merged);
-    }
+  for (let i = 1; i < sortedIntervals.length; i++) {
+    const last = result[result.length - 1];
+    const merged = unionOperation(last, sortedIntervals[i]);
+    result[result.length - 1] = merged[0];
+    if (merged.length === 2) result.push(merged[1]);
   }
-  return intervalUnion;
+  return result;
 }
 
 export function complement(intervals: readonly Interval[], within: Interval): Interval[] {
