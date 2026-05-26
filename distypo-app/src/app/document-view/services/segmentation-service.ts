@@ -32,10 +32,6 @@ export class SegmentationService {
     // const splitPoints = correctionSegments.map(c => c.range.end);
 
     const textSegments: Segment[] = gaps.map(range => toTextSegment(range, document.content.slice(range.start, range.end)));
-    const sortedCorrections = correctionSegments.toSorted((a, b) => a.range.start - b.range.start);
-    // const textSegments: Segment[] = sortedCorrections.map((correction, index) =>
-    //    toTextSegment)
-    // );
 
     const allSegments = [...correctionSegments, ...textSegments].toSorted((a, b) => a.range.start - b.range.start);
 
@@ -64,15 +60,27 @@ const toTextSegment = (range: Interval, text: string): Segment => ({
   range,
 });
 
+function findWhitespaceBefore(content: string, end: number): number | undefined {
+  for (let i = end - 1; i >= 0; i--) {
+    if (/[\s\u00A0]/.test(content[i])) return i;
+  }
+  return undefined;
+}
 
+function findWhitespaceAfter(content: string, start: number): number | undefined {
+  for (let i = start; i < content.length; i++) {
+    if (/[\s\u00A0]/.test(content[i])) return i;
+  }
+  return undefined;
+}
 
+// todo use at correction-view
 function contextRange(content: string, correction: Correction): Interval {
+  const spaceBefore = findWhitespaceBefore(content, correction.range.start);
+  const spaceAfter = findWhitespaceAfter(content, correction.range.end);
 
-  const prefixEnd = correction.range.start;
-  const prefixStart = content.lastIndexOf(' ', prefixEnd);
+  const start = spaceBefore !== undefined ? spaceBefore + 1 : 0;
+  const end = spaceAfter ?? content.length;
 
-  const suffixStart = correction.range.end;
-  const suffixEnd = content.indexOf(' ', suffixStart);
-
-  return interval(prefixStart, suffixEnd);
+  return interval(start, end);
 }
