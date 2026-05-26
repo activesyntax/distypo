@@ -10,10 +10,25 @@
       <p>{{ documentError() }}</p>
     }
 
-    @if (documentHTML()) {
-      <div [innerHTML]="documentHTML()"></div>
-    }
+    @for (segment of segments(); track segment.range.start) {
+      @switch (segment.kind) {
+        @case ('text') {
+          <span class="segment-text">{{ segment.text }}</span>
+        }
+        @case ('correction') {
+            <span style="color: red;">{{ segment.correction.original }}</span>
 
+      <!--     <app-correction-view -->
+      <!--       [correction]="segment.correction" -->
+      <!--       [selected]="selected() === segment.correction.id" -->
+      <!--       (select)="select(segment.correction.id)" -->
+      <!--       (keep)="keep(segment.correction.id)" -->
+      <!--       (fix)="fix(segment.correction.id)" -->
+      <!--       (edit)="edit(segment.correction.id)" -->
+      <!--     /> -->
+        }
+      }
+    }
 
     <p>
       DisTypo is a typography corrector. You paste in your text, and the

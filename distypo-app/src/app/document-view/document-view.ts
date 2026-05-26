@@ -3,10 +3,9 @@ import { Component, computed, signal } from '@angular/core';
 import { Correction, lint, LintedDocument, } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { SafeHtmlService } from '@app/document-view/services/safe-html.service';
-import { SafeHtml } from '@angular/platform-browser';
 import { Config } from "@config/config";
 import { CorrectionView } from '@app/correction-view/correction-view';
-import { SegmentationService } from './services/segmentation-service';
+import { Segment, SegmentationService } from './services/segmentation-service';
 
 
 type InputFile = { name: string; path: string };
@@ -20,7 +19,7 @@ type InputFile = { name: string; path: string };
 })
 export class DocumentView {
 
-  constructor(private safeHtml: SafeHtmlService, private segmentaion: SegmentationService) { }
+  constructor(private segmentation: SegmentationService) { }
 
   selected = signal<string | null>('noon');
 
@@ -39,7 +38,7 @@ export class DocumentView {
       : undefined
   );
 
-  readonly documentHTML = computed<SafeHtml | undefined>(() => {
+  readonly lintedDocument = computed<LintedDocument | undefined>(() => {
     if (this.fileResource.status() !== 'resolved') return undefined;
 
     const file = this.fileResource.value();
@@ -48,19 +47,14 @@ export class DocumentView {
     const rawDocument = RawDoc.from(this.inputFile.name, file);
     const lintedDocument = lint(rawDocument, Config.rules);
 
-    return this.lintedHtml(lintedDocument);
+    return lintedDocument;
   });
 
-  readonly lintedHtml = (lintedDocument: LintedDocument) => {
-
-    console.log("Corrections", lintedDocument.corrections);
-    return this.safeHtml.from(lintedDocument.content);
-  }
-
+  readonly segments = computed<Segment[]>(() => {
+    const doc = this.lintedDocument();
+    return doc ? this.segmentation.split(doc) : [];
+  });
 
   select(id: string) { this.selected.set(id); }
-  keep(id: string) { /* az eredeti marad — issue feloldva */ }
-  fix(id: string) { /* javasolt csere alkalmazása */ }
-  edit(id: string) { /* inline szerkesztő megnyitása */ }
 }
 

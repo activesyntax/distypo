@@ -12,6 +12,7 @@ export type CorrectionId = UniqId<"CorrectionId">;
 export type Correction = {
   id: CorrectionId;
   range: Interval;
+  original: string;
   replacement: string;
   // description: string;
   // rule: string;
