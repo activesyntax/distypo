@@ -23,8 +23,16 @@ export class CorrectionView {
 
 
   inContext(text: string): string {
-    const prefix = this.correction().range.start;
-    return `hello ${text} asdf`;
+
+    const content = this.document().content;
+
+    const prefixEnd = this.correction().range.start;
+    const prefixStart = content.lastIndexOf(' ', prefixEnd);
+
+    const suffixStart = this.correction().range.end;
+    const suffixEnd = content.indexOf(' ', suffixStart);
+
+    return `${content.slice(prefixStart, prefixEnd)}${text}${content.slice(suffixStart, suffixEnd)}`;
   }
 
   onSelect(e: MouseEvent) {
