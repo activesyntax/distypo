@@ -41,8 +41,11 @@
 
       &.selected {
         padding-left: 0.6rem;
-        margin-left: -0.6rem;
         border-left: 3px solid #6b6357;
+
+        margin-left: -0.6rem;
+        margin-top: 1.15em;
+        margin-bottom: 1.15em;
 
         .bad,
         .good {
