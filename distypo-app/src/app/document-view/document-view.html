@@ -10,16 +10,19 @@
       <p>{{ documentError() }}</p>
     }
 
+    @if (lintedDocument(); as document) {
+
     @for (segment of segments(); track segment.range.start) {
       @switch (segment.kind) {
         @case ('text') {
           <span class="segment-text">{{ segment.text }}</span>
         }
         @case ('correction') {
-              <app-correction-view [correction]="segment.correction" />
+              <app-correction-view [correction]="segment.correction" [document]="document" />
         }
       }
     }
+  }
 <hr>
     <br>
     <p>

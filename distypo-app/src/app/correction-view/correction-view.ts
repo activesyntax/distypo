@@ -1,5 +1,5 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { Correction } from '@core/index';
+import { Correction, LintedDocument } from '@core/index';
 import { CorrectionService } from './services/correction';
 
 @Component({
@@ -10,19 +10,29 @@ import { CorrectionService } from './services/correction';
 })
 export class CorrectionView {
   readonly correction = input.required<Correction>();
+  readonly document = input.required<LintedDocument>();
 
-  private readonly state = inject(CorrectionService);
+  private readonly correctionService = inject(CorrectionService);
 
   readonly selected = computed(() =>
-    this.state.selectedIds().has(this.correction().id)
+    this.correctionService.selectedIds().has(this.correction().id)
   );
+
+  readonly original = computed(() => this.inContext(this.correction().original));
+  readonly replacement = computed(() => this.inContext(this.correction().replacement));
+
+
+  inContext(text: string): string {
+    const prefix = this.correction().range.start;
+    return `hello ${text} asdf`;
+  }
 
   onSelect(e: MouseEvent) {
     const id = this.correction().id;
-    (e.metaKey || e.ctrlKey) ? this.state.toggle(id) : this.state.select(id);
+    (e.metaKey || e.ctrlKey) ? this.correctionService.toggle(id) : this.correctionService.select(id);
   }
 
-  onKeep(e: MouseEvent) { e.stopPropagation(); this.state.keep(this.correction().id); }
-  onFix(e: MouseEvent) { e.stopPropagation(); this.state.fix(this.correction().id); }
-  onEdit(e: MouseEvent) { e.stopPropagation(); this.state.edit(this.correction().id); }
+  onKeep(e: MouseEvent) { e.stopPropagation(); this.correctionService.keep(this.correction().id); }
+  onFix(e: MouseEvent) { e.stopPropagation(); this.correctionService.fix(this.correction().id); }
+  onEdit(e: MouseEvent) { e.stopPropagation(); this.correctionService.edit(this.correction().id); }
 }
