@@ -64,19 +64,17 @@ const toTextSegment = (range: Interval, text: string): Segment => ({
   range,
 });
 
-function findWhitespaceBefore(content: string, end: number): number | undefined {
-  for (let i = end - 1; i >= 0; i--) {
-    if (/[\s\u00A0]/.test(content[i])) return i;
-  }
-  return undefined;
-}
+const isWhitespace = (ch: string): boolean => /[\s\u00A0]/.test(ch);
 
-function findWhitespaceAfter(content: string, start: number): number | undefined {
-  for (let i = start; i < content.length; i++) {
-    if (/[\s\u00A0]/.test(content[i])) return i;
-  }
-  return undefined;
-}
+const findWhitespaceBefore = (content: string, end: number): number | undefined => {
+  const idx = [...content.slice(0, end)].findLastIndex(isWhitespace);
+  return idx === -1 ? undefined : idx;
+};
+
+const findWhitespaceAfter = (content: string, start: number): number | undefined => {
+  const idx = [...content.slice(start)].findIndex(isWhitespace);
+  return idx === -1 ? undefined : idx + start;
+};
 
 
 function contextRange(content: string, correction: Correction): Interval {
