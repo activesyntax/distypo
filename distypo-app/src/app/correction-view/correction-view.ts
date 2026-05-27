@@ -1,6 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { CorrectionService } from './services/correction-service';
 import { CorrectionSegment } from '@app/document-view/services/segmentation-service';
+import { CorrectionService } from './services/correction.service';
 
 @Component({
   selector: 'app-correction-view',

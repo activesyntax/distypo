@@ -5,7 +5,7 @@ import * as RawDoc from '@core/domain/raw-document';
 import { Config } from "@config/config";
 import { CorrectionView } from '@app/correction-view/correction-view';
 import { Segment, SegmentationService } from './services/segmentation-service';
-import { CorrectionService } from '@app/correction-view/services/correction';
+import { CorrectionService } from '@app/correction-view/services/correction.service';
 
 
 type InputFile = { name: string; path: string };
