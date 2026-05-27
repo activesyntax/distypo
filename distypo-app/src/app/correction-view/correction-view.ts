@@ -14,10 +14,6 @@ export class CorrectionView {
   private readonly correctionService = inject(CorrectionService);
   private readonly correction = computed(() => this.segment().correction);
 
-  readonly selected = computed(() =>
-    this.correctionService.selectedIds().has(this.correction().id)
-  );
-
   readonly status = computed(() =>
     this.correctionService.statuses().get(this.correction().id) ?? 'pending'
   );
@@ -29,13 +25,6 @@ export class CorrectionView {
   readonly displayText = computed(() =>
     this.status() === 'fixed' ? this.replacement() : this.original()
   );
-
-  onSelect(e: MouseEvent) {
-    const id = this.correction().id;
-    (e.metaKey || e.ctrlKey)
-      ? this.correctionService.toggle(id)
-      : this.correctionService.select(id);
-  }
 
   onKeep(e: MouseEvent) {
     e.stopPropagation();

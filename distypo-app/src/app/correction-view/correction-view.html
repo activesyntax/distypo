@@ -1,7 +1,7 @@
 <span class="highlight" [attr.data-status]="status()">{{ displayText() }}</span>
 
 @if (status() === 'pending') {
-<div class="issue" (click)="onSelect($event)">
+<div class="issue">
   <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ original() }}</span>
   →
   <span class="good" data-hint="fix" (click)="onFix($event)">{{ replacement() }}</span>

@@ -19,16 +19,7 @@ type InputFile = { name: string; path: string };
 })
 export class DocumentView {
 
-  constructor(private segmentation: SegmentationService, private correctionService: CorrectionService) {
-    effect(() => {
-      if (this.initialSelectionApplied) return;
-      const first = this.segments().find(s => s.kind === 'correction');
-      if (first?.kind === 'correction') {
-        this.correctionService.select(first.correction.id);
-        this.initialSelectionApplied = true;
-      }
-    });
-  }
+  constructor(private segmentation: SegmentationService, private correctionService: CorrectionService) { }
 
   private initialSelectionApplied = false;
 
