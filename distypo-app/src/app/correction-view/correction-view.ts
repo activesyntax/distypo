@@ -1,5 +1,4 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { LintedDocument } from '@core/index';
 import { CorrectionService } from './services/correction';
 import { CorrectionSegment } from '@app/document-view/services/segmentation-service';
 
@@ -10,10 +9,9 @@ import { CorrectionSegment } from '@app/document-view/services/segmentation-serv
   styleUrl: './correction-view.scss',
 })
 export class CorrectionView {
-  readonly correctionSegment = input.required<CorrectionSegment>();
-  readonly document = input.required<LintedDocument>();
+  readonly segment = input.required<CorrectionSegment>();
 
-  private readonly correction = computed(() => this.correctionSegment().correction);
+  private readonly correction = computed(() => this.segment().correction);
 
   private readonly correctionService = inject(CorrectionService);
 
@@ -21,9 +19,8 @@ export class CorrectionView {
     this.correctionService.selectedIds().has(this.correction().id)
   );
 
-  readonly original = computed(() => (this.correctionSegment().context));
-  readonly replacement = computed(() => this.correction().replacement);
-
+  readonly original = computed(() => (this.segment().context.original));
+  readonly replacement = computed(() => this.segment().context.replacement);
 
 
   onSelect(e: MouseEvent) {

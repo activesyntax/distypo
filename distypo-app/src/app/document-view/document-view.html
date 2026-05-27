@@ -18,8 +18,7 @@
           <span class="segment-text">{{ segment.text }}</span>
         }
         @case ('correction') {
-
-              <app-correction-view [correctionSegment]="segment" [document]="document" />
+              <app-correction-view [segment]="segment"/>
         }
       }
     }

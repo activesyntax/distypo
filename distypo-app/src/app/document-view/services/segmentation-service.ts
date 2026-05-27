@@ -8,8 +8,11 @@ export type CorrectionSegment = {
   kind: 'correction';
   correction: Correction;
   range: Interval;
-  contextRange: Interval;
-  context: string;
+  context: {
+    originalRange: Interval;
+    original: string;
+    replacement: string;
+  }
 };
 
 export type Segment = TextSegment | CorrectionSegment;
@@ -22,14 +25,11 @@ export class SegmentationService {
     const correctionSegments: CorrectionSegment[] = document.corrections.map(c => toCorrectionSegment(c, document.content));
 
     const gaps = complement(
-      correctionSegments.map(c => c.contextRange),
+      correctionSegments.map(c => c.context.originalRange),
       interval(0, document.content.length)
     );
 
     console.log("gaps", gaps);
-
-
-    // const splitPoints = correctionSegments.map(c => c.range.end);
 
     const textSegments: Segment[] = gaps.map(range => toTextSegment(range, document.content.slice(range.start, range.end)));
 
@@ -41,16 +41,20 @@ export class SegmentationService {
   }
 }
 
-function toCorrectionSegment(c: Correction, content: string): CorrectionSegment {
+function toCorrectionSegment(correction: Correction, content: string): CorrectionSegment {
 
-  const ctx = contextRange(content, c);
+  const originalContextRange = contextRange(content, correction);
+  const replacementText = content.slice(originalContextRange.start, correction.range.start) + correction.replacement + content.slice(correction.range.end, originalContextRange.end);
 
   return {
     kind: 'correction',
-    correction: c,
-    range: c.range,
-    contextRange: ctx,
-    context: content.slice(ctx.start, ctx.end)
+    correction,
+    range: correction.range,
+    context: {
+      originalRange: originalContextRange,
+      original: content.slice(originalContextRange.start, originalContextRange.end),
+      replacement: replacementText,
+    },
   }
 }
 
@@ -74,7 +78,7 @@ function findWhitespaceAfter(content: string, start: number): number | undefined
   return undefined;
 }
 
-// todo use at correction-view
+
 function contextRange(content: string, correction: Correction): Interval {
   const spaceBefore = findWhitespaceBefore(content, correction.range.start);
   const spaceAfter = findWhitespaceAfter(content, correction.range.end);
