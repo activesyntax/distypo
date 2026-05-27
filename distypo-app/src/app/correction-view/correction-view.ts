@@ -1,6 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { Correction, LintedDocument } from '@core/index';
+import { LintedDocument } from '@core/index';
 import { CorrectionService } from './services/correction';
+import { CorrectionSegment } from '@app/document-view/services/segmentation-service';
 
 @Component({
   selector: 'app-correction-view',
@@ -9,8 +10,10 @@ import { CorrectionService } from './services/correction';
   styleUrl: './correction-view.scss',
 })
 export class CorrectionView {
-  readonly correction = input.required<Correction>();
+  readonly correctionSegment = input.required<CorrectionSegment>();
   readonly document = input.required<LintedDocument>();
+
+  private readonly correction = computed(() => this.correctionSegment().correction);
 
   private readonly correctionService = inject(CorrectionService);
 
@@ -18,22 +21,9 @@ export class CorrectionView {
     this.correctionService.selectedIds().has(this.correction().id)
   );
 
-  readonly original = computed(() => this.inContext(this.correction().original));
-  readonly replacement = computed(() => this.inContext(this.correction().replacement));
+  readonly original = computed(() => (this.correctionSegment().context));
+  readonly replacement = computed(() => this.correction().replacement);
 
-
-  inContext(text: string): string {
-
-    const content = this.document().content;
-
-    const prefixEnd = this.correction().range.start;
-    const prefixStart = content.lastIndexOf(' ', prefixEnd);
-
-    const suffixStart = this.correction().range.end;
-    const suffixEnd = content.indexOf(' ', suffixStart);
-
-    return `${content.slice(prefixStart, prefixEnd)}${text}${content.slice(suffixStart, suffixEnd)}`;
-  }
 
 
   onSelect(e: MouseEvent) {
