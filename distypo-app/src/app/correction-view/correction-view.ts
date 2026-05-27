@@ -11,25 +11,49 @@ import { CorrectionService } from './services/correction.service';
 export class CorrectionView {
   readonly segment = input.required<CorrectionSegment>();
 
-  private readonly correction = computed(() => this.segment().correction);
-
   private readonly correctionService = inject(CorrectionService);
+  private readonly correction = computed(() => this.segment().correction);
 
   readonly selected = computed(() =>
     this.correctionService.selectedIds().has(this.correction().id)
   );
 
-  readonly original = computed(() => (this.segment().context.original));
+  readonly status = computed(() =>
+    this.correctionService.statuses().get(this.correction().id) ?? 'pending'
+  );
+
+  readonly original = computed(() => this.segment().context.original);
   readonly replacement = computed(() => this.segment().context.replacement);
 
+  // What inline text the correction shows in the running document
+  readonly displayText = computed(() =>
+    this.status() === 'fixed' ? this.replacement() : this.original()
+  );
 
   onSelect(e: MouseEvent) {
     const id = this.correction().id;
-    (e.metaKey || e.ctrlKey) ? this.correctionService.toggle(id) : this.correctionService.select(id);
+    (e.metaKey || e.ctrlKey)
+      ? this.correctionService.toggle(id)
+      : this.correctionService.select(id);
   }
 
-  onKeep(e: MouseEvent) { e.stopPropagation(); this.correctionService.keep(this.correction().id); }
-  onFix(e: MouseEvent) { e.stopPropagation(); this.correctionService.fix(this.correction().id); }
-  onEdit(e: MouseEvent) { e.stopPropagation(); this.correctionService.edit(this.correction().id); }
-}
+  onKeep(e: MouseEvent) {
+    e.stopPropagation();
+    this.correctionService.keep(this.correction().id);
+  }
 
+  onFix(e: MouseEvent) {
+    e.stopPropagation();
+    this.correctionService.fix(this.correction().id);
+  }
+
+  onEdit(e: MouseEvent) {
+    e.stopPropagation();
+    this.correctionService.edit(this.correction().id);
+  }
+
+  onUndo(e: MouseEvent) {
+    e.stopPropagation();
+    this.correctionService.reset(this.correction().id);
+  }
+}

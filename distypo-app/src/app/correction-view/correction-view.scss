@@ -24,6 +24,10 @@
       color: inherit;
     }
 
+    .highlight[data-status="pending"] { text-decoration: underline wavy #d4a017; }
+    .highlight[data-status="fixed"]   { text-decoration: underline wavy #5a9a5a; }
+    .highlight[data-status="kept"]    { text-decoration: none; }
+
     .issue {
       position: relative;
       transition: padding 140ms ease;

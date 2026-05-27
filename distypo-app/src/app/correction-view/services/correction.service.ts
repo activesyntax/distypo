@@ -35,6 +35,13 @@ export class CorrectionService {
   fix(id: CorrectionId) { this.setStatus(id, 'fixed'); }
   edit(id: CorrectionId) { this._editingId.set(id); }
 
+  reset(id: CorrectionId) {
+    this._statuses.update(m => {
+      const n = new Map(m);
+      n.delete(id);
+      return n;
+    });
+  }
   private setStatus(id: CorrectionId, status: CorrectionStatus) {
     this._statuses.update(m => new Map(m).set(id, status));
   }

@@ -1,7 +1,10 @@
-<span class="highlight">{{ original() }}</span>
-<div class="issue" [class.selected]="selected()" (click)="onSelect($event)">
+<span class="highlight" [attr.data-status]="status()">{{ displayText() }}</span>
+
+@if (status() === 'pending') {
+<div class="issue" (click)="onSelect($event)">
   <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ original() }}</span>
   →
   <span class="good" data-hint="fix" (click)="onFix($event)">{{ replacement() }}</span>
   <button class="issue__edit" (click)="onEdit($event)">✎ EDIT</button>
 </div>
+}
