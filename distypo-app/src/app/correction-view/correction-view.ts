@@ -1,5 +1,5 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { CorrectionService } from './services/correction';
+import { CorrectionService } from './services/correction-service';
 import { CorrectionSegment } from '@app/document-view/services/segmentation-service';
 
 @Component({
