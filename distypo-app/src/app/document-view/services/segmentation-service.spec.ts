@@ -7,8 +7,8 @@ it('should split document into segments', () => {
   const service = new SegmentationService();
 
   const corrections: readonly Correction[] = [
-    { id: 'c1' as CorrectionId, range: interval(0, 4), replacement: 'That' },
-    { id: 'c2' as CorrectionId, range: interval(10, 14), replacement: 'sample' },
+    { id: 'c1' as CorrectionId, range: interval(0, 4), replacement: 'That', original: "that" },
+    { id: 'c2' as CorrectionId, range: interval(10, 14), replacement: 'sample', original: 'saMple' },
   ];
 
   const document: LintedDocument = {
