@@ -6,20 +6,20 @@ import { Config } from "@config/config";
 import { CorrectionView } from '@app/correction-view/correction-view';
 import { Segment, SegmentationService } from './services/segmentation-service';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
-
+import { DocumentService } from './services/document.service';
 
 type InputFile = { name: string; path: string };
 
 @Component({
   selector: 'app-document',
   imports: [CorrectionView],
-  providers: [SegmentationService, CorrectionService],
+  providers: [SegmentationService, DocumentService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
 })
 export class DocumentView {
 
-  constructor(private segmentation: SegmentationService, private correctionService: CorrectionService) { }
+  constructor(private segmentation: SegmentationService, private documentService: DocumentService) { }
 
   private initialSelectionApplied = false;
 
@@ -54,5 +54,24 @@ export class DocumentView {
     const doc = this.lintedDocument();
     return doc ? this.segmentation.split(doc) : [];
   });
+
+  readonly documentText = computed<string>(() =>
+    this.fileResource.status() === 'resolved'
+      ? this.fileResource.value() ?? ''
+      : ''
+  );
+
+  readonly copied = signal(false);
+
+  async copy() {
+    try {
+      await this.documentService.copy(this.documentText());
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 1500);
+    } catch {
+      // Clipboard blocked — insecure context or denied permission.
+    }
+  }
+
 }
 

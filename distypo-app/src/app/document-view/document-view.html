@@ -1,4 +1,15 @@
 <div class="article-frame">
+ <div class="article-frame__toolbar">
+    <button
+      type="button"
+      class="copy-button"
+      (click)="copy()"
+      [disabled]="!documentText()"
+      [attr.aria-label]="copied() ? 'Copied' : 'Copy document'">
+      {{ copied() ? 'Copied!' : 'Copy' }}
+    </button>
+  </div>
+
   <article class="article-frame__content">
 
 

@@ -13,20 +13,21 @@ import { CorrectionService } from './services/correction.service';
 @Component({
   selector: 'app-correction-view',
   imports: [],
+  providers: [CorrectionService],
   templateUrl: './correction-view.html',
   styleUrl: './correction-view.scss',
 })
 export class CorrectionView {
   readonly segment = input.required<CorrectionSegment>();
 
-  readonly correctionService = inject(CorrectionService);
+  // readonly correctionService = inject(CorrectionService);
   readonly correction = computed(() => this.segment().correction);
 
   // The editable input — only present in the DOM while this correction is being edited.
   private readonly editInput =
     viewChild<ElementRef<HTMLInputElement>>('editInput');
 
-  constructor() {
+  constructor(private correctionService: CorrectionService) {
     // When this correction's editor opens, focus and select the input so the
     // user can immediately type or tweak the pre-filled suggestion.
     effect(() => {
