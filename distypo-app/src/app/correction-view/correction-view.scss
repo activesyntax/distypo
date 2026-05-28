@@ -25,7 +25,7 @@
     }
 
     .highlight[data-status="pending"] { text-decoration: underline wavy #d4a017; }
-    .highlight[data-status="fixed"]   { text-decoration: underline wavy #5a9a5a; }
+    .highlight[data-status="fixed"]   { text-decoration: none; }
     .highlight[data-status="kept"]    { text-decoration: none; }
 
     .issue {
@@ -52,7 +52,6 @@
         .bad { background: rgba(176, 0, 32, 0.14); }
         .good { background: rgba(10, 107, 44, 0.14); }
 
-        // mindig látható feliratok — semmi :hover
         .bad::after,
         .good::after {
           content: attr(data-hint);
@@ -82,10 +81,6 @@
       // }
 
 
-      &:hover {
-        background: rgba(0, 0, 0, 0.04);
-        cursor: pointer;
-      }
 
       &__edit {
         display: none;
