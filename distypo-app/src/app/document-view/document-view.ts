@@ -5,14 +5,15 @@ import * as RawDoc from '@core/domain/raw-document';
 import { Config } from "@config/config";
 import { CorrectionView } from '@app/correction-view/correction-view';
 import { Segment, SegmentationService } from './services/segmentation-service';
-import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { DocumentService } from './services/document.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 type InputFile = { name: string; path: string };
 
 @Component({
   selector: 'app-document',
-  imports: [CorrectionView],
+  imports: [CorrectionView, MatButtonModule, MatIconModule],
   providers: [SegmentationService, DocumentService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
@@ -21,10 +22,7 @@ export class DocumentView {
 
   constructor(private segmentation: SegmentationService, private documentService: DocumentService) { }
 
-  private initialSelectionApplied = false;
-
   readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
-
 
   private readonly fileResource = httpResource.text(() => this.inputFile.path);
 
