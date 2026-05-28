@@ -14,19 +14,43 @@
       border-radius: 2px;
     }
 
-    .highlight{
-      background-color: rgba(234, 179, 8, 0.18);
-      border-radius: 2px;
-      padding: 0 2px;
-      text-decoration: underline wavy #b45309;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 3px;
-      color: inherit;
-    }
+.highlight {
+  background-color: rgba(234, 179, 8, 0.18);
+  border-radius: 2px;
+  padding: 0 2px;
+  text-decoration: underline wavy #b45309;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  color: inherit;
+  position: relative;
 
-    .highlight[data-status="pending"] { text-decoration: underline wavy #d4a017; }
-    .highlight[data-status="fixed"]   { text-decoration: none; }
-    .highlight[data-status="kept"]    { text-decoration: none; }
+  &__undo {
+    position: absolute;
+    bottom: 100%;          // touches word's top edge — no gap, no bridge needed
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
+    border: none;
+    background: #333;
+    color: #fff;
+    font-size: 0.85em;
+    line-height: 1;
+    padding: 3px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  &:hover &__undo {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+    .highlight[data-status="pending"] { text-decoration: underline wavy #E58017; }
+    .highlight[data-status="fixed"]   { text-decoration: none; cursor: pointer;}
+    .highlight[data-status="kept"]    { text-decoration: none; cursor: pointer;}
 
     .issue {
       position: relative;
@@ -88,9 +112,9 @@
         padding: 0.3em 0.45em;
         font: 500 0.8em/1 system-ui, sans-serif;
         letter-spacing: 0.02em;
-        color: #6b6357;
+        color: #444;
         background: transparent;
-        border: 1px dashed rgba(0, 0, 0, 0.28);
+        border: 1px solid rgba(0, 0, 0, 0.6);
         border-radius: 3px;
         cursor: pointer;
         vertical-align: 0.15em;

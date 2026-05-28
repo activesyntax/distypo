@@ -43,6 +43,7 @@ export class CorrectionView {
 
   onUndo(e: MouseEvent) {
     e.stopPropagation();
+    console.log('undo', this.correction().id);
     this.correctionService.reset(this.correction().id);
   }
 }
