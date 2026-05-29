@@ -1,5 +1,5 @@
-import { Correction } from "@core/index";
-import { interval, Interval } from "@core/utils";
+import { Correction, LintedDocument } from "@core/index";
+import { complement, interval, Interval } from "@core/utils";
 
 export type TextSegment = { kind: 'text'; text: string; range: Interval };
 export type CorrectionSegment = {
@@ -63,3 +63,22 @@ export function contextRange(content: string, correction: Correction): Interval 
 
   return interval(start, end);
 }
+
+export function split(document: LintedDocument): Segment[] {
+  const correctionSegments: CorrectionSegment[] = document.corrections.map(c => toCorrectionSegment(c, document.content));
+
+  const gaps = complement(
+    correctionSegments.map(c => c.context.originalRange),
+    interval(0, document.content.length)
+  );
+
+  console.log("gaps", gaps);
+
+  const textSegments: Segment[] = gaps.map(range => toTextSegment(range, document.content.slice(range.start, range.end)));
+
+  const allSegments = [...correctionSegments, ...textSegments].toSorted((a, b) => a.range.start - b.range.start);
+
+  console.log("allSegments", allSegments);
+  return allSegments;
+}
+

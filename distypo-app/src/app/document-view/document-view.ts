@@ -9,7 +9,7 @@ import { DocumentService } from './services/document.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
-import { Segment } from '@app/view-model/segments';
+import { Segment, split } from '@app/view-model/segments';
 
 type InputFile = { name: string; path: string };
 
@@ -52,7 +52,7 @@ export class DocumentView {
 
   readonly segments = computed<Segment[]>(() => {
     const doc = this.lintedDocument();
-    return doc ? this.segmentation.split(doc) : [];
+    return doc ? split(doc) : [];
   });
 
   readonly documentText = computed<string>(() => this.segmentation.asText(this.segments()));
