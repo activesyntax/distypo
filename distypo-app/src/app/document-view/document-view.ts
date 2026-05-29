@@ -4,11 +4,12 @@ import { lint, LintedDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { Config } from "@config/config";
 import { CorrectionView } from '@app/correction-view/correction-view';
-import { Segment, SegmentationService } from './services/segmentation.service';
+import { SegmentationService } from './services/segmentation.service';
 import { DocumentService } from './services/document.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
+import { Segment } from '@app/view-model/segments';
 
 type InputFile = { name: string; path: string };
 

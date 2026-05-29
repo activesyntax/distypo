@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { CorrectionSegment, SegmentationService } from '@app/document-view/services/segmentation.service';
+import { SegmentationService } from '@app/document-view/services/segmentation.service';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { LintedDocument, Correction, CorrectionId } from '@core/domain/model';
 import { interval } from '@core/utils';
+import { CorrectionSegment } from '@app/view-model/segments';
 
 describe('SegmentationService', () => {
   let service: SegmentationService;

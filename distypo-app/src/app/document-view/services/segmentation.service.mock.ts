@@ -1,9 +1,6 @@
 import { LintedDocument } from '@core/index';
-import {
-  CorrectionSegment,
-  Segment,
-  SegmentationService,
-} from './segmentation.service';
+import { SegmentationService, } from './segmentation.service';
+import { CorrectionSegment, Segment } from '@app/view-model/segments';
 
 /**
  * Test double for SegmentationService. Returns empty results by default so
