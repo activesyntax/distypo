@@ -1,10 +1,7 @@
 import { signal } from '@angular/core';
 import { CorrectionId } from '@core/domain/model';
-import {
-  CorrectionService,
-  CorrectionStatus,
-  PENDING,
-} from './correction.service';
+import { CorrectionService } from './correction.service';
+import { CorrectionStatus, PENDING } from '@app/state/correction-status';
 
 export class CorrectionServiceMock implements Partial<CorrectionService> {
   private readonly _editingId = signal<CorrectionId | null>(null);

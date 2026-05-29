@@ -1,13 +1,6 @@
 import { Injectable, signal } from '@angular/core';
+import { CorrectionStatus, PENDING } from '@app/state/correction-status';
 import { CorrectionId } from '@core/domain/model';
-
-type Pending = { kind: 'pending' };
-type Kept = { kind: 'kept' };
-type Fixed = { kind: 'fixed'; customReplacement?: string };
-
-export type CorrectionStatus = Pending | Kept | Fixed;
-
-export const PENDING: Pending = { kind: 'pending' };
 
 @Injectable()
 export class CorrectionService {
