@@ -7,7 +7,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { CorrectionSegment, SegmentationService } from '@app/document-view/services/segmentation-service';
+import { CorrectionSegment, SegmentationService } from '@app/document-view/services/segmentation.service';
 import { CorrectionService } from './services/correction.service';
 
 @Component({

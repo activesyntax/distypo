@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SegmentationService } from '@app/document-view/services/segmentation-service';
+import { SegmentationService } from '@app/document-view/services/segmentation.service';
 import { LintedDocument, Correction, CorrectionId } from '@core/domain/model';
 import { interval } from '@core/utils';
 

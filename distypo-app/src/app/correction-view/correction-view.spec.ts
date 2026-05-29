@@ -2,19 +2,41 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CorrectionView } from './correction-view';
 import { provideCorrectionServiceMock } from './services/correction.service.mock';
 import { provideSegmentationServiceMock } from '@app/document-view/services/segmentation.service.mock';
+import { interval } from '@core/utils';
+import type { CorrectionSegment } from '@app/document-view/services/segmentation.service';
 
 describe('CorrectionView', () => {
-  let component: CorrectionView;
   let fixture: ComponentFixture<CorrectionView>;
+  let component: CorrectionView;
+
+  const fakeSegment: CorrectionSegment = {
+    kind: 'correction',
+    correction: {
+      id: 'c1' as any, // CorrectionId is a branded string; cast for test
+      range: interval(0, 5),
+      replacement: 'Hello',
+      // add whatever other Correction fields your domain requires
+    } as any,
+    range: interval(0, 5),
+    context: {
+      originalRange: interval(0, 5),
+      original: 'hello',
+      replacement: 'Hello',
+    },
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CorrectionView],
-      providers: [provideCorrectionServiceMock(), provideSegmentationServiceMock()]
+      providers: [provideCorrectionServiceMock(), provideSegmentationServiceMock()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CorrectionView);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput('segment', fakeSegment);
+
+    fixture.detectChanges();
     await fixture.whenStable();
   });
 
