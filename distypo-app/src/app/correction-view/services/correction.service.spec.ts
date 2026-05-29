@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CorrectionService } from './correction';
+import { CorrectionService } from './correction.service';
 
 
 describe('CorrectionService', () => {
