@@ -27,5 +27,11 @@
       <dd class="issues__resolved">{{ resolvedIssues() }}</dd>
     </dl>
 
+    <button matButton="tonal" class="issues__fix-all" type="button" [disabled]="remainingIssues() === 0"
+      (click)="fixAll()">
+      <mat-icon>auto_fix_high</mat-icon>
+      <span>Fix all issues</span>
+    </button>
+
   </mat-card-content>
 </mat-card>

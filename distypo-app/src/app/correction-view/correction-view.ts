@@ -7,29 +7,24 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { CorrectionSegment } from '@app/document-view/services/segmentation-service';
+import { CorrectionSegment, SegmentationService } from '@app/document-view/services/segmentation-service';
 import { CorrectionService } from './services/correction.service';
 
 @Component({
   selector: 'app-correction-view',
   imports: [],
-  providers: [CorrectionService],
   templateUrl: './correction-view.html',
   styleUrl: './correction-view.scss',
 })
 export class CorrectionView {
   readonly segment = input.required<CorrectionSegment>();
 
-  // readonly correctionService = inject(CorrectionService);
   readonly correction = computed(() => this.segment().correction);
 
-  // The editable input — only present in the DOM while this correction is being edited.
   private readonly editInput =
     viewChild<ElementRef<HTMLInputElement>>('editInput');
 
-  constructor(private correctionService: CorrectionService) {
-    // When this correction's editor opens, focus and select the input so the
-    // user can immediately type or tweak the pre-filled suggestion.
+  constructor(private correctionService: CorrectionService, private segmentation: SegmentationService) {
     effect(() => {
       const isEditing = this.isEditing();
       const input = this.editInput();
@@ -51,19 +46,7 @@ export class CorrectionView {
   readonly original = computed(() => this.segment().context.original);
   readonly replacement = computed(() => this.segment().context.replacement);
 
-  // Text shown inline in the prose: original for pending/kept,
-  // custom text (if any) or the suggested replacement for fixed.
-  readonly displayText = computed(() => {
-    const status = this.status();
-    const ctx = this.segment().context;
-    switch (status.kind) {
-      case 'pending':
-      case 'kept':
-        return ctx.original;
-      case 'fixed':
-        return status.customReplacement ?? ctx.replacement;
-    }
-  });
+  readonly displayText = computed(() => this.segmentation.asDisplayText(this.segment()));
 
   onKeep(e: MouseEvent) {
     e.stopPropagation();

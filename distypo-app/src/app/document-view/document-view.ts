@@ -8,13 +8,14 @@ import { Segment, SegmentationService } from './services/segmentation-service';
 import { DocumentService } from './services/document.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { CorrectionService } from '@app/correction-view/services/correction.service';
 
 type InputFile = { name: string; path: string };
 
 @Component({
   selector: 'app-document',
   imports: [CorrectionView, MatButtonModule, MatIconModule],
-  providers: [SegmentationService, DocumentService],
+  providers: [SegmentationService, DocumentService, CorrectionService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
 })
@@ -53,12 +54,13 @@ export class DocumentView {
     return doc ? this.segmentation.split(doc) : [];
   });
 
-  // TODO: get document text from segments
-  readonly documentText = computed<string>(() =>
-    this.fileResource.status() === 'resolved'
-      ? this.fileResource.value() ?? ''
-      : ''
-  );
+  readonly documentText = computed<string>(() => this.segmentation.asText(this.segments()));
+
+  readonly debugtext = computed(() => {
+    let txt = this.documentText();
+    console.log(txt);
+    return this.documentText();
+  });
 
   readonly copied = signal(false);
 

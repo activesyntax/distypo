@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { Correction, LintedDocument } from "@core/index";
 import { complement, interval, Interval } from '@core/utils';
 
@@ -21,6 +22,8 @@ export type Segment = TextSegment | CorrectionSegment;
 @Injectable()
 export class SegmentationService {
 
+  private correctionService: CorrectionService = inject(CorrectionService);
+
   split(document: LintedDocument): Segment[] {
     const correctionSegments: CorrectionSegment[] = document.corrections.map(c => toCorrectionSegment(c, document.content));
 
@@ -39,12 +42,41 @@ export class SegmentationService {
     return allSegments;
 
   }
+
+  asText(segments: Segment[]): string {
+
+    const text = segments.reduce((acc: string, seg: Segment) => {
+      switch (seg.kind) {
+        case 'text': return acc + seg.text;
+        case 'correction': return acc + this.asDisplayText(seg);
+      }
+    }, '');
+
+    return text;
+  }
+
+  asDisplayText(segment: CorrectionSegment): string {
+
+    const status = this.correctionService.statusOf(segment.correction.id)
+    const ctx = segment.context;
+    switch (status.kind) {
+      case 'pending':
+      case 'kept':
+        return ctx.original;
+      case 'fixed':
+        return status.customReplacement ?? ctx.replacement;
+      default: return ''
+    }
+  }
 }
 
 function toCorrectionSegment(correction: Correction, content: string): CorrectionSegment {
 
   const originalContextRange = contextRange(content, correction);
-  const replacementText = content.slice(originalContextRange.start, correction.range.start) + correction.replacement + content.slice(correction.range.end, originalContextRange.end);
+  const replacementText =
+    content.slice(originalContextRange.start, correction.range.start)
+    + correction.replacement
+    + content.slice(correction.range.end, originalContextRange.end);
 
   return {
     kind: 'correction',
