@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CorrectionView } from './correction-view';
 import { provideCorrectionServiceMock } from './services/correction.service.mock';
-import { provideSegmentationServiceMock } from '@app/document-view/services/segmentation.service.mock';
 import { interval } from '@core/utils';
-import type { CorrectionSegment } from '@app/document-view/services/segmentation.service';
+import { CorrectionSegment } from '@app/view-model/segments';
+import { provideRenderedDocumentMock } from '@app/view-model/rendered-document.mock';
 
 describe('CorrectionView', () => {
   let fixture: ComponentFixture<CorrectionView>;
@@ -28,7 +28,10 @@ describe('CorrectionView', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CorrectionView],
-      providers: [provideCorrectionServiceMock(), provideSegmentationServiceMock()],
+      providers: [
+        provideCorrectionServiceMock(),
+        provideRenderedDocumentMock(),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CorrectionView);
