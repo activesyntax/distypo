@@ -72,13 +72,10 @@ export function split(document: LintedDocument): Segment[] {
     interval(0, document.content.length)
   );
 
-  console.log("gaps", gaps);
-
   const textSegments: Segment[] = gaps.map(range => toTextSegment(range, document.content.slice(range.start, range.end)));
 
   const allSegments = [...correctionSegments, ...textSegments].toSorted((a, b) => a.range.start - b.range.start);
 
-  console.log("allSegments", allSegments);
   return allSegments;
 }
 

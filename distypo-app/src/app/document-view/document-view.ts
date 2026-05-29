@@ -57,12 +57,6 @@ export class DocumentView {
 
   readonly documentText = computed<string>(() => this.segmentation.asText(this.segments()));
 
-  readonly debugtext = computed(() => {
-    let txt = this.documentText();
-    console.log(txt);
-    return this.documentText();
-  });
-
   readonly copied = signal(false);
 
   async copy() {
