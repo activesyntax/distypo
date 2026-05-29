@@ -16,6 +16,14 @@ export class CorrectionService {
 
   keep(id: CorrectionId) { this.setStatus(id, { kind: 'kept' }); }
   fix(id: CorrectionId) { this.setStatus(id, { kind: 'fixed' }); }
+  fixAll(ids: Iterable<CorrectionId>): void {
+    this._statuses.update(m => {
+      const n = new Map(m);
+      for (const id of ids) n.set(id, { kind: 'fixed' });
+      return n;
+    });
+    this._editingId.set(null);
+  }
 
   commitEdit(id: CorrectionId, customReplacement: string) {
     this.setStatus(id, { kind: 'fixed', customReplacement });

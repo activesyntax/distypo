@@ -3,7 +3,6 @@ import {
   computed,
   effect,
   ElementRef,
-  inject,
   input,
   viewChild,
 } from '@angular/core';
@@ -69,7 +68,6 @@ export class CorrectionView {
     this.correctionService.reset(this.correction().id);
   }
 
-  // Commit on Enter or blur; ignore empty input (treat as cancel).
   onCommitEdit(e: Event) {
     const value = (e.target as HTMLInputElement).value.trim();
     if (value) {

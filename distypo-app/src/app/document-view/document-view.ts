@@ -7,7 +7,6 @@ import { CorrectionView } from '@app/correction-view/correction-view';
 import { DocumentService } from './services/document.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { Segment, toSegments } from '@app/view-model/segments';
 import { RenderedDocument } from '@app/view-model/rendered-document';
 
@@ -16,7 +15,6 @@ type InputFile = { name: string; path: string };
 @Component({
   selector: 'app-document',
   imports: [CorrectionView, MatButtonModule, MatIconModule],
-  providers: [RenderedDocument, DocumentService, CorrectionService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
 })
