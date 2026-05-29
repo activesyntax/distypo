@@ -1,3 +1,4 @@
+import { CorrectionStatus } from "@app/state/correction-status";
 import { Correction, LintedDocument } from "@core/index";
 import { complement, interval, Interval } from "@core/utils";
 
@@ -64,7 +65,7 @@ export function contextRange(content: string, correction: Correction): Interval 
   return interval(start, end);
 }
 
-export function split(document: LintedDocument): Segment[] {
+export function toSegments(document: LintedDocument): Segment[] {
   const correctionSegments: CorrectionSegment[] = document.corrections.map(c => toCorrectionSegment(c, document.content));
 
   const gaps = complement(
@@ -77,5 +78,19 @@ export function split(document: LintedDocument): Segment[] {
   const allSegments = [...correctionSegments, ...textSegments].toSorted((a, b) => a.range.start - b.range.start);
 
   return allSegments;
+}
+
+
+export function resolveCorrectionSegment(segment: CorrectionSegment, status: CorrectionStatus): string {
+
+  const ctx = segment.context;
+  switch (status.kind) {
+    case 'pending':
+    case 'kept':
+      return ctx.original;
+    case 'fixed':
+      return status.customReplacement ?? ctx.replacement;
+    default: return ''
+  }
 }
 

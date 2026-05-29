@@ -4,25 +4,25 @@ import { lint, LintedDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { Config } from "@config/config";
 import { CorrectionView } from '@app/correction-view/correction-view';
-import { SegmentationService } from './services/segmentation.service';
 import { DocumentService } from './services/document.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
-import { Segment, split } from '@app/view-model/segments';
+import { Segment, toSegments } from '@app/view-model/segments';
+import { RenderedDocument } from '@app/view-model/rendered-document';
 
 type InputFile = { name: string; path: string };
 
 @Component({
   selector: 'app-document',
   imports: [CorrectionView, MatButtonModule, MatIconModule],
-  providers: [SegmentationService, DocumentService, CorrectionService],
+  providers: [RenderedDocument, DocumentService, CorrectionService],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
 })
 export class DocumentView {
 
-  constructor(private segmentation: SegmentationService, private documentService: DocumentService) { }
+  constructor(private renderedDocument: RenderedDocument, private documentService: DocumentService) { }
 
   readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
 
@@ -52,10 +52,10 @@ export class DocumentView {
 
   readonly segments = computed<Segment[]>(() => {
     const doc = this.lintedDocument();
-    return doc ? split(doc) : [];
+    return doc ? toSegments(doc) : [];
   });
 
-  readonly documentText = computed<string>(() => this.segmentation.asText(this.segments()));
+  readonly documentText = computed<string>(() => this.renderedDocument.asText(this.segments()));
 
   readonly copied = signal(false);
 
@@ -65,7 +65,8 @@ export class DocumentView {
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 2000);
     } catch {
-      // Clipboard blocked — insecure context or denied permission.
+      // TODO: error message bar
+      console.error('Failed to copy document.');
     }
   }
 
