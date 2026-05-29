@@ -5,7 +5,7 @@
   overflow-y: auto;
 
   border: 1px solid var(--mat-sys-primary);
-  border-top: none;
+  // border-top: none;
   border-radius: 0 0 var(--mat-sys-corner-medium, 12px)
     var(--mat-sys-corner-medium, 12px);
 
@@ -27,27 +27,63 @@
     background: rgba(0, 0, 0, 0.4);
   }
 
- &__toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    height: 0;
-    display: flex;
-    justify-content: flex-end;
-    padding: 0.5rem 0.5rem 0 0;
-    pointer-events: none;
+&__toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 0;
+  // Escape the article-frame's 1.25rem / 1.5rem padding to reach the real corner,
+  // then re-inset by 0.5rem so we don't touch the border.
+  // margin: -2.25rem -1.5rem 0 0;
+  padding: 0.5rem 0.5rem 0 0;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
 
-    > button { pointer-events: auto; }
+  > button {
+    pointer-events: auto;
+
+    margin: -1rem -1.5rem 0 0;
+    min-width: 0;
+    width: 7rem;
+    height: 1.75rem;
+    padding: 1rem 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: #fff; // defeat the paper noise
+    border-radius: 2px;
+
+  // Force a darker violet regardless of theme primary
+    --violet: #4a1e6b;
+    color: var(--violet);
+    border-color: var(--violet);
+
+    // Material's outlined button uses these tokens; pin them too
+    // so hover/focus states don't snap back to magenta
+    --mdc-outlined-button-label-text-color: var(--violet);
+    --mdc-outlined-button-outline-color: var(--violet);
+
+  mat-icon { color: var(--violet); }
+
+    mat-icon {
+      font-size: 0.95rem;
+      width: 0.95rem;
+      height: 0.95rem;
+      margin-right: 0.3rem;
+    }
   }
+}
 
-  &__content {
-    max-width: 48rem;
-    margin: 0 auto;
-    font-family: 'Source Serif 4 Variable', Georgia, serif;
-    font-size: 1.0625rem;
-    line-height: 1.7;
+&__content {
+  max-width: 48rem;
+  margin: 0.6rem auto;
+  font-family: 'Source Serif 4 Variable', Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
 
-    p {
+  p {
       margin: 0 0 1em;
     }
 
@@ -62,8 +98,6 @@
         margin: 0 0 0.3em;
       }
 
-      // Több hely a címke fölött, ha a pár ki van választva,
-      // hogy a "marad" / "javítás" feliratok beférjenek
       &:has(.issue.selected) .example__label {
         margin-bottom: 1.1em;
       }

@@ -53,6 +53,7 @@ export class DocumentView {
     return doc ? this.segmentation.split(doc) : [];
   });
 
+  // TODO: get document text from segments
   readonly documentText = computed<string>(() =>
     this.fileResource.status() === 'resolved'
       ? this.fileResource.value() ?? ''
@@ -65,7 +66,7 @@ export class DocumentView {
     try {
       await this.documentService.copy(this.documentText());
       this.copied.set(true);
-      setTimeout(() => this.copied.set(false), 1500);
+      setTimeout(() => this.copied.set(false), 2000);
     } catch {
       // Clipboard blocked — insecure context or denied permission.
     }

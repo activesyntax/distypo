@@ -1,16 +1,16 @@
 <div class="article-frame">
 <div class="article-frame__toolbar">
   <button
-    matButton="tonal"
+    matButton="outlined"
     type="button"
     (click)="copy()"
     [disabled]="!documentText()"
     [attr.aria-label]="copied() ? 'Copied' : 'Copy document'">
     <mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
-    <span class="article-frame__copy-label">{{ copied() ? 'Copied' : 'Copy' }}</span>
+    <span>{{ copied() ? 'Copied' : 'Copy' }}</span>
   </button>
 </div>
-j
+
   <article class="article-frame__content">
 
 
