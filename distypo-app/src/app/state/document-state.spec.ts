@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
 import { DocumentState } from './document-state';
+import { CorrectionService } from '@app/correction-view/services/correction.service';
 
 describe('DocumentState', () => {
   let service: DocumentState;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [CorrectionService],
+    });
     service = TestBed.inject(DocumentState);
   });
 

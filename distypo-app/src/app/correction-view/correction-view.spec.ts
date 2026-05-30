@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CorrectionView } from './correction-view';
 import { provideCorrectionServiceMock } from './services/correction.service.mock';
-import { interval } from '@core/utils';
+import { interval } from '@utils/interval';
 import { CorrectionSegment } from '@app/view-model/segments';
 import { provideRenderedDocumentMock } from '@app/view-model/rendered-document.mock';
 

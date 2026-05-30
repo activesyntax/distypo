@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DocumentInfo } from './document-info';
+import { CorrectionService } from '@app/correction-view/services/correction.service';
+import { RenderedDocument } from '@app/view-model/rendered-document';
 
 describe('DocumentInfo', () => {
   let component: DocumentInfo;
@@ -8,6 +10,7 @@ describe('DocumentInfo', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [CorrectionService, RenderedDocument],
       imports: [DocumentInfo],
     }).compileComponents();
 
