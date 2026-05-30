@@ -1,16 +1,11 @@
-import { httpResource } from '@angular/common/http';
-import { Component, computed, effect, signal } from '@angular/core';
-import { lint, LintedDocument } from '@core/index';
-import * as RawDoc from '@core/domain/raw-document';
-import { Config } from "@config/config";
+import { Component, computed, inject, signal } from '@angular/core';
 import { CorrectionView } from '@app/correction-view/correction-view';
 import { DocumentService } from './services/document.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Segment, toSegments } from '@app/view-model/segments';
 import { RenderedDocument } from '@app/view-model/rendered-document';
+import { DocumentState } from '@app/state/document-state';
 
-type InputFile = { name: string; path: string };
 
 @Component({
   selector: 'app-document',
@@ -19,54 +14,32 @@ type InputFile = { name: string; path: string };
   styleUrl: './document-view.scss',
 })
 export class DocumentView {
+  private documentState = inject(DocumentState);
+  private rendered = inject(RenderedDocument);
+  private clipboard = inject(DocumentService);
 
-  constructor(private renderedDocument: RenderedDocument, private documentService: DocumentService) { }
+  // Pass-through accessors so the template doesn't change
+  readonly documentLoading = this.documentState.loading;
+  readonly documentError = this.documentState.error;
+  readonly lintedDocument = this.documentState.linted;
 
-  readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
-
-  private readonly fileResource = httpResource.text(() => this.inputFile.path);
-
-  readonly documentLoading = computed(() =>
-    this.fileResource.status() === 'loading'
-  );
-
-  readonly documentError = computed(() =>
-    this.fileResource.status() === 'error'
-      ? "Failed to load document."
-      : undefined
-  );
-
-  readonly lintedDocument = computed<LintedDocument | undefined>(() => {
-    if (this.fileResource.status() !== 'resolved') return undefined;
-
-    const file = this.fileResource.value();
-    if (!file) return undefined;
-
-    const rawDocument = RawDoc.from(this.inputFile.name, file);
-    const lintedDocument = lint(rawDocument, Config.rules);
-
-    return lintedDocument;
-  });
-
-  readonly segments = computed<Segment[]>(() => {
+  readonly segments = computed(() => {
     const doc = this.lintedDocument();
-    return doc ? toSegments(doc) : [];
+    return doc ? this.rendered.split(doc) : [];
   });
 
-  readonly documentText = computed<string>(() => this.renderedDocument.asText(this.segments()));
+  readonly documentText = computed(() => this.rendered.asText(this.segments()));
 
   readonly copied = signal(false);
 
   async copy() {
     try {
-      await this.documentService.copy(this.documentText());
+      await this.clipboard.copy(this.documentText());
       this.copied.set(true);
-      setTimeout(() => this.copied.set(false), 2000);
+      setTimeout(() => this.copied.set(false), 1500);
     } catch {
       // TODO: error message bar
-      console.error('Failed to copy document.');
-    }
-  }
-
+      /* clipboard blocked */
 }
-
+  }
+}

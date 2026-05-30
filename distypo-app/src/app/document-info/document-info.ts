@@ -1,6 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-
+import { DocumentState } from '@app/state/document-state';
 
 @Component({
   selector: 'app-document-info',
@@ -10,13 +10,11 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class DocumentInfo {
 
+  documentState = inject(DocumentState);
+
   filename = signal<string | undefined>('intro.txt');
 
-  fileSize = signal(1234);          // bytes
-  wordCount = signal(186);
-  sentenceCount = signal(14);
-  formattedSize = computed(() => formatBytes(this.fileSize()));
-  lineCount = signal(22);
+  formattedSize = computed(() => formatBytes(this.documentState.contentSizeBytes()));
   hasFile = computed(() => this.filename() !== null);
 }
 

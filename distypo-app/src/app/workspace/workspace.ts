@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,6 @@ import { DocumentState } from '@app/state/document-state';
 
 type View = 'document' | 'settings' | 'help-page';
 
-
 @Component({
   selector: 'app-workspace',
   imports: [
@@ -28,16 +27,9 @@ type View = 'document' | 'settings' | 'help-page';
 })
 export class Workspace {
 
-  constructor(private documentState: DocumentState) { }
-
   view = signal<View>('document');
 
   openFile() { /* … */ }
   saveFile() { /* … */ }
-
-  onFix(e: MouseEvent) {
-    e.stopPropagation();
-    this.documentState.fixAllPending();
-  }
 }
 
