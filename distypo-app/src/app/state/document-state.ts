@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { Config } from '@config/config';
 import { InputFile, lint, LintedDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
@@ -18,17 +18,17 @@ export class DocumentState {
   private corrections = inject(CorrectionService);
 
   // Pure read accessor for components that need to know what's loaded.
-  // readonly inputFile = this._inputFile.asReadonly();
+  readonly inputFile = this._inputFile.asReadonly();
 
-  readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
+  // readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
 
-  private readonly fileResource = httpResource.text(() => this.inputFile.path);
+  private readonly fileResource = httpResource.text(() => this.inputFile().path);
 
   readonly loading = computed(() =>
     this.fileResource.status() === 'loading'
   );
 
-  readonly error = computed(() =>
+  readonly error: Signal<string | undefined> = computed(() =>
     this.fileResource.status() === 'error'
       ? "Failed to load document."
       : undefined
