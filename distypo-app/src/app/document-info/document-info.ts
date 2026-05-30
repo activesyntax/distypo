@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { DocumentState } from '@app/state/document-state';
-import { formatBytes } from '@core/utils/format';
+import { formatBytes } from '@utils/format';
 
 @Component({
   selector: 'app-document-info',

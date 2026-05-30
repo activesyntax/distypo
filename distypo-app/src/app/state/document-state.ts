@@ -4,7 +4,7 @@ import { Config } from '@config/config';
 import { InputFile, lint, LintedDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
-import { countWords, countSentences, countLines } from '@core/utils/text-stats';
+import { countWords, countSentences, countLines } from '@utils/text-stats';
 
 @Injectable({
   providedIn: 'root',
