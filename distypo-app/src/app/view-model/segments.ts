@@ -1,6 +1,6 @@
 import { CorrectionStatus } from "@app/state/correction-status";
 import { Correction, LintedDocument } from "@core/index";
-import { complement, interval, Interval } from "@core/utils";
+import { complement, interval, Interval } from "@utils/interval";
 
 export type TextSegment = { kind: 'text'; text: string; range: Interval };
 export type CorrectionSegment = {

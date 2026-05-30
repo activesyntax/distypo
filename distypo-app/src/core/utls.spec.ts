@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { pairwise, union, complement, interval, Interval } from '@core/utils';
+import { union, complement, interval, Interval } from '@utils/interval';
+import { pairwise } from '@utils/array';
 
 describe('pairwise', () => {
 

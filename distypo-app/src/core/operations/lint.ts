@@ -1,6 +1,7 @@
 import { Correction, LintedDocument, RawDocument } from "@core/domain/model";
 import { Rule } from "@core/domain/rules";
-import { createGuid, interval, Interval } from "@core/utils";
+import { interval, Interval } from "@utils/interval";
+import { createGuid } from "@utils/identity";
 
 export const lint = (doc: RawDocument, rules: readonly Rule[]): LintedDocument => ({
   kind: "linted",
@@ -26,4 +27,3 @@ const toCorrection = (rule: Rule, match: RegExpMatchArray): Correction => ({
   original: match[0],
   replacement: rule.corrector(match),
 })
-

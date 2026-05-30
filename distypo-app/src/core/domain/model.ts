@@ -1,4 +1,5 @@
-import { Interval, UniqId } from "@core/utils";
+import { Interval } from "@utils/interval";
+import { UniqId } from "@utils/identity";
 
 export type RawDocument = { kind: "raw"; name: string; content: string };
 export type LintedDocument = { kind: "linted"; name: string; content: string; corrections: readonly Correction[] };

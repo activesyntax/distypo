@@ -1,4 +1,4 @@
-import { Correction, LintedDocument, PolishedDocument } from "@core/domain/model";
+import { LintedDocument, PolishedDocument } from "@core/domain/model";
 
 export function polish(doc: LintedDocument): PolishedDocument {
 
