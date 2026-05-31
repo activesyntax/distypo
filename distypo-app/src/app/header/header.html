@@ -7,10 +7,24 @@
     <span class="app-header__tagline">The Typography Corrector</span>
 
     <nav class="app-header__actions" aria-label="Document actions">
+
+      @if(!documentState.linted()){
+
       <button matButton="filled">
-        <mat-icon>content_paste</mat-icon>
-        <span class="app-header__action-label">Paste</span>
+        <mat-icon>add</mat-icon>
+        <span class="app-header__action-label">New text</span>
       </button>
+
+      }
+      @else{
+
+      <button matButton="filled">
+        <mat-icon>search</mat-icon>
+        <span class="app-header__action-label">Analyse</span>
+      </button>
+
+      }
+
       <!-- TODO: implement various documents txt. odt, docx  -->
       <!-- <button matButton="tonal" type="button" aria-label="Open file"> -->
       <!--   <mat-icon>folder_open</mat-icon> -->

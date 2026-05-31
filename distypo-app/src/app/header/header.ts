@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { OutputDocument } from '@app/state/output-document';
 import { DocumentService } from '@app/document-view/services/document.service';
+import { DocumentState } from '@app/state/document-state';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ import { DocumentService } from '@app/document-view/services/document.service';
 })
 export class Header {
 
+  documentState = inject(DocumentState);
   outputDocument = inject(OutputDocument);
   documentService = inject(DocumentService);
 
