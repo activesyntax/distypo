@@ -3,7 +3,6 @@ import { CorrectionView } from './correction-view';
 import { provideCorrectionServiceMock } from './services/correction.service.mock';
 import { interval } from '@utils/interval';
 import { CorrectionSegment } from '@app/view-model/segments';
-import { provideRenderedDocumentMock } from '@app/view-model/rendered-document.mock';
 
 describe('CorrectionView', () => {
   let fixture: ComponentFixture<CorrectionView>;
@@ -30,7 +29,6 @@ describe('CorrectionView', () => {
       imports: [CorrectionView],
       providers: [
         provideCorrectionServiceMock(),
-        provideRenderedDocumentMock(),
       ],
     }).compileComponents();
 
