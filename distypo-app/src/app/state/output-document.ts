@@ -17,15 +17,15 @@ export class OutputDocument {
     return doc ? toSegments(doc) : [];
   });
 
-  readonly documentText = computed(() => this.asText(this.segments()));
+  readonly plainText = computed(() => this.asPlainText());
 
-  asText(segments: Segment[]): string {
-    return segments
-      .map(s => (s.kind === 'text' ? s.text : this.displayText(s)))
+  private asPlainText(): string {
+    return this.segments()
+      .map(s => (s.kind === 'text' ? s.text : this.correctionText(s)))
       .join('');
   }
 
-  displayText(seg: CorrectionSegment): string {
+  correctionText(seg: CorrectionSegment): string {
     return resolveCorrectionSegment(seg, this.corrections.statusOf(seg.correction.id));
   }
 }

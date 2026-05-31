@@ -7,15 +7,16 @@
     <span class="app-header__tagline">The Typography Corrector</span>
 
     <nav class="app-header__actions" aria-label="Document actions">
-      <button matButton="filled" (click)="paste()">
+      <button matButton="filled">
         <mat-icon>content_paste</mat-icon>
         <span class="app-header__action-label">Paste</span>
       </button>
-      <button matButton="tonal" type="button" aria-label="Open file">
-        <mat-icon>folder_open</mat-icon>
-        <span class="app-header__action-label">Open</span>
-      </button>
-      <button matButton="tonal" class="app-header__save" aria-label="Save file">
+      <!-- TODO: implement various documents txt. odt, docx  -->
+      <!-- <button matButton="tonal" type="button" aria-label="Open file"> -->
+      <!--   <mat-icon>folder_open</mat-icon> -->
+      <!--   <span class="app-header__action-label">Open</span> -->
+      <!-- </button> -->
+      <button matButton="tonal" class="app-header__save" aria-label="Save file" (click)="save()">
         <mat-icon>download</mat-icon>
         <span class="app-header__action-label">Save</span>
       </button>

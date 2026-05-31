@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { DocumentState } from '@app/state/document-state';
+import { OutputDocument } from '@app/state/output-document';
+import { DocumentService } from '@app/document-view/services/document.service';
 
 @Component({
   selector: 'app-header',
@@ -12,9 +13,10 @@ import { DocumentState } from '@app/state/document-state';
 })
 export class Header {
 
-  docuemntState = inject(DocumentState);
+  outputDocument = inject(OutputDocument);
+  documentService = inject(DocumentService);
 
-  async paste() {
-    await this.docuemntState.paste();
+  save() {
+    this.documentService.saveAsFile(this.outputDocument.plainText());
   }
 }

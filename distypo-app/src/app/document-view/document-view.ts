@@ -16,13 +16,13 @@ import { OutputDocument } from '@app/state/output-document';
 export class DocumentView {
   documentState = inject(DocumentState);
   outputDocument = inject(OutputDocument);
-  private clipboard = inject(DocumentService);
+  private documentService = inject(DocumentService);
 
   readonly copied = signal(false);
 
   async copy() {
     try {
-      await this.clipboard.copy(this.outputDocument.documentText());
+      await this.documentService.copyToClipboard(this.outputDocument.plainText());
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 1500);
     } catch {

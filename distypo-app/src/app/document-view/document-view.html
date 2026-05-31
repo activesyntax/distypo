@@ -4,7 +4,7 @@
     matButton="outlined"
     type="button"
     (click)="copy()"
-    [disabled]="!outputDocument.documentText()"
+    [disabled]="!outputDocument.plainText()"
     [attr.aria-label]="copied() ? 'Copied' : 'Copy document'">
     <mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
     <span>{{ copied() ? 'Copied' : 'Copy' }}</span>

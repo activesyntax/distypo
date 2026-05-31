@@ -22,7 +22,6 @@ export class DocumentState {
   });
 
   private corrections = inject(CorrectionService);
-  private clipboard = inject(DocumentService);
 
   // Exposed for components that need to display the document name, etc.
   readonly inputFile = computed<InputFile>(() => {
@@ -32,7 +31,6 @@ export class DocumentState {
       : { name: 'clipboard.txt', path: '' };
   });
 
-  // Only active when source is a file — reactive to _source changes.
   private readonly fileResource = httpResource.text(() => {
     const src = this._source();
     return src.kind === 'file' ? src.file.path : undefined;
@@ -81,22 +79,6 @@ export class DocumentState {
 
   load(file: InputFile) {
     this._source.set({ kind: 'file', file });
-  }
-
-  async paste() {
-    try {
-      const text = await this.clipboard.paste();
-      if (text) {
-        this._source.set({ kind: 'text', text });
-        this._content.set(text);
-        this._loading.set(false);
-        this._error.set(undefined);
-      }
-      return text;
-    } catch (e) {
-      console.error('Failed to load clipboard contents.', e);
-      return undefined;
-    }
   }
 
   fixAllPending() {
