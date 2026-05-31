@@ -4,7 +4,7 @@
     matButton="outlined"
     type="button"
     (click)="copy()"
-    [disabled]="!documentText()"
+    [disabled]="!outputDocument.documentText()"
     [attr.aria-label]="copied() ? 'Copied' : 'Copy document'">
     <mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
     <span>{{ copied() ? 'Copied' : 'Copy' }}</span>
@@ -14,17 +14,17 @@
   <article class="article-frame__content">
 
 
-    @if (documentLoading()) {
+    @if (documentState.loading()) {
       <p>Loading…</p>
     }
 
-    @if (documentError()) {
-      <p>{{ documentError() }}</p>
+    @if (documentState.error()) {
+      <p>{{ documentState.error() }}</p>
     }
 
-    @if (lintedDocument(); as document) {
+    @if (documentState.linted(); as document) {
 
-    @for (segment of segments(); track segment.range.start) {
+    @for (segment of outputDocument.segments(); track segment.range.start) {
       @switch (segment.kind) {
         @case ('text') {
           <span class="segment-text">{{ segment.text }}</span>

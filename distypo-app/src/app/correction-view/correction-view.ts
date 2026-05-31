@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CorrectionService } from './services/correction.service';
 import { CorrectionSegment } from '@app/view-model/segments';
-import { RenderedDocument } from '@app/view-model/rendered-document';
+import { OutputDocument } from '@app/state/output-document';
 
 @Component({
   selector: 'app-correction-view',
@@ -24,7 +24,8 @@ export class CorrectionView {
   private readonly editInput =
     viewChild<ElementRef<HTMLInputElement>>('editInput');
 
-  constructor(private correctionService: CorrectionService, private renderedDocument: RenderedDocument) {
+  constructor(private correctionService: CorrectionService, private outputDocument: OutputDocument) {
+
     effect(() => {
       const isEditing = this.isEditing();
       const input = this.editInput();
@@ -46,7 +47,7 @@ export class CorrectionView {
   readonly original = computed(() => this.segment().context.original);
   readonly replacement = computed(() => this.segment().context.replacement);
 
-  readonly displayText = computed(() => this.renderedDocument.displayText(this.segment()));
+  readonly displayText = computed(() => this.outputDocument.displayText(this.segment()));
 
   onKeep(e: MouseEvent) {
     e.stopPropagation();
