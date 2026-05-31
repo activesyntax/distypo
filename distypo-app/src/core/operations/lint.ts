@@ -5,7 +5,6 @@ import { createGuid } from "@utils/identity";
 
 export const lint = (doc: RawDocument, rules: readonly Rule[]): LintedDocument => ({
   kind: "linted",
-  name: doc.name,
   content: doc.content,
   corrections: collectCorrections(doc, rules),
 })

@@ -1,9 +1,9 @@
 import { Interval } from "@utils/interval";
 import { UniqId } from "@utils/identity";
 
-export type RawDocument = { kind: "raw"; name: string; content: string };
-export type LintedDocument = { kind: "linted"; name: string; content: string; corrections: readonly Correction[] };
-export type PolishedDocument = { kind: "polished"; name: string; content: string };
+export type RawDocument = { kind: "raw"; content: string };
+export type LintedDocument = { kind: "linted"; content: string; corrections: readonly Correction[] };
+export type PolishedDocument = { kind: "polished"; content: string };
 
 export type TextDocument = RawDocument | LintedDocument | PolishedDocument;
 
