@@ -1,70 +1,102 @@
 import { httpResource } from '@angular/common/http';
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
 import { Config } from '@config/config';
 import { InputFile, lint, LintedDocument } from '@core/index';
 import * as RawDoc from '@core/domain/raw-document';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { countWords, countSentences, countLines } from '@utils/text-stats';
+import { DocumentService } from '@app/document-view/services/document.service';
+
+type ContentSource =
+  | { kind: 'file'; file: InputFile }
+  | { kind: 'text'; text: string };
 
 @Injectable({
   providedIn: 'root',
 })
 export class DocumentState {
 
-  private readonly _inputFile = signal<InputFile>({
-    name: 'demo.txt',
-    path: '/assets/data/demo.txt',
+  private readonly _source = signal<ContentSource>({
+    kind: 'file',
+    file: { name: 'demo.txt', path: '/assets/data/demo.txt' },
   });
+
   private corrections = inject(CorrectionService);
+  private clipboard = inject(DocumentService);
 
-  // Pure read accessor for components that need to know what's loaded.
-  readonly inputFile = this._inputFile.asReadonly();
-
-  // readonly inputFile: InputFile = { name: 'demo.txt', path: '/assets/data/demo.txt' };
-
-  private readonly fileResource = httpResource.text(() => this.inputFile().path);
-
-  readonly loading = computed(() =>
-    this.fileResource.status() === 'loading'
-  );
-
-  readonly error: Signal<string | undefined> = computed(() =>
-    this.fileResource.status() === 'error'
-      ? "Failed to load document."
-      : undefined
-  );
-
-  readonly linted = computed<LintedDocument | undefined>(() => {
-    if (this.fileResource.status() !== 'resolved') return undefined;
-
-    const file = this.fileResource.value();
-    if (!file) return undefined;
-
-    const rawDocument = RawDoc.from(this.inputFile.name, file);
-    const lintedDocument = lint(rawDocument, Config.rules);
-
-    return lintedDocument;
+  // Exposed for components that need to display the document name, etc.
+  readonly inputFile = computed<InputFile>(() => {
+    const src = this._source();
+    return src.kind === 'file'
+      ? src.file
+      : { name: 'clipboard.txt', path: '' };
   });
 
-  readonly contentSizeBytes = computed(() => {
-    const content = this.fileResource.value();
-    return content ? new TextEncoder().encode(content).length : 0;
+  // Only active when source is a file — reactive to _source changes.
+  private readonly fileResource = httpResource.text(() => {
+    const src = this._source();
+    return src.kind === 'file' ? src.file.path : undefined;
   });
 
-  readonly wordCount = computed(() => countWords(this.fileResource.value() ?? ''));
-  readonly sentenceCount = computed(() => countSentences(this.fileResource.value() ?? ''));
-  readonly lineCount = computed(() => countLines(this.fileResource.value() ?? ''));
+  private readonly _content = signal<string | undefined>(undefined);
+  private readonly _loading = signal(false);
+  private readonly _error = signal<string | undefined>(undefined);
 
+  constructor() {
+    // Sync the httpResource into _content whenever it resolves.
+    effect(() => {
+      const src = this._source();
+      if (src.kind !== 'file') return;
 
-  /** Replace the current document with a new file. */
-  load(file: InputFile) {
-    this._inputFile.set(file);
+      const status = this.fileResource.status();
+      this._loading.set(status === 'loading');
+
+      if (status === 'resolved') {
+        this._content.set(this.fileResource.value() ?? undefined);
+        this._error.set(undefined);
+      } else if (status === 'error') {
+        this._error.set('Failed to load document.');
+      }
+    });
   }
 
-  /** Replace the current document with pasted text (no HTTP). */
-  loadText(name: string, content: string) {
-    // If/when you implement paste, push raw text through lint here
-    // and store the linted doc directly in a signal instead of HTTP.
+  readonly loading: Signal<boolean> = this._loading.asReadonly();
+  readonly error: Signal<string | undefined> = this._error.asReadonly();
+
+  readonly linted = computed<LintedDocument | undefined>(() => {
+    const content = this._content();
+    if (!content) return undefined;
+
+    const rawDocument = RawDoc.from(this.inputFile().name, content);
+    return lint(rawDocument, Config.rules);
+  });
+
+  readonly contentSizeBytes = computed(() =>
+    this._content() ? new TextEncoder().encode(this._content()!).length : 0
+  );
+
+  readonly wordCount = computed(() => countWords(this._content() ?? ''));
+  readonly sentenceCount = computed(() => countSentences(this._content() ?? ''));
+  readonly lineCount = computed(() => countLines(this._content() ?? ''));
+
+  load(file: InputFile) {
+    this._source.set({ kind: 'file', file });
+  }
+
+  async paste() {
+    try {
+      const text = await this.clipboard.paste();
+      if (text) {
+        this._source.set({ kind: 'text', text });
+        this._content.set(text);
+        this._loading.set(false);
+        this._error.set(undefined);
+      }
+      return text;
+    } catch (e) {
+      console.error('Failed to load clipboard contents.', e);
+      return undefined;
+    }
   }
 
   fixAllPending() {

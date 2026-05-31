@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { CorrectionStatus, PENDING } from '@app/state/correction-status';
 import { CorrectionId } from '@core/domain/model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CorrectionService {
   private readonly _editingId = signal<CorrectionId | null>(null);
   private readonly _statuses = signal<ReadonlyMap<CorrectionId, CorrectionStatus>>(new Map());

@@ -5,8 +5,6 @@ import { DocumentInfo } from './document-info';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { RenderedDocument } from '@app/view-model/rendered-document';
 
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('DocumentInfo', () => {
   let component: DocumentInfo;

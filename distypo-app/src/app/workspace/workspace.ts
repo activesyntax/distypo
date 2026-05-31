@@ -28,8 +28,5 @@ type View = 'document' | 'settings' | 'help-page';
 export class Workspace {
 
   view = signal<View>('document');
-
-  openFile() { /* … */ }
-  saveFile() { /* … */ }
 }
 
