@@ -1,5 +1,5 @@
 import { httpResource } from "@angular/common/http";
-import { Injectable, signal, computed } from "@angular/core";
+import { Injectable, signal, computed, Signal } from "@angular/core";
 import { InputFile } from "@core/index";
 import { ContentSource, defaultSource, toFileUrl } from "./content-source";
 
@@ -23,7 +23,7 @@ export class ContentSourceStore {
     this._source().kind === 'file' && this.fileResource.status() === 'loading'
   );
 
-  readonly error = computed(() =>
+  readonly error: Signal<string | undefined> = computed(() =>
     this._source().kind === 'file' && this.fileResource.status() === 'error'
       ? 'Failed to load document.'
       : undefined

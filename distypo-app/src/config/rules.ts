@@ -12,5 +12,25 @@ export const lowercaseSentenceStartRule: Rule = {
   }
 };
 
+export const doubleSpaceRule: Rule = {
+  name: 'double-space',
+  description: 'Collapses multiple consecutive spaces into one.',
+  regex: /( {2,})/gu,
+  corrector: () => ' ',
+};
+
+export const spaceBeforePunctuationRule: Rule = {
+  name: 'space-before-punctuation',
+  description: 'Removes space before sentence-ending punctuation.',
+  regex: /( +)([.!?,;:])/gu,
+  corrector: (match) => match[2],
+};
+
+export const missingSpaceAfterPunctuationRule: Rule = {
+  name: 'missing-space-after-punctuation',
+  description: 'Inserts a space after punctuation when followed directly by a word character.',
+  regex: /([,;:])(\p{L})/gu,
+  corrector: (match) => `${match[1]} ${match[2]}`,
+};
 
 

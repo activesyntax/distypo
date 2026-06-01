@@ -29,6 +29,7 @@ export class DocumentState {
   readonly sentenceCount = computed(() => countSentences(this.sourceStore.content() ?? ''));
   readonly lineCount = computed(() => countLines(this.sourceStore.content() ?? ''));
 
+  // TODO: find better location
   fixAllPending() {
     const doc = this.linted();
     if (!doc) return;
