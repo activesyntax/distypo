@@ -15,7 +15,7 @@ export type Correction = {
   range: Interval;
   original: string;
   replacement: string;
-  // description: string;
+  hint: string;           // TODO: rule id would be beter
   // rule: string;
 };
 
