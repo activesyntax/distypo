@@ -35,7 +35,25 @@ export const missingSpaceAfterPunctuationRule: Rule = {
   hint: 'Punctuation should be followed by a space.',
   // regex: /([,;:])(\p{L})/gu,
   regex: /([,;:])(\p{L})|(\.)(\p{Lu})/gu,
-  corrector: (match) => `${match[1]} ${match[2]}`,
+  corrector: (match) => {
+    const before = match[1] ?? match[3];
+    const after = match[2] ?? match[4];
+    return `${before} ${after}`;
+  },
 };
 
+export const startsWithUppercaseRule: Rule = {
+  name: 'starts-with-uppercase',
+  description: 'The text should start with an uppercase letter.',
+  hint: 'First letter should be uppercase.',
+  regex: /^\p{Ll}/gu,
+  corrector: (match) => match[0].toUpperCase(),
+};
 
+export const endsWithPunctuationRule: Rule = {
+  name: 'ends-with-punctuation',
+  description: 'The text should end with punctuation (. ! ? or …).',
+  hint: 'Text should end with punctuation.',
+  regex: /(\p{L})\s*$/gu,
+  corrector: (match) => `${match[1]}.`,
+};
