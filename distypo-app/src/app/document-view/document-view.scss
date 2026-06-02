@@ -1,66 +1,50 @@
 .article-frame {
   height: 80vh;
+  padding: 0;
+  overflow: hidden;
 
-  padding: 1.25rem 1.5rem;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
   border: 1px solid var(--mat-sys-primary);
-  // border-top: none;
-  border-radius: 0 0 var(--mat-sys-corner-medium, 12px)
-    var(--mat-sys-corner-medium, 12px);
+  border-radius: 0 0 var(--mat-sys-corner-medium, 12px) var(--mat-sys-corner-medium, 12px);
 
   background: #fcfbfa;
   color: #1a1a1a;
-
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 
-  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
-  scrollbar-width: auto;
-
-  &::-webkit-scrollbar { width: 10px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.4);
-  }
-
   &__toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    height: 0;
-    // Escape the article-frame's 1.25rem / 1.5rem padding to reach the real corner,
-    // then re-inset by 0.5rem so we don't touch the border.
-    // margin: -2.25rem -1.5rem 0 0;
-    padding: 0.5rem 0.5rem 0 0;
+    flex-shrink: 0;
+
+    // Allow the toolbar to naturally take up space above the content
+    height: auto;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 0;
+
     display: flex;
     justify-content: flex-end;
-    pointer-events: none;
 
+    pointer-events: auto;
+
+    border-bottom: 1px solid rgba(74, 30, 107, 0.1);
 
     > button.last {
       border-left: 0;
-
     }
 
     > button {
-      pointer-events: auto;
-
-      margin: -1rem 0rem 0 0;
-
+      // Clear out the negative offsets that caused the overlap in image_8ce900.jpg
+      margin: 0;
 
       min-width: 0;
       width: 10rem;
-      height: 1.75rem;
-      padding: 1rem 0.8rem;
+      height: 2rem; // Slightly taller layout for optimal alignment
+      padding: 0 0.8rem;
       font-size: 0.9rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      background: #fff; // defeat the paper noise
+      background: #fff;
       border-radius: 2px;
 
       --violet: #4a1e6b;
@@ -70,9 +54,8 @@
       --mdc-outlined-button-label-text-color: var(--violet);
       --mdc-outlined-button-outline-color: var(--violet);
 
-    mat-icon { color: var(--violet); }
-
       mat-icon {
+        color: var(--violet);
         font-size: 0.95rem;
         width: 0.95rem;
         height: 0.95rem;
@@ -82,59 +65,70 @@
   }
 
   &__input {
-      width: 100%;
-      min-height: 240px;
-      height: 100vh;
-      resize: vertical;
-      margin: 0 0 1.5rem 0;
-      padding: 0;
+    width: 100%;
+    min-height: 240px;
+    height: auto;
+    resize: none;
+    overflow: hidden;
+    margin: 0 0 1.5rem 0;
+    padding: 0;
 
-      /* Disguise the element boundaries entirely */
-      background: transparent;
-      border: none;
-      outline: none;
-      box-shadow: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
 
-      /* Inherit the elegant typography layout */
-      font-family: 'Source Serif 4 Variable', Georgia, serif;
-      font-size: 1.2625rem;
-      line-height: 1.7;
-      color: #1a1a1a;
+    font-family: 'Source Serif 4 Variable', Georgia, serif;
+    font-size: 1.2625rem;
+    line-height: 1.7;
+    color: #1a1a1a;
 
-      &::placeholder {
-        color: rgba(26, 26, 26, 0.9);
-        font-style: italic;
-      }
+    &::placeholder {
+      color: rgba(26, 26, 26, 0.4);
+      font-style: italic;
     }
+  }
 
   &__content {
-    max-width: 48rem;
-    margin: 1rem auto;
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 3rem 1.25rem;
+
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+    scrollbar-width: auto;
+
+    &::-webkit-scrollbar { width: 10px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
     font-family: 'Source Serif 4 Variable', Georgia, serif;
     font-size: 1.0625rem;
     line-height: 1.7;
 
     p {
-        margin: 0 0 1em;
-      }
-
-      .example {
-        margin: 1.6em 0;
-
-        &__label {
-          margin-bottom: 0.4em;
-        }
-
-        &__pair {
-          margin: 0 0 0.3em;
-        }
-
-        &:has(.issue.selected) .example__label {
-          margin-bottom: 1.1em;
-        }
-
-      }
+      margin: 0 0 2em;
     }
 
-}
+    .example {
+      margin: 1.6em 0;
 
+      &__label {
+        margin-bottom: 0.4em;
+      }
+
+      &__pair {
+        margin: 0 0 0.3em;
+      }
+
+      &:has(.issue.selected) .example__label {
+        margin-bottom: 1.1em;
+      }
+    }
+  }
+}

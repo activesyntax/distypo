@@ -44,7 +44,7 @@
         class="article-frame__input"
         placeholder="Paste your text here then click Analyse button..."
         [value]="rawText()"
-        (input)="rawText.set($any($event).target.value)"
+        (input)="onInput($event)"
       ></textarea>
     }
 
