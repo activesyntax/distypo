@@ -1,7 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { CorrectionService } from '@app/correction-view/services/correction.service';
+import { DocumentState } from '@app/state/document-state';
+import { LintedDocument } from '@core/index';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentService {
+
+  private readonly corrections = inject(CorrectionService);
+  private documentState = inject(DocumentState);
 
   copyToClipboard(text: string): Promise<void> {
     return navigator.clipboard.writeText(text);
@@ -15,5 +21,12 @@ export class DocumentService {
     a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+
+  fixAllPending() {
+    const doc = this.documentState.linted();
+    if (!doc) return;
+    this.corrections.fixAll(doc.corrections.map(c => c.id));
   }
 }

@@ -1,9 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DocumentState } from '@app/state/document-state';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
+import { DocumentService } from '@app/document-view/services/document.service';
 
 const RING_RADIUS = 42;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
@@ -18,6 +19,7 @@ export class Issues {
 
   private documentState = inject(DocumentState);
   private corrections = inject(CorrectionService);
+  private documentService = inject(DocumentService);
 
   detectedIssues = computed(() =>
     this.documentState.linted()?.corrections.length ?? 0
@@ -42,7 +44,7 @@ export class Issues {
   });
 
   fixAll() {
-    this.documentState.fixAllPending();
+    this.documentService.fixAllPending();
   }
 
 

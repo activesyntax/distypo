@@ -1,14 +1,12 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { Config } from '@config/config';
 import { lint, LintedDocument } from '@core/index';
-import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { countWords, countSentences, countLines } from '@utils/text-stats';
 import { ContentSourceStore } from './source/content-source-store';
 import { rawDocument } from '@core/domain/raw-document';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentState {
-  private readonly corrections = inject(CorrectionService);
   private readonly sourceStore = inject(ContentSourceStore);
 
   readonly loading = this.sourceStore.loading;
@@ -29,10 +27,4 @@ export class DocumentState {
   readonly sentenceCount = computed(() => countSentences(this.sourceStore.content() ?? ''));
   readonly lineCount = computed(() => countLines(this.sourceStore.content() ?? ''));
 
-  // TODO: find better location
-  fixAllPending() {
-    const doc = this.linted();
-    if (!doc) return;
-    this.corrections.fixAll(doc.corrections.map(c => c.id));
-  }
 }
