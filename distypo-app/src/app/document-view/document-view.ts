@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { afterNextRender, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { CorrectionView } from '@app/correction-view/correction-view';
 import { DocumentService } from './services/document.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +24,8 @@ export class DocumentView {
 
   private readonly DEMO_TEXT = `the meeting starts at noon.We started.  The quick  brown fox...  Are you serious ? "hello," she said. Read pages 12-18 - then decide. The result( see figure 3 )is clear.`;
 
+  private textareaEl = viewChild<ElementRef<HTMLTextAreaElement>>('rawtext');
+
   onInput(event: Event) {
     const el = event.target as HTMLTextAreaElement;
     el.style.height = 'auto';
@@ -35,8 +37,18 @@ export class DocumentView {
     this.rawText.set(this.DEMO_TEXT);
   }
 
+  constructor() {
+    afterNextRender(() => this.focusTextarea());
+  }
+
+  private focusTextarea() {
+    console.log(this.textareaEl());
+    this.textareaEl()?.nativeElement.focus();
+  }
+
   clearTextt() {
     this.rawText.set('');
+    setTimeout(() => this.focusTextarea());
   }
 
   async copy() {

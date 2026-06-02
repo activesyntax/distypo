@@ -67,7 +67,9 @@
   &__input {
     width: 100%;
     min-height: 240px;
-    height: auto;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
     resize: none;
     overflow: hidden;
     margin: 0 0 1.5rem 0;
@@ -84,7 +86,7 @@
     color: #1a1a1a;
 
     &::placeholder {
-      color: rgba(26, 26, 26, 0.4);
+      color: rgba(26, 26, 26, 0.8);
       font-style: italic;
     }
   }

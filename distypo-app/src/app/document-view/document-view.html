@@ -41,6 +41,7 @@
 
     @if (!documentState.linted()) {
       <textarea
+        #rawtext
         class="article-frame__input"
         placeholder="Paste your text here then click Analyse button..."
         [value]="rawText()"
