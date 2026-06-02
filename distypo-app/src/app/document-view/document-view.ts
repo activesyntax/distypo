@@ -20,6 +20,8 @@ export class DocumentView {
 
   readonly copied = signal(false);
 
+  readonly rawText = signal('');
+
   async copy() {
     try {
       await this.documentService.copyToClipboard(this.outputDocument.plainText());
