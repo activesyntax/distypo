@@ -23,6 +23,10 @@ export class DocumentService {
     this.contentSourceStore.setText(this.contentSourceStore.draftText());
   }
 
+  clear() {
+    this.contentSourceStore.setText('');
+  }
+
   saveAsFile(text: string, filename = 'corrected-document.txt'): void {
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);

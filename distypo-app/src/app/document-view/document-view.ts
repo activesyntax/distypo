@@ -50,6 +50,7 @@ export class DocumentView {
 
   clearTextt() {
     this.rawText.set('');
+    this.documentService.clear();
     setTimeout(() => this.focusTextarea());
   }
 
