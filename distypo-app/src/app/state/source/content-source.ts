@@ -12,5 +12,7 @@ export const defaultSource = (): ContentSource => ({
 });
 
 
-export const toFileUrl = (src: ContentSource): string | undefined =>
-  src.kind === 'file' ? src.path : undefined;
+export const emptySource = (): ContentSource => ({
+  kind: 'text',
+  text: '',
+});

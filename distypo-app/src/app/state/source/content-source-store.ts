@@ -1,10 +1,10 @@
 import { httpResource } from "@angular/common/http";
 import { Injectable, signal, computed, Signal } from "@angular/core";
-import { ContentSource, defaultSource, toFileUrl } from "./content-source";
+import { ContentSource, defaultSource, emptySource, FileContentSource } from "./content-source";
 
 @Injectable({ providedIn: 'root' })
 export class ContentSourceStore {
-  private readonly _source = signal<ContentSource>(defaultSource());
+  private readonly _source = signal<ContentSource>(emptySource());
 
   readonly source = this._source.asReadonly();
 
@@ -24,9 +24,10 @@ export class ContentSourceStore {
       : undefined
   );
 
-  private readonly fileResource = httpResource.text(() =>
-    toFileUrl(this._source())
-  );
+  private readonly fileResource = httpResource.text(() => {
+    const src = this.source();
+    return src.kind === 'file' ? src.path : undefined;
+  });
 
   setText(text: string) {
     this._source.set({ kind: 'text', text });
