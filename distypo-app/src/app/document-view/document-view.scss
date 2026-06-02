@@ -40,12 +40,20 @@
     justify-content: flex-end;
     pointer-events: none;
 
+
+    > button.last {
+      border-left: 0;
+
+    }
+
     > button {
       pointer-events: auto;
 
-      margin: -1rem -1.5rem 0 0;
+      margin: -1rem 0rem 0 0;
+
+
       min-width: 0;
-      width: 7rem;
+      width: 10rem;
       height: 1.75rem;
       padding: 1rem 0.8rem;
       font-size: 0.9rem;
@@ -76,7 +84,7 @@
   &__input {
       width: 100%;
       min-height: 240px;
-      height: auto;
+      height: 100vh;
       resize: vertical;
       margin: 0 0 1.5rem 0;
       padding: 0;
@@ -89,7 +97,7 @@
 
       /* Inherit the elegant typography layout */
       font-family: 'Source Serif 4 Variable', Georgia, serif;
-      font-size: 1.4625rem;
+      font-size: 1.2625rem;
       line-height: 1.7;
       color: #1a1a1a;
 

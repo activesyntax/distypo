@@ -22,6 +22,16 @@ export class DocumentView {
 
   readonly rawText = signal('');
 
+  private readonly DEMO_TEXT = `the meeting starts at noon.We started.  The quick  brown fox...  Are you serious ? "hello," she said. Read pages 12-18 - then decide. The result( see figure 3 )is clear.`;
+
+  insertDemoText() {
+    this.rawText.set(this.DEMO_TEXT);
+  }
+
+  clearTextt() {
+    this.rawText.set('');
+  }
+
   async copy() {
     try {
       await this.documentService.copyToClipboard(this.outputDocument.plainText());

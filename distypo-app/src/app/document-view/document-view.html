@@ -1,9 +1,33 @@
 <div class="article-frame">
 
 <div class="article-frame__toolbar">
+
+    @if (!documentState.linted() && !rawText()) {
+      <button
+        matButton="outlined"
+        type="button"
+        (click)="insertDemoText()"
+        aria-label="Insert sample demo text">
+        <mat-icon>text_snippet</mat-icon>
+        <span>Demo Text</span>
+      </button>
+    }
+
+    @if (rawText()) {
+      <button
+        matButton="outlined"
+        type="button"
+        (click)="clearTextt()"
+        aria-label="Insert sample demo text">
+        <mat-icon>backspace</mat-icon>
+        <span>Clear</span>
+      </button>
+    }
+
   <button
     matButton="outlined"
     type="button"
+    class="last"
     (click)="copy()"
     [disabled]="!outputDocument.plainText()"
     [attr.aria-label]="copied() ? 'Copied' : 'Copy document'">
