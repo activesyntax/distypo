@@ -4,17 +4,18 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { DocumentView } from '@app/document-view/document-view';
 import { Settings } from '@app/settings/settings';
-import { HelpPage } from '@app/help-page/help-page';
 import { DocumentInfo } from '@app/document-info/document-info';
 import { Issues } from '@app/issues/issues';
+import { About } from "@app/about/about";
 
-type View = 'document' | 'settings' | 'help-page';
+type View = 'document' | 'settings' | 'about';
 
 @Component({
   selector: 'app-workspace',
   imports: [
     MatSidenavModule, MatListModule, MatIconModule,
-    DocumentView, Settings, HelpPage, DocumentInfo, Issues
+    DocumentView, Settings, About, DocumentInfo, Issues,
+    About
   ],
 
   templateUrl: './workspace.html',
