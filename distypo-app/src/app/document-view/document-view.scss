@@ -27,79 +27,106 @@
     background: rgba(0, 0, 0, 0.4);
   }
 
-&__toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  height: 0;
-  // Escape the article-frame's 1.25rem / 1.5rem padding to reach the real corner,
-  // then re-inset by 0.5rem so we don't touch the border.
-  // margin: -2.25rem -1.5rem 0 0;
-  padding: 0.5rem 0.5rem 0 0;
-  display: flex;
-  justify-content: flex-end;
-  pointer-events: none;
+  &__toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    height: 0;
+    // Escape the article-frame's 1.25rem / 1.5rem padding to reach the real corner,
+    // then re-inset by 0.5rem so we don't touch the border.
+    // margin: -2.25rem -1.5rem 0 0;
+    padding: 0.5rem 0.5rem 0 0;
+    display: flex;
+    justify-content: flex-end;
+    pointer-events: none;
 
-  > button {
-    pointer-events: auto;
+    > button {
+      pointer-events: auto;
 
-    margin: -1rem -1.5rem 0 0;
-    min-width: 0;
-    width: 7rem;
-    height: 1.75rem;
-    padding: 1rem 0.8rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    background: #fff; // defeat the paper noise
-    border-radius: 2px;
+      margin: -1rem -1.5rem 0 0;
+      min-width: 0;
+      width: 7rem;
+      height: 1.75rem;
+      padding: 1rem 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: #fff; // defeat the paper noise
+      border-radius: 2px;
 
-    --violet: #4a1e6b;
-    color: var(--violet);
-    border-color: var(--violet);
+      --violet: #4a1e6b;
+      color: var(--violet);
+      border-color: var(--violet);
 
-    --mdc-outlined-button-label-text-color: var(--violet);
-    --mdc-outlined-button-outline-color: var(--violet);
+      --mdc-outlined-button-label-text-color: var(--violet);
+      --mdc-outlined-button-outline-color: var(--violet);
 
-  mat-icon { color: var(--violet); }
+    mat-icon { color: var(--violet); }
 
-    mat-icon {
-      font-size: 0.95rem;
-      width: 0.95rem;
-      height: 0.95rem;
-      margin-right: 0.3rem;
+      mat-icon {
+        font-size: 0.95rem;
+        width: 0.95rem;
+        height: 0.95rem;
+        margin-right: 0.3rem;
+      }
     }
   }
-}
 
-&__content {
-  max-width: 48rem;
-  margin: 1rem auto;
-  font-family: 'Source Serif 4 Variable', Georgia, serif;
-  font-size: 1.0625rem;
-  line-height: 1.7;
+  &__input {
+      width: 100%;
+      min-height: 240px;
+      height: auto;
+      resize: vertical;
+      margin: 0 0 1.5rem 0;
+      padding: 0;
 
-  p {
-      margin: 0 0 1em;
+      /* Disguise the element boundaries entirely */
+      background: transparent;
+      border: none;
+      outline: none;
+      box-shadow: none;
+
+      /* Inherit the elegant typography layout */
+      font-family: 'Source Serif 4 Variable', Georgia, serif;
+      font-size: 1.4625rem;
+      line-height: 1.7;
+      color: #1a1a1a;
+
+      &::placeholder {
+        color: rgba(26, 26, 26, 0.9);
+        font-style: italic;
+      }
     }
 
-    .example {
-      margin: 1.6em 0;
+  &__content {
+    max-width: 48rem;
+    margin: 1rem auto;
+    font-family: 'Source Serif 4 Variable', Georgia, serif;
+    font-size: 1.0625rem;
+    line-height: 1.7;
 
-      &__label {
-        margin-bottom: 0.4em;
+    p {
+        margin: 0 0 1em;
       }
 
-      &__pair {
-        margin: 0 0 0.3em;
-      }
+      .example {
+        margin: 1.6em 0;
 
-      &:has(.issue.selected) .example__label {
-        margin-bottom: 1.1em;
-      }
+        &__label {
+          margin-bottom: 0.4em;
+        }
 
+        &__pair {
+          margin: 0 0 0.3em;
+        }
+
+        &:has(.issue.selected) .example__label {
+          margin-bottom: 1.1em;
+        }
+
+      }
     }
-  }
+
 }
 
