@@ -20,4 +20,3 @@ export type Correction = {
 };
 
 
-export type InputFile = { name: string; path: string };
