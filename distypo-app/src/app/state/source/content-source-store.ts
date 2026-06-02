@@ -6,7 +6,9 @@ import { ContentSource, defaultSource, emptySource, FileContentSource } from "./
 export class ContentSourceStore {
   private readonly _source = signal<ContentSource>(emptySource());
 
+  readonly draftText = signal('');
   readonly source = this._source.asReadonly();
+
 
   readonly content = computed<string | undefined>(() => {
     const src = this._source();

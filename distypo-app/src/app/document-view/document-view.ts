@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DocumentState } from '@app/state/document-state';
 import { OutputDocument } from '@app/state/output-document';
+import { ContentSourceStore } from '@app/state/source/content-source-store';
 
 
 @Component({
@@ -17,10 +18,11 @@ export class DocumentView {
   documentState = inject(DocumentState);
   outputDocument = inject(OutputDocument);
   private documentService = inject(DocumentService);
+  private contentSourceStore = inject(ContentSourceStore);
 
   readonly copied = signal(false);
 
-  readonly rawText = signal('');
+  readonly rawText = this.contentSourceStore.draftText;
 
   private readonly DEMO_TEXT = `the meeting starts at noon.We started.  The quick  brown fox...  Are you serious ? "hello," she said. Read pages 12-18 - then decide. The result( see figure 3 )is clear.`;
 

@@ -12,10 +12,16 @@ export class DocumentState {
   readonly loading = this.sourceStore.loading;
   readonly error = this.sourceStore.error;
 
-  readonly linted = computed<LintedDocument | undefined>(() => {
+  readonly raw = computed(() => {
     const content = this.sourceStore.content();
     if (!content) return undefined;
-    return lint(rawDocument(content), Config.rules);
+    return rawDocument(content)
+  });
+
+  readonly linted = computed<LintedDocument | undefined>(() => {
+    const rawDocument = this.raw();
+    if (!rawDocument) return undefined;
+    return lint(rawDocument, Config.rules);
   });
 
   readonly contentSizeBytes = computed(() => {
@@ -26,5 +32,6 @@ export class DocumentState {
   readonly wordCount = computed(() => countWords(this.sourceStore.content() ?? ''));
   readonly sentenceCount = computed(() => countSentences(this.sourceStore.content() ?? ''));
   readonly lineCount = computed(() => countLines(this.sourceStore.content() ?? ''));
+
 
 }

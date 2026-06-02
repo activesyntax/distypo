@@ -18,6 +18,10 @@ export class Header {
   outputDocument = inject(OutputDocument);
   documentService = inject(DocumentService);
 
+  analyse() {
+    this.documentService.analyse();
+  }
+
   save() {
     this.documentService.saveAsFile(this.outputDocument.plainText());
   }
