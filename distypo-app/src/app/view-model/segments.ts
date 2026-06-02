@@ -61,6 +61,7 @@ export function contextRange(content: string, correction: Correction): Interval 
 
   const start = spaceBefore !== undefined ? spaceBefore + 1 : 0;
   const end = spaceAfter ?? content.length;
+  // const end = spaceAfter !== undefined ? spaceAfter + 1 : content.length;
 
   return interval(start, end);
 }
@@ -77,6 +78,8 @@ export function toSegments(document: LintedDocument): Segment[] {
 
   const allSegments = [...correctionSegments, ...textSegments].toSorted((a, b) => a.range.start - b.range.start);
 
+  console.log('SEGMENTS');
+  console.log(allSegments);
   return allSegments;
 }
 

@@ -33,7 +33,8 @@ export const missingSpaceAfterPunctuationRule: Rule = {
   name: 'missing-space-after-punctuation',
   description: 'Inserts a space after punctuation when followed directly by a word character.',
   hint: 'Punctuation should be followed by a space.',
-  regex: /([,;:])(\p{L})/gu,
+  // regex: /([,;:])(\p{L})/gu,
+  regex: /([,;:])(\p{L})|(\.)(\p{Lu})/gu,
   corrector: (match) => `${match[1]} ${match[2]}`,
 };
 
