@@ -1,4 +1,5 @@
 import { CorrectionStatus } from "@app/state/correction-status";
+import { CorrectionId } from "@core/domain/model";
 import { Correction, LintedDocument } from "@core/index";
 import { complement, intersection, interval, Interval, intervalCompare, union } from "@utils/interval";
 
@@ -112,23 +113,27 @@ function intersectiingSegments(interval: Interval, segments: CorrectionSegment[]
   return segments.filter(s => intersection(s.context.originalRange, interval) !== undefined);
 }
 
-// export function resolveCorrectionSegment(segment: InlineCorrectionSegment, status: CorrectionStatus): string {
-export function resolveCorrectionSegment(segment: InlineCorrectionSegment): string {
+export function resolveCorrectionSegment(
+  segment: InlineCorrectionSegment,
+  content: string,
+  statusOf: (id: CorrectionId) => CorrectionStatus
+): string {
+  const corrections = segment.corrections
+    .toSorted((a, b) => intervalCompare(a.range, b.range));
 
-  // TODO: this is a temporary solution to display the correction status in the
-  // inline correction view. We should eventually display the actual correction
-  // text here, but for now we just want to see that the status is correctly
-  // resolved.
-  return `(${segment.corrections.map(c => c.original).join(', ')})`;
+  let result = '';
+  let cursor = segment.range.start;
 
-  // const ctx = segment.corrections[0].context;
-  // switch (status.kind) {
-  //   case 'pending':
-  //   case 'kept':
-  //     return ctx.original;
-  //   case 'fixed':
-  //     return status.customReplacement ?? ctx.replacement;
-  //   default: return ''
-  // }
+  for (const correction of corrections) {
+    result += content.slice(cursor, correction.range.start);
+    const status = statusOf(correction.id);
+    result += status.kind === 'fixed'
+      ? (status.customReplacement ?? correction.replacement)
+      : correction.original;
+    cursor = correction.range.end;
+  }
+
+  result += content.slice(cursor, segment.range.end);
+  return result;
 }
 

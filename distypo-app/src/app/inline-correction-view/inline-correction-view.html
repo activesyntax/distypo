@@ -1,1 +1,8 @@
-<p>inline-correction-view works!</p>
+@if (overallStatus().kind !== 'pending') {
+<span class="highlight" (click)="onUndo($event)" [attr.data-status]="overallStatus().kind">
+  {{ issueContext() }}
+  <button class="highlight__undo">↶ UNDO</button>
+</span>
+} @else {
+<span class="highlight" [attr.data-status]="overallStatus().kind">{{ issueContext() }}</span>
+}

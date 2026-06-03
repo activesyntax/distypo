@@ -27,8 +27,10 @@ export class OutputDocument {
   }
 
   correctionText(seg: InlineCorrectionSegment): string {
-    // return resolveCorrectionSegment(seg, this.corrections.statusOf(seg.correction.id));
-    return resolveCorrectionSegment(seg);
-
+    return resolveCorrectionSegment(
+      seg,
+      this.documentState.linted()!.content,
+      id => this.corrections.statusOf(id)
+    );
   }
 }

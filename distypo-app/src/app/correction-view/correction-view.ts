@@ -47,8 +47,6 @@ export class CorrectionView {
   readonly original = computed(() => this.segment().context.original);
   readonly replacement = computed(() => this.segment().context.replacement);
 
-  readonly displayText = computed(() => this.outputDocument.correctionText(this.segment()));
-
   onKeep(e: MouseEvent) {
     e.stopPropagation();
     this.correctionService.keep(this.correction().id);
@@ -64,10 +62,6 @@ export class CorrectionView {
     this.correctionService.edit(this.correction().id);
   }
 
-  onUndo(e: MouseEvent) {
-    e.stopPropagation();
-    this.correctionService.reset(this.correction().id);
-  }
 
   onCommitEdit(e: Event) {
     const value = (e.target as HTMLInputElement).value.trim();

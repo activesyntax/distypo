@@ -1,11 +1,3 @@
-@if (status().kind !== 'pending') {
-
-<span class="highlight" (click)="onUndo($event)" [attr.data-status]="status().kind">{{ displayText() }}<button class="highlight__undo">↶ UNDO</button></span>
-
-}
-@else {
-<span class="highlight" [attr.data-status]="status().kind">{{ original() }}</span>
-
 <div class="issue">
   <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ original() }}</span>
   →
@@ -19,4 +11,4 @@
   <div class="issue__hint">{{correction().hint}}</div>
 </div>
 
-}
+
