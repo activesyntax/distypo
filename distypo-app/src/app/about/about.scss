@@ -185,7 +185,13 @@
 .brand-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 1rem;
+
+ .coffee-link {
+    margin-left: auto; // pushes it to the far right
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
 
 .brand-logo {

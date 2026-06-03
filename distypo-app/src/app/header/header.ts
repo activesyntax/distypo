@@ -17,7 +17,6 @@ export class Header {
   documentState = inject(DocumentState);
   outputDocument = inject(OutputDocument);
   documentService = inject(DocumentService);
-
   analyse() {
     this.documentService.analyse();
   }
