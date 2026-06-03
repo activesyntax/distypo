@@ -1,6 +1,6 @@
 import { CorrectionStatus } from "@app/state/correction-status";
 import { Correction, LintedDocument } from "@core/index";
-import { complement, interval, Interval, intervalCompare } from "@utils/interval";
+import { complement, interval, Interval, intervalCompare, union } from "@utils/interval";
 
 export type TextSegment = { kind: 'text'; text: string; range: Interval };
 export type CorrectionSegment = {
@@ -76,7 +76,6 @@ export function toSegments(document: LintedDocument): Segment[] {
 
   const inlineSegments = inlineCorrectionSegments(correctionSegments);
 
-
   const gaps = complement(
     correctionSegments.map(c => c.context.originalRange),
     interval(0, document.content.length)
@@ -91,14 +90,29 @@ export function toSegments(document: LintedDocument): Segment[] {
   return allSegments;
 }
 
+
 function inlineCorrectionSegments(correctionSegments: CorrectionSegment[]): InlineCorrectionSegment[] {
 
   const sortedCorrectionSegments = correctionSegments.toSorted((a, b) => intervalCompare(a.context.originalRange, b.context.originalRange));
 
   console.log('SORTED CORRECTION SEGMENTS');
   console.log(sortedCorrectionSegments);
-  const inlineSegments: InlineCorrectionSegment[] = [];
 
+  const segmentOriginalRalnges = sortedCorrectionSegments.map(c => c.context.originalRange);
+  console.log('SEGMENT ORIGINAL RANGES');
+  console.log(segmentOriginalRalnges);
+
+  const unionOfIntervals = union(...sortedCorrectionSegments.map(c => c.context.originalRange));
+
+  console.log('UNION OF INTERVALS');
+  console.log(unionOfIntervals);
+
+
+  const correctionMap = unionOfIntervals.map(i => ({ interval: i, count: 12 }));
+  console.log('CORRECTION MAP');
+  console.log(correctionMap);
+
+  const inlineSegments: InlineCorrectionSegment[] = [];
   return inlineSegments;
 }
 

@@ -17,6 +17,13 @@ export function intervalCompare(a: Interval, b: Interval): number {
   return a.start - b.start;
 }
 
+export function intersection(interval1: Interval, interval2: Interval): Interval | undefined {
+  const start = Math.max(interval1.start, interval2.start);
+  const end = Math.min(interval1.end, interval2.end);
+  return start <= end ? interval(start, end) : undefined;
+}
+
+
 function unionOperation(interval1: Interval, interval2: Interval): Interval[] {
 
   return isOverlapSorted(interval1, interval2)
@@ -48,11 +55,9 @@ export function complement(intervals: readonly Interval[], within: Interval): In
 
   const unionOfIntervals = union(...intervals);
 
-  console.log("unionOfIntervals", unionOfIntervals);
 
   const gaps = Array.from(pairwise(unionOfIntervals), ([prev, next]): Interval => interval(Math.max(prev.end, within.start), Math.min(next.start, within.end)));
 
-  console.log("gaps", gaps);
 
   if (unionOfIntervals.length === 0) {
     return [{ start: within.start, end: within.end }];

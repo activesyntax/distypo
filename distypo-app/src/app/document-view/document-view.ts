@@ -25,7 +25,7 @@ export class DocumentView {
 
   readonly rawText = this.contentSourceStore.draftText;
 
-  private readonly DEMO_TEXT = `The meeting starts at noon.        we started. The quick brown fox...`;
+  private readonly DEMO_TEXT = `The meeting starts at noon.        we started. The quick brown fox. independent issues `;
 
   // private readonly DEMO_TEXT = `the meeting starts at noon.We started.  The quick  brown fox...  Are you serious ? "hello," she said. Read pages 12-18 - then decide. The result( see figure 3 )is clear`;
 
