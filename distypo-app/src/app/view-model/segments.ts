@@ -112,16 +112,23 @@ function intersectiingSegments(interval: Interval, segments: CorrectionSegment[]
   return segments.filter(s => intersection(s.context.originalRange, interval) !== undefined);
 }
 
-export function resolveCorrectionSegment(segment: CorrectionSegment, status: CorrectionStatus): string {
+// export function resolveCorrectionSegment(segment: InlineCorrectionSegment, status: CorrectionStatus): string {
+export function resolveCorrectionSegment(segment: InlineCorrectionSegment): string {
 
-  const ctx = segment.context;
-  switch (status.kind) {
-    case 'pending':
-    case 'kept':
-      return ctx.original;
-    case 'fixed':
-      return status.customReplacement ?? ctx.replacement;
-    default: return ''
-  }
+  // TODO: this is a temporary solution to display the correction status in the
+  // inline correction view. We should eventually display the actual correction
+  // text here, but for now we just want to see that the status is correctly
+  // resolved.
+  return `(${segment.corrections.map(c => c.original).join(', ')})`;
+
+  // const ctx = segment.corrections[0].context;
+  // switch (status.kind) {
+  //   case 'pending':
+  //   case 'kept':
+  //     return ctx.original;
+  //   case 'fixed':
+  //     return status.customReplacement ?? ctx.replacement;
+  //   default: return ''
+  // }
 }
 

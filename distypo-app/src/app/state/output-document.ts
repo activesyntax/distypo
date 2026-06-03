@@ -21,15 +21,14 @@ export class OutputDocument {
 
   private asPlainText(): string {
     return this.segments()
+      .filter(s => s.kind !== 'correction')
       .map(s => (s.kind === 'text' ? s.text : this.correctionText(s)))
       .join('');
   }
 
-  correctionText(seg: CorrectionSegment | InlineCorrectionSegment): string {
-    switch (seg.kind) {
-      case 'correction': return resolveCorrectionSegment(seg, this.corrections.statusOf(seg.correction.id));
-      case 'inline-correction':
-        return "INLINE CORRECTION]";
-    }
+  correctionText(seg: InlineCorrectionSegment): string {
+    // return resolveCorrectionSegment(seg, this.corrections.statusOf(seg.correction.id));
+    return resolveCorrectionSegment(seg);
+
   }
 }
