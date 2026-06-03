@@ -1,6 +1,6 @@
 
 import { describe, it, expect } from 'vitest';
-import { union, complement, interval, Interval } from '@utils/interval';
+import { union, complement, interval, Interval, intersection } from '@utils/interval';
 
 describe('union', () => {
 
@@ -130,4 +130,27 @@ describe('complement', () => {
     expect(result).toEqual(expected);
   });
 
+});
+
+
+describe('intersection', () => {
+  it('should return the overlapping region when intervals partially overlap', () => {
+    expect(intersection(interval(0, 10), interval(5, 15))).toEqual(interval(5, 10));
+  });
+
+  it('should return the inner interval when one contains the other', () => {
+    expect(intersection(interval(0, 20), interval(5, 10))).toEqual(interval(5, 10));
+  });
+
+  it('should return a single-point interval when intervals share only an endpoint', () => {
+    expect(intersection(interval(0, 5), interval(5, 10))).toEqual(interval(5, 5));
+  });
+
+  it('should return undefined when intervals do not overlap', () => {
+    expect(intersection(interval(0, 5), interval(6, 10))).toBeUndefined();
+  });
+
+  it('should return the interval itself when both intervals are identical', () => {
+    expect(intersection(interval(3, 7), interval(3, 7))).toEqual(interval(3, 7));
+  });
 });
