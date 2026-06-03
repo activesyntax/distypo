@@ -15,7 +15,8 @@ export type Correction = {
   range: Interval;
   original: string;
   replacement: string;
-  hint: string;           // TODO: rule id would be beter
+  hint: string;
+  ruleId: UniqId<"RuleId">;
 };
 
 

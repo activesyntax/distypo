@@ -1,6 +1,10 @@
 import { Rule } from "@core/domain/rules";
+import { uniqId, UniqId } from "@utils/identity";
+
+export type RuleId = UniqId<"RuleId">;
 
 export const lowercaseSentenceStartRule: Rule = {
+  id: uniqId("bf8999f4-12b7-474c-bbd6-6157a8390cdbbf8999f4-12b7-474c-bbd6-6157a8390cdb", "RuleId"),
   name: 'lowercase-sentence-start',
   description: 'Detects sentences that start with a lowercase letter after punctuation.',
   hint: 'Sentence should start with an uppercase letter.',
@@ -14,6 +18,7 @@ export const lowercaseSentenceStartRule: Rule = {
 };
 
 export const doubleSpaceRule: Rule = {
+  id: uniqId("c1e5b8f0-3a2e-4c9a-9f1b-8a7e5d6c9f1ac1e5b8f0-3a2e-4c9a-9f1b-8a7e5d6c9f1a", "RuleId"),
   name: 'double-space',
   description: 'Collapses multiple consecutive spaces into one.',
   hint: 'Multiple consecutive spaces should be collapsed into one.',
@@ -22,6 +27,7 @@ export const doubleSpaceRule: Rule = {
 };
 
 export const spaceBeforePunctuationRule: Rule = {
+  id: uniqId("d2f6a7e1-4b3c-4d8e-9f2c-7a6e5d8c9f2bd2f6a7e1-4b3c-4d8e-9f2c-7a6e5d8c9f2b", "RuleId"),
   name: 'space-before-punctuation',
   description: 'Removes space before sentence-ending punctuation.',
   hint: 'No space should appear before punctuation.',
@@ -30,6 +36,7 @@ export const spaceBeforePunctuationRule: Rule = {
 };
 
 export const missingSpaceAfterPunctuationRule: Rule = {
+  id: uniqId("e3f7b8c2-5d4e-4f9a-9f3d-6a7e5d9c8f3ce3f7b8c2-5d4e-4f9a-9f3d-6a7e5d9c8f3c", "RuleId"),
   name: 'missing-space-after-punctuation',
   description: 'Inserts a space after punctuation when followed directly by a word character.',
   hint: 'Punctuation should be followed by a space.',
@@ -43,6 +50,7 @@ export const missingSpaceAfterPunctuationRule: Rule = {
 };
 
 export const startsWithUppercaseRule: Rule = {
+  id: uniqId("f4a8c9d3-6e5f-4a0b-9f4e-5a7e6d8c9f4df4a8c9d3-6e5f-4a0b-9f4e-5a7e6d8c9f4d", "RuleId"),
   name: 'starts-with-uppercase',
   description: 'The text should start with an uppercase letter.',
   hint: 'First letter should be uppercase.',
@@ -51,6 +59,7 @@ export const startsWithUppercaseRule: Rule = {
 };
 
 export const endsWithPunctuationRule: Rule = {
+  id: uniqId("a5b9d0e4-7f6g-4b1c-9f5e-4a7e6d9c8f5ea5b9d0e4-7f6g-4b1c-9f5e-4a7e6d9c8f5e", "RuleId"),
   name: 'ends-with-punctuation',
   description: 'The text should end with punctuation (. ! ? or …).',
   hint: 'Text should end with punctuation.',

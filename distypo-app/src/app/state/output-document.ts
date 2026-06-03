@@ -2,6 +2,7 @@ import { computed, inject, Injectable } from '@angular/core';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { DocumentState } from '@app/state/document-state';
 import { CorrectionSegment, InlineCorrectionSegment, resolveCorrectionSegment, Segment, toSegments } from '@app/view-model/segments';
+import { Config } from '@config/config';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,8 @@ export class OutputDocument {
     return resolveCorrectionSegment(
       seg,
       this.documentState.linted()!.content,
-      id => this.corrections.statusOf(id)
+      id => this.corrections.statusOf(id),
+      id => Config.rules.find(r => r.id === id)
     );
   }
 }

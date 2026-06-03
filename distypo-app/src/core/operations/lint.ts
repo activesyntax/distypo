@@ -26,4 +26,5 @@ const toCorrection = (rule: Rule, match: RegExpMatchArray): Correction => ({
   original: match[0],
   replacement: rule.corrector(match),
   hint: rule.hint,
+  ruleId: rule.id
 })

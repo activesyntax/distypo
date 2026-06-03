@@ -1,5 +1,9 @@
+import { booleanAttribute } from "@angular/core";
 import { CorrectionStatus } from "@app/state/correction-status";
+import { Config } from "@config/config";
+import { RuleId } from "@config/rules";
 import { CorrectionId } from "@core/domain/model";
+import { Rule } from "@core/domain/rules";
 import { Correction, LintedDocument } from "@core/index";
 import { complement, intersection, interval, Interval, intervalCompare, union } from "@utils/interval";
 
@@ -116,24 +120,39 @@ function intersectiingSegments(interval: Interval, segments: CorrectionSegment[]
 export function resolveCorrectionSegment(
   segment: InlineCorrectionSegment,
   content: string,
-  statusOf: (id: CorrectionId) => CorrectionStatus
+  statusOf: (id: CorrectionId) => CorrectionStatus,
+  findRule: (id: RuleId) => Rule | undefined
 ): string {
-  const corrections = segment.corrections
-    .toSorted((a, b) => intervalCompare(a.range, b.range));
+  const originalText = content.slice(segment.range.start, segment.range.end);
 
-  let result = '';
-  let cursor = segment.range.start;
-
-  for (const correction of corrections) {
-    result += content.slice(cursor, correction.range.start);
-    const status = statusOf(correction.id);
-    result += status.kind === 'fixed'
-      ? (status.customReplacement ?? correction.replacement)
-      : correction.original;
-    cursor = correction.range.end;
-  }
-
-  result += content.slice(cursor, segment.range.end);
-  return result;
+  return segment.corrections
+    .filter(c => statusOf(c.id).kind === 'fixed')
+    .reduce((text: string, correction: Correction) => correctedText(text, correction), originalText);
 }
 
+function correctedText(text: string, correction: Correction): string {
+
+  const rule = Config.rules.find(rule => rule.id === correction.ruleId);
+
+  console.log('Correcting text:', text, ' with correction: ', correction);
+
+  if (!rule) {
+    console.warn('Could not find rule for correction', correction);
+    return text;
+  }
+
+  const match = text.matchAll(rule.regex).next().value;
+  if (!match) {
+    console.warn('Could not find match for rule', rule.name, 'Text: ', text);
+    return text;
+  }
+
+  console.log('Match', match);
+  const correctedText = text.slice(0, match.index) + rule.corrector(match) + text.slice(match.index + match[0].length);
+
+  console.log('Corrected text', correctedText);
+
+
+  return correctedText;
+
+}
