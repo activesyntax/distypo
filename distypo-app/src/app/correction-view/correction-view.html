@@ -2,9 +2,8 @@
 
 <span class="highlight" (click)="onUndo($event)" [attr.data-status]="status().kind">{{ displayText() }}<button class="highlight__undo">↶ UNDO</button></span>
 
-} @else {
-
-<!-- Pending: marker in prose + workbench panel -->
+}
+@else {
 <span class="highlight" [attr.data-status]="status().kind">{{ original() }}</span>
 
 <div class="issue">

@@ -1,7 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { DocumentState } from '@app/state/document-state';
-import { CorrectionSegment, resolveCorrectionSegment, Segment, toSegments } from '@app/view-model/segments';
+import { CorrectionSegment, InlineCorrectionSegment, resolveCorrectionSegment, Segment, toSegments } from '@app/view-model/segments';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,11 @@ export class OutputDocument {
       .join('');
   }
 
-  correctionText(seg: CorrectionSegment): string {
-    return resolveCorrectionSegment(seg, this.corrections.statusOf(seg.correction.id));
+  correctionText(seg: CorrectionSegment | InlineCorrectionSegment): string {
+    switch (seg.kind) {
+      case 'correction': return resolveCorrectionSegment(seg, this.corrections.statusOf(seg.correction.id));
+      case 'inline-correction':
+        return "INLINE CORRECTION]";
+    }
   }
 }

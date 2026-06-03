@@ -13,8 +13,13 @@ export type CorrectionSegment = {
     replacement: string;
   }
 };
+export type InlineCorrectionSegment = {
+  kind: 'inline-correction';
+  corrections: Correction[];
+  range: Interval;
+}
 
-export type Segment = TextSegment | CorrectionSegment;
+export type Segment = TextSegment | CorrectionSegment | InlineCorrectionSegment;
 
 export function toCorrectionSegment(correction: Correction, content: string): CorrectionSegment {
 
@@ -68,6 +73,12 @@ export function contextRange(content: string, correction: Correction): Interval 
 
 export function toSegments(document: LintedDocument): Segment[] {
   const correctionSegments: CorrectionSegment[] = document.corrections.map(c => toCorrectionSegment(c, document.content));
+
+  const sortedCorrectionSegments = correctionSegments.toSorted((a, b) => a.context.originalRange.start - b.context.originalRange.start);
+
+  console.log('CORRECTION SEGMENTS');
+  console.log(sortedCorrectionSegments);
+
 
   const gaps = complement(
     correctionSegments.map(c => c.context.originalRange),
