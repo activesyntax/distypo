@@ -1,14 +1,15 @@
-<div class="issue">
-  <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ original() }}</span>
-  →
-  @if (isEditing()) {
-  <input #editInput class="good good--editing" [value]="replacement()" (keydown.enter)="onCommitEdit($event)"
-    (keydown.escape)="onCancelEdit()" (blur)="onCommitEdit($event)" />
-  } @else {
-  <span class="good" data-hint="fix" (click)="onFix($event)">{{ replacement() }}</span>
-  <button class="issue__edit" (click)="onEdit($event)">✎ EDIT</button>
-  }
-  <div class="issue__hint">{{correction().hint}}</div>
-</div>
-
+@if (status().kind === 'pending') {
+  <div class="issue">
+    <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ original() }}</span>
+    →
+    @if (isEditing()) {
+    <input #editInput class="good good--editing" [value]="replacement()" (keydown.enter)="onCommitEdit($event)"
+      (keydown.escape)="onCancelEdit()" (blur)="onCommitEdit($event)" />
+    } @else {
+    <span class="good" data-hint="fix" (click)="onFix($event)">{{ replacement() }}</span>
+    <button class="issue__edit" (click)="onEdit($event)">✎ EDIT</button>
+    }
+    <div class="issue__hint">{{correction().hint}}</div>
+  </div>
+}
 

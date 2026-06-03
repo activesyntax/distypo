@@ -13,44 +13,6 @@
   border-radius: 2px;
 }
 
-.highlight {
-  background-color: rgba(234, 179, 8, 0.18);
-  border-radius: 2px;
-  padding: 0 2px;
-  text-decoration: underline wavy #b45309;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  color: inherit;
-  position: relative;
-
-  &__undo {
-    position: absolute;
-    bottom: 100%;          // touches word's top edge — no gap, no bridge needed
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 120ms ease;
-    border: none;
-    background: #333;
-    color: #fff;
-    font-size: 0.85em;
-    line-height: 1;
-    padding: 3px 6px;
-    border-radius: 4px;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-
-  &:hover &__undo {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-    .highlight[data-status="pending"] { text-decoration: underline wavy #E58017; }
-    .highlight[data-status="fixed"]   { text-decoration: none; cursor: pointer;}
-    .highlight[data-status="kept"]    { text-decoration: none; cursor: pointer;}
-
     .issue {
       position: relative;
       transition: padding 140ms ease;
