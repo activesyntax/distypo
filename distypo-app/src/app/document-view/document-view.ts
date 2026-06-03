@@ -6,11 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { DocumentState } from '@app/state/document-state';
 import { OutputDocument } from '@app/state/output-document';
 import { ContentSourceStore } from '@app/state/source/content-source-store';
+import { InlineCorrectionView } from "@app/inline-correction-view/inline-correction-view";
 
 
 @Component({
   selector: 'app-document',
-  imports: [CorrectionView, MatButtonModule, MatIconModule],
+  imports: [CorrectionView, MatButtonModule, MatIconModule, InlineCorrectionView],
   templateUrl: './document-view.html',
   styleUrl: './document-view.scss',
 })

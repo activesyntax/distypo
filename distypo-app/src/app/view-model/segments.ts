@@ -1,6 +1,6 @@
 import { CorrectionStatus } from "@app/state/correction-status";
 import { Correction, LintedDocument } from "@core/index";
-import { complement, interval, Interval } from "@utils/interval";
+import { complement, interval, Interval, intervalCompare } from "@utils/interval";
 
 export type TextSegment = { kind: 'text'; text: string; range: Interval };
 export type CorrectionSegment = {
@@ -74,10 +74,7 @@ export function contextRange(content: string, correction: Correction): Interval 
 export function toSegments(document: LintedDocument): Segment[] {
   const correctionSegments: CorrectionSegment[] = document.corrections.map(c => toCorrectionSegment(c, document.content));
 
-  const sortedCorrectionSegments = correctionSegments.toSorted((a, b) => a.context.originalRange.start - b.context.originalRange.start);
-
-  console.log('CORRECTION SEGMENTS');
-  console.log(sortedCorrectionSegments);
+  const inlineSegments = inlineCorrectionSegments(correctionSegments);
 
 
   const gaps = complement(
@@ -87,13 +84,23 @@ export function toSegments(document: LintedDocument): Segment[] {
 
   const textSegments: Segment[] = gaps.map(range => toTextSegment(range, document.content.slice(range.start, range.end)));
 
-  const allSegments = [...correctionSegments, ...textSegments].toSorted((a, b) => a.range.start - b.range.start);
+  const allSegments = [...correctionSegments, ...inlineSegments, ...textSegments].toSorted((a, b) => intervalCompare(a.range, b.range));
 
   console.log('SEGMENTS');
   console.log(allSegments);
   return allSegments;
 }
 
+function inlineCorrectionSegments(correctionSegments: CorrectionSegment[]): InlineCorrectionSegment[] {
+
+  const sortedCorrectionSegments = correctionSegments.toSorted((a, b) => intervalCompare(a.context.originalRange, b.context.originalRange));
+
+  console.log('SORTED CORRECTION SEGMENTS');
+  console.log(sortedCorrectionSegments);
+  const inlineSegments: InlineCorrectionSegment[] = [];
+
+  return inlineSegments;
+}
 
 export function resolveCorrectionSegment(segment: CorrectionSegment, status: CorrectionStatus): string {
 

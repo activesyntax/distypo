@@ -6,12 +6,20 @@ export function interval(start: number, end: number): Interval {
   return { start, end };
 }
 
+/** Assumes intervals are sorted (interval1.start <= interval2.start) */
+export function isOverlapSorted(interval1: Interval, interval2: Interval) {
+
+  return interval1.start <= interval2.end && interval1.end >= interval2.start;
+}
+
+export function intervalCompare(a: Interval, b: Interval): number {
+
+  return a.start - b.start;
+}
 
 function unionOperation(interval1: Interval, interval2: Interval): Interval[] {
 
-  const isOverlap = interval1.start <= interval2.end && interval1.end >= interval2.start;
-
-  return isOverlap
+  return isOverlapSorted(interval1, interval2)
     ? [interval(Math.min(interval1.start, interval2.start), Math.max(interval1.end, interval2.end))]
     : [interval1, interval2];
 }
@@ -21,7 +29,7 @@ export function union(...intervals: readonly Interval[]): Interval[] {
 
   if (intervals.length === 0) return [];
 
-  const sortedIntervals = intervals.toSorted((a, b) => a.start - b.start);
+  const sortedIntervals = intervals.toSorted(intervalCompare);
 
   const result: Interval[] = [sortedIntervals[0]];
 
