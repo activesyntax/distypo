@@ -16,7 +16,6 @@ export type Correction = {
   original: string;
   replacement: string;
   hint: string;           // TODO: rule id would be beter
-  // rule: string;
 };
 
 
