@@ -95,31 +95,15 @@ export function inlineCorrectionSegments(correctionSegments: CorrectionSegment[]
 
   const sortedCorrectionSegments = correctionSegments.toSorted((a, b) => intervalCompare(a.context.originalRange, b.context.originalRange));
 
-  console.log('SORTED CORRECTION SEGMENTS');
-  console.log(sortedCorrectionSegments);
-
-  const segmentOriginalRalnges = sortedCorrectionSegments.map(c => c.context.originalRange);
-  console.log('SEGMENT ORIGINAL RANGES');
-  console.log(segmentOriginalRalnges);
-
   const unionOfIntervals = union(...sortedCorrectionSegments.map(c => c.context.originalRange));
 
-  console.log('UNION OF INTERVALS');
-  console.log(unionOfIntervals);
-
-
   const correctionMap = unionOfIntervals.map(i => ({ interval: i, segments: intersectiingSegments(i, sortedCorrectionSegments) }));
-  console.log('CORRECTION MAP');
-  console.log(correctionMap);
 
   const inlineSegments: InlineCorrectionSegment[] = correctionMap.map(m => ({
     kind: 'inline-correction',
     range: m.interval,
     corrections: m.segments.map(s => s.correction),
   }));
-
-  console.log('INLINE SEGMENTS');
-  console.log(inlineSegments);
 
   return inlineSegments;
 }
