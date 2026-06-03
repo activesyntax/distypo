@@ -1,6 +1,6 @@
 import { CorrectionStatus } from "@app/state/correction-status";
 import { Correction, LintedDocument } from "@core/index";
-import { complement, interval, Interval, intervalCompare, union } from "@utils/interval";
+import { complement, intersection, interval, Interval, intervalCompare, union } from "@utils/interval";
 
 export type TextSegment = { kind: 'text'; text: string; range: Interval };
 export type CorrectionSegment = {
@@ -91,7 +91,7 @@ export function toSegments(document: LintedDocument): Segment[] {
 }
 
 
-function inlineCorrectionSegments(correctionSegments: CorrectionSegment[]): InlineCorrectionSegment[] {
+export function inlineCorrectionSegments(correctionSegments: CorrectionSegment[]): InlineCorrectionSegment[] {
 
   const sortedCorrectionSegments = correctionSegments.toSorted((a, b) => intervalCompare(a.context.originalRange, b.context.originalRange));
 
@@ -108,12 +108,24 @@ function inlineCorrectionSegments(correctionSegments: CorrectionSegment[]): Inli
   console.log(unionOfIntervals);
 
 
-  const correctionMap = unionOfIntervals.map(i => ({ interval: i, count: 12 }));
+  const correctionMap = unionOfIntervals.map(i => ({ interval: i, segments: intersectiingSegments(i, sortedCorrectionSegments) }));
   console.log('CORRECTION MAP');
   console.log(correctionMap);
 
-  const inlineSegments: InlineCorrectionSegment[] = [];
+  const inlineSegments: InlineCorrectionSegment[] = correctionMap.map(m => ({
+    kind: 'inline-correction',
+    range: m.interval,
+    corrections: m.segments.map(s => s.correction),
+  }));
+
+  console.log('INLINE SEGMENTS');
+  console.log(inlineSegments);
+
   return inlineSegments;
+}
+
+function intersectiingSegments(interval: Interval, segments: CorrectionSegment[]): CorrectionSegment[] {
+  return segments.filter(s => intersection(s.context.originalRange, interval) !== undefined);
 }
 
 export function resolveCorrectionSegment(segment: CorrectionSegment, status: CorrectionStatus): string {
