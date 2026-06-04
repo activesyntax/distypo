@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { CorrectionService } from './services/correction.service';
 import { CorrectionSegment } from '@app/view-model/segments';
-import { OutputDocument } from '@app/state/output-document';
 
 @Component({
   selector: 'app-correction-view',
@@ -24,7 +23,7 @@ export class CorrectionView {
   private readonly editInput =
     viewChild<ElementRef<HTMLInputElement>>('editInput');
 
-  constructor(private correctionService: CorrectionService, private outputDocument: OutputDocument) {
+  constructor(private correctionService: CorrectionService) {
 
     effect(() => {
       const isEditing = this.isEditing();

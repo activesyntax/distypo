@@ -1,0 +1,22 @@
+.demo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid #6b6357;
+  margin-left: 0.25rem;
+  margin-top: 0.75rem;
+  font-size: 14pt;
+  background: #ffffff;
+  border-radius: 0 4px 4px 0;
+  color: #444444;
+}
+
+.bad {
+  color: #b00020;
+  font-style: italic;
+}
+
+.good {
+  color: #0a6b2c;
+}

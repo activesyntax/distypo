@@ -1,1 +1,24 @@
-<p>settings works!</p>
+<div class="settings-wrap">
+  <div class="settings-header">
+    <mat-slide-toggle [checked]="rules.allEnabled()" (change)="rules.toggleAll()">
+      All rules
+    </mat-slide-toggle>
+  </div>
+  <hr class="divider" />
+  <div class="settings-list">
+    @for (rule of rules.all; track rule.id) {
+      <div class="rule-item">
+        <div class="rule-toggle-row">
+          <mat-slide-toggle
+            [checked]="rules.isEnabled(rule.id)"
+            (change)="rules.toggle(rule.id)">
+            <span class="rule-description">{{ rule.description }}</span>
+          </mat-slide-toggle>
+        </div>
+        @if (demoFor(rule.id); as demo) {
+          <app-rule-demo-view [original]="demo.original" [replacement]="demo.replacement" />
+        }
+      </div>
+    }
+  </div>
+</div>

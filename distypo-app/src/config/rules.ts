@@ -14,7 +14,7 @@ export const lowercaseSentenceStartRule: Rule = {
     const whitespace = match[2];
     const lowercaseLetter = match[3];
     return `${punctuation}${whitespace}${lowercaseLetter.toUpperCase()}`;
-  }
+  },
 };
 
 export const doubleSpaceRule: Rule = {
