@@ -111,3 +111,39 @@ export const parenthesisSpacingRule: Rule = {
     return `${open}${content}${close}`;
   },
 };
+
+export const ellipsisRule: Rule = {
+  id: uniqId("f1a3c5e7-2b4d-4f6a-8c0e-1a2b3c4d5e6ff1a3c5e7-2b4d-4f6a-8c0e-1a2b3c4d5e6f", "RuleId"),
+  name: 'ellipsis',
+  description: 'Detects three consecutive dots and suggests the ellipsis character.',
+  hint: 'Use the ellipsis character (…) instead of three dots.',
+  regex: /\.{3}/gu,
+  corrector: () => '\u2026',
+};
+
+export const capitalizationAfterEllipsisRule: Rule = {
+  id: uniqId("a2b4d6f8-3c5e-4a7b-9d1f-2e3f4a5b6c7da2b4d6f8-3c5e-4a7b-9d1f-2e3f4a5b6c7d", "RuleId"),
+  name: 'capitalization-after-ellipsis',
+  description: 'Detects a lowercase letter after an ellipsis at sentence level (ellipsis followed by space).',
+  hint: 'Sentence after ellipsis should start with an uppercase letter.',
+  regex: /(\u2026)(\s+)(\p{Ll})/gu,
+  corrector: (match) => `${match[1]}${match[2]}${match[3].toUpperCase()}`,
+};
+
+export const multipleExclamationRule: Rule = {
+  id: uniqId("b3c5e7a9-4d6f-5b8c-0e2a-3f4a5b6c7d8eb3c5e7a9-4d6f-5b8c-0e2a-3f4a5b6c7d8e", "RuleId"),
+  name: 'multiple-exclamation',
+  description: 'Detects multiple consecutive exclamation or question marks.',
+  hint: 'Use a single exclamation or question mark.',
+  regex: /([!?])\1+/gu,
+  corrector: (match) => match[1],
+};
+
+export const apostropheRule: Rule = {
+  id: uniqId("c4d6f8b0-5e7a-6c9d-1f3b-4a5b6c7d8e9fc4d6f8b0-5e7a-6c9d-1f3b-4a5b6c7d8e9f", "RuleId"),
+  name: 'straight-to-smart-apostrophe',
+  description: "Detects a straight apostrophe in contractions and possessives and suggests a curly apostrophe.",
+  hint: "Use a typographic apostrophe (') instead of a straight one.",
+  regex: /(\p{L})'(\p{L})/gu,
+  corrector: (match) => `${match[1]}\u2019${match[2]}`,
+};
