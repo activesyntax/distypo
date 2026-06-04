@@ -132,22 +132,26 @@ function intersectiingSegments(interval: Interval, segments: CorrectionSegment[]
   return segments.filter(s => intersection(s.context.originalRange, interval) !== undefined);
 }
 
+export type FindRule = (id: RuleId) => Rule | undefined;
+export type GetCorrectionStatus = (id: CorrectionId) => CorrectionStatus;
+
 export function resolveCorrectionSegment(
   segment: InlineCorrectionSegment,
   content: string,
-  statusOf: (id: CorrectionId) => CorrectionStatus,
-  findRule: (id: RuleId) => Rule | undefined
+  statusOf: GetCorrectionStatus,
+  findRule: FindRule
 ): string {
   const originalText = content.slice(segment.range.start, segment.range.end);
 
   return segment.corrections
     .filter(c => statusOf(c.id).kind === 'fixed')
-    .reduce((text: string, correction: Correction) => correctedText(text, correction), originalText);
+    .reduce((text: string, correction: Correction) => correctedText(text, correction, findRule), originalText);
 }
 
-function correctedText(text: string, correction: Correction): string {
 
-  const rule = Config.rules.find(rule => rule.id === correction.ruleId);
+function correctedText(text: string, correction: Correction, findRule: FindRule): string {
+
+  const rule = findRule(correction.ruleId);
 
   console.log('Correcting text:', text, ' with correction: ', correction);
 

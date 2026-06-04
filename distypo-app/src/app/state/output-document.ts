@@ -1,8 +1,8 @@
 import { computed, inject, Injectable } from '@angular/core';
+import { RuleService } from '@app/config/rule.service';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { DocumentState } from '@app/state/document-state';
-import { CorrectionSegment, InlineCorrectionSegment, resolveCorrectionSegment, Segment, toSegments } from '@app/view-model/segments';
-import { Config } from '@config/config';
+import { InlineCorrectionSegment, resolveCorrectionSegment, toSegments } from '@app/view-model/segments';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +11,7 @@ export class OutputDocument {
 
   private documentState = inject(DocumentState);
   private corrections = inject(CorrectionService);
+  private rules = inject(RuleService);
 
 
   readonly segments = computed(() => {
@@ -28,11 +29,13 @@ export class OutputDocument {
   }
 
   correctionText(seg: InlineCorrectionSegment): string {
+
+    // TODO: to many parameters - simplify
     return resolveCorrectionSegment(
       seg,
       this.documentState.linted()!.content,
-      id => this.corrections.statusOf(id),
-      id => Config.rules.find(r => r.id === id)
-    );
+      this.corrections.statusOf,
+      this.rules.findRule
+    )
   }
 }
