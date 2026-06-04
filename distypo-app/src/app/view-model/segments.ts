@@ -7,8 +7,12 @@ import { Rule } from "@core/domain/rules";
 import { Correction, LintedDocument } from "@core/index";
 import { complement, intersection, interval, Interval, intervalCompare, union } from "@utils/interval";
 
-export type TextSegment = { kind: 'text'; text: string; range: Interval };
-export type CorrectionSegment = {
+import { createGuid, UniqId } from "@utils/identity";
+
+type IdentifiedSegment = { id: UniqId<"SegmentId"> };
+
+export type TextSegment = IdentifiedSegment & { kind: 'text'; text: string; range: Interval };
+export type CorrectionSegment = IdentifiedSegment & {
   kind: 'correction';
   correction: Correction;
   range: Interval;
@@ -18,7 +22,7 @@ export type CorrectionSegment = {
     replacement: string;
   }
 };
-export type InlineCorrectionSegment = {
+export type InlineCorrectionSegment = IdentifiedSegment & {
   kind: 'inline-correction';
   corrections: Correction[];
   range: Interval;
@@ -35,6 +39,7 @@ export function toCorrectionSegment(correction: Correction, content: string): Co
     + content.slice(correction.range.end, originalContextRange.end);
 
   return {
+    id: createGuid("SegmentId"),
     kind: 'correction',
     correction,
     range: correction.range,
@@ -47,6 +52,8 @@ export function toCorrectionSegment(correction: Correction, content: string): Co
 }
 
 export const toTextSegment = (range: Interval, text: string): Segment => ({
+
+  id: createGuid("SegmentId"),
   kind: 'text',
   text: text,
   range,
@@ -112,6 +119,7 @@ export function inlineCorrectionSegments(correctionSegments: CorrectionSegment[]
   const correctionMap = unionOfIntervals.map(i => ({ interval: i, segments: intersectiingSegments(i, sortedCorrectionSegments) }));
 
   const inlineSegments: InlineCorrectionSegment[] = correctionMap.map(m => ({
+    id: createGuid("SegmentId"),
     kind: 'inline-correction',
     range: m.interval,
     corrections: m.segments.map(s => s.correction),

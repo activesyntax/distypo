@@ -61,7 +61,7 @@
 
         @if (documentState.linted(); as document) {
 
-        @for (segment of outputDocument.segments(); track segment.range.start) {
+        @for (segment of outputDocument.segments(); track segment.id) {
           @switch (segment.kind) {
             @case ('text') {
               <span class="segment-text">{{ segment.text }}</span>

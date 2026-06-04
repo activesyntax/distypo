@@ -23,6 +23,9 @@ export class DocumentState {
   readonly linted = computed<LintedDocument | undefined>(() => {
     const rawDocument = this.raw();
     if (!rawDocument) return undefined;
+
+    console.log('linting document...');
+
     return lint(rawDocument, this.rules.activeRules());
   });
 
