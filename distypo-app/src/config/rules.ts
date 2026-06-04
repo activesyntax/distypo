@@ -77,3 +77,21 @@ export const straightToSmartQuotesRule: Rule = {
     return `\u201C${match[1]}\u201D`;
   }
 };
+
+export const hyphenInNumericRangeRule: Rule = {
+  id: uniqId("b2e4f6a8-3c5d-4e7f-8a9b-1c2d3e4f5a6bb2e4f6a8-3c5d-4e7f-8a9b-1c2d3e4f5a6b", "RuleId"),
+  name: 'hyphen-in-numeric-range',
+  description: 'Detects a hyphen used between numbers where an en-dash is expected.',
+  hint: 'Use an en-dash (–) for numeric ranges.',
+  regex: /(\d)-(\d)/gu,
+  corrector: (match: RegExpMatchArray) => `${match[1]}\u2013${match[2]}`,
+};
+
+export const hyphenAsDashRule: Rule = {
+  id: uniqId("c3f5a7b9-4d6e-5f8a-9b0c-2d3e4f5a6b7cc3f5a7b9-4d6e-5f8a-9b0c-2d3e4f5a6b7c", "RuleId"),
+  name: 'hyphen-as-dash',
+  description: 'Detects a hyphen used as a sentence-level dash (surrounded by spaces).',
+  hint: 'Use an en-dash (–) with spaces for a dash in prose.',
+  regex: /(\s)-(\s)/gu,
+  corrector: (match: RegExpMatchArray) => `${match[1]}\u2013${match[2]}`,
+};

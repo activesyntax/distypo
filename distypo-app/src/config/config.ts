@@ -1,4 +1,4 @@
-import { lowercaseSentenceStartRule, doubleSpaceRule, spaceBeforePunctuationRule, missingSpaceAfterPunctuationRule, startsWithUppercaseRule, endsWithPunctuationRule, straightToSmartQuotesRule } from "@config/rules";
+import { lowercaseSentenceStartRule, doubleSpaceRule, spaceBeforePunctuationRule, missingSpaceAfterPunctuationRule, startsWithUppercaseRule, endsWithPunctuationRule, straightToSmartQuotesRule, hyphenInNumericRangeRule, hyphenAsDashRule } from "@config/rules";
 
 export const Config = {
   rules: [
@@ -9,5 +9,7 @@ export const Config = {
     startsWithUppercaseRule,
     endsWithPunctuationRule,
     straightToSmartQuotesRule,
+    hyphenInNumericRangeRule,
+    hyphenAsDashRule,
   ]
 }
