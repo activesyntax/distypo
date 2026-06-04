@@ -4,6 +4,7 @@ import { CorrectionSegment } from '@app/view-model/segments';
 import { Correction } from '@core/index';
 import { interval } from '@utils/interval';
 import { CorrectionId } from '@core/domain/model';
+import { Config } from '@config/config';
 
 function makeCorrection(id: string, start: number, end: number): Correction {
   return {
@@ -12,6 +13,7 @@ function makeCorrection(id: string, start: number, end: number): Correction {
     original: 'original',
     replacement: 'replacement',
     hint: 'hint',
+    ruleId: Config.rules[0].id
   };
 }
 
