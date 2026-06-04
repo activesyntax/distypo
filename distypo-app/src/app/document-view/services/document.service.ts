@@ -16,10 +16,6 @@ export class DocumentService {
   }
 
   analyse() {
-    console.log('Analysing document...');
-    console.log('Current draftText:', this.contentSourceStore.draftText());
-    console.log('Current content:', this.contentSourceStore.content());
-
     this.contentSourceStore.setText(this.contentSourceStore.draftText());
   }
 
