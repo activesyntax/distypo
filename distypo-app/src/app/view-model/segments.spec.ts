@@ -5,6 +5,7 @@ import { Correction } from '@core/index';
 import { interval } from '@utils/interval';
 import { CorrectionId } from '@core/domain/model';
 import { Config } from '@config/config';
+import { createGuid } from '@utils/identity';
 
 function makeCorrection(id: string, start: number, end: number): Correction {
   return {
@@ -19,6 +20,7 @@ function makeCorrection(id: string, start: number, end: number): Correction {
 
 function makeCorrectionSegment(correction: Correction, contextStart: number, contextEnd: number): CorrectionSegment {
   return {
+    id: createGuid("SegmentId"),
     kind: 'correction',
     correction,
     range: correction.range,

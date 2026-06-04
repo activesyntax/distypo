@@ -1,5 +1,4 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { Config } from '@config/config';
 import { lint, LintedDocument } from '@core/index';
 import { countWords, countSentences, countLines } from '@utils/text-stats';
 import { ContentSourceStore } from './source/content-source-store';

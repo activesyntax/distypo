@@ -7,6 +7,7 @@ import { Correction, CorrectionId } from '@core/domain/model';
 import { interval } from '@utils/interval';
 import { Config } from '@config/config';
 import { InlineCorrectionSegment } from '@app/view-model/segments';
+import { createGuid } from '@utils/identity';
 
 function makeCorrection(id: string, start: number, end: number): Correction {
   return {
@@ -25,6 +26,7 @@ function makeInlineCorrectionSegment(
   end: number
 ): InlineCorrectionSegment {
   return {
+    id: createGuid("SegmentId"),
     kind: 'inline-correction',
     corrections,
     range: interval(start, end),

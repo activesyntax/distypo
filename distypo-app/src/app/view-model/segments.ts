@@ -1,6 +1,4 @@
-import { booleanAttribute } from "@angular/core";
 import { CorrectionStatus } from "@app/state/correction-status";
-import { Config } from "@config/config";
 import { RuleId } from "@config/rules";
 import { CorrectionId } from "@core/domain/model";
 import { Rule } from "@core/domain/rules";
