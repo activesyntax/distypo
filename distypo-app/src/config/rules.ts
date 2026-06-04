@@ -95,3 +95,19 @@ export const hyphenAsDashRule: Rule = {
   regex: /(\s)-(\s)/gu,
   corrector: (match: RegExpMatchArray) => `${match[1]}\u2013${match[2]}`,
 };
+
+export const parenthesisSpacingRule: Rule = {
+  id: uniqId("d4e6b8c0-5f7a-6b9c-0d1e-3e4f5a6b7c8dd4e6b8c0-5f7a-6b9c-0d1e-3e4f5a6b7c8d", "RuleId"),
+  name: 'parenthesis-spacing',
+  description: 'Incorrect spacing around or inside parentheses.',
+  hint: 'Add space before ( and after ), remove space after ( and before ).',
+  regex: /(\S?)\s*\(\s*(.*?)\s*\)\s*(\S?)/gu,
+  corrector: (match: RegExpMatchArray) => {
+    const before = match[1];
+    const content = match[2];
+    const after = match[3];
+    const open = before ? `${before} (` : '(';
+    const close = after ? `) ${after}` : ')';
+    return `${open}${content}${close}`;
+  },
+};
