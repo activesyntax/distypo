@@ -88,7 +88,14 @@ export function toSegments(document: LintedDocument): Segment[] {
 
   const textSegments: Segment[] = gaps.map(range => toTextSegment(range, document.content.slice(range.start, range.end)));
 
-  const allSegments = [...correctionSegments, ...inlineSegments, ...textSegments].toSorted((a, b) => intervalCompare(a.range, b.range));
+  const kindPriority = (kind: Segment['kind']): number =>
+    kind === 'inline-correction' ? 0 : 1;
+
+  const allSegments = [...correctionSegments, ...inlineSegments, ...textSegments]
+    .toSorted((a, b) =>
+      intervalCompare(a.range, b.range) ||
+      kindPriority(a.kind) - kindPriority(b.kind)
+    );
 
   console.log('SEGMENTS');
   console.log(allSegments);

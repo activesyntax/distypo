@@ -66,3 +66,14 @@ export const endsWithPunctuationRule: Rule = {
   regex: /(\p{L})\s*$/gu,
   corrector: (match) => `${match[1]}.`,
 };
+
+export const straightToSmartQuotesRule: Rule = {
+  id: uniqId("a3f7c2e1-9b4d-4f8a-bc3e-7d2a1e5f9c08a3f7c2e1-9b4d-4f8a-bc3e-7d2a1e5f9c08", "RuleId"),
+  name: 'straight-to-smart-quotes',
+  description: 'Detects straight double quotation marks and suggests curly (smart) quotes.',
+  hint: 'Replace straight quotes with typographic curly quotes.',
+  regex: /"([^"]*)"/gu,
+  corrector: (match: RegExpMatchArray) => {
+    return `\u201C${match[1]}\u201D`;
+  }
+};
