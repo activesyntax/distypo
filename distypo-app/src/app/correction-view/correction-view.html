@@ -5,7 +5,7 @@
     @if (isEditing()) {
     <input #editInput class="good good--editing" [value]="replacement()"
       (keydown)="onInputKeydown($event)"
-      (blur)="onInputBlur($event)" />
+      />
     <button class="issue__action issue__action--confirm" (click)="onConfirm($event)" tabindex="-1">✓</button>
     <button class="issue__action issue__action--cancel"  (click)="onCancelEdit($event)" tabindex="-1">✕</button>
     } @else {

@@ -74,20 +74,13 @@ export class CorrectionView {
       this._keyHandled = true;
       this._commitFromInput(e.target as HTMLInputElement);
     } else if (e.key === 'Escape') {
+      debugger;
       e.preventDefault();
       this._keyHandled = true;
       this.correctionService.cancelEdit();
     }
   }
 
-  onInputBlur(e: FocusEvent) {
-    if (this._keyHandled) {
-      this._keyHandled = false;
-      return;
-    }
-    // Blur without a preceding key action → commit (user clicked away)
-    this._commitFromInput(e.target as HTMLInputElement);
-  }
 
   onConfirm(e: MouseEvent) {
     e.stopPropagation();
@@ -101,7 +94,7 @@ export class CorrectionView {
   }
 
   private _commitFromInput(input: HTMLInputElement) {
-    const value = input.value.trim();
+    const value = input.value
     if (value) {
       this.correctionService.commitEdit(this.correction().id, value);
     } else {
