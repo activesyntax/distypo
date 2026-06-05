@@ -16,7 +16,7 @@
     .issue {
       position: relative;
       transition: padding 140ms ease;
-      font-size: larger;
+      // font-size: larger;
       border-bottom: 1px solid rgba(0, 0, 0, 0.8);
 
 
@@ -46,7 +46,7 @@
           left: 50%;
           transform: translate(-50%, -0.3em);
           padding: 0 0.35em;
-          font: 500 0.62em/1 system-ui, sans-serif;
+          font: 500 0.62em/1 var(--font-ui);
           font-style: normal;
           letter-spacing: 0.06em;
           text-transform: uppercase;
@@ -70,7 +70,7 @@
     &__hint {
       padding: 1rem 0;
       color: #4B0082;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: var(--font-mono);
       font-weight: 600;
       font-size: 0.9em;
       letter-spacing: 0.03em;
@@ -81,7 +81,7 @@
         display: none;
         margin-left: 0.4em;
         padding: 0.3em 0.45em;
-        font: 500 0.8em/1 system-ui, sans-serif;
+        font: 500 0.8em/1 var(--font-ui);
         letter-spacing: 0.02em;
         color: #444;
         background: transparent;

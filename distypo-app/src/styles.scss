@@ -1,8 +1,10 @@
 @use '@fontsource-variable/source-serif-4';
 @use '@fontsource-variable/inter';
+@use '@fontsource-variable/jetbrains-mono';
 
 :root {
   --font-document-family: 'Source Serif 4 Variable', Georgia, serif;
-  --font-document-size: 1.4rem;
-  --font-header-size: 1.5rem;
+  --font-ui: 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'Courier New', monospace;
+  --font-document-size: 1.3rem;
 }
