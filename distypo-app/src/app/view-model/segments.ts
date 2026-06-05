@@ -141,6 +141,7 @@ export function resolveCorrectionSegment(
 ): string {
   const originalText = content.slice(segment.range.start, segment.range.end);
 
+  console.log('Original text', originalText);
   return segment.corrections
     .filter(c => statusOf(c.id).kind === 'fixed')
     .reduce((text: string, correction: Correction) => correctedText(text, correction, findRule), originalText);

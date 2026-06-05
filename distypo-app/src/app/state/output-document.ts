@@ -34,8 +34,8 @@ export class OutputDocument {
     return resolveCorrectionSegment(
       seg,
       this.documentState.linted()!.content,
-      this.corrections.statusOf,
-      this.rules.findRule
+      id => this.corrections.statusOf(id),
+      id => this.rules.findRule(id)
     )
   }
 }
