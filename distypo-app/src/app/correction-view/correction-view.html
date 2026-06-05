@@ -3,8 +3,11 @@
     <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ original() }}</span>
     →
     @if (isEditing()) {
-    <input #editInput class="good good--editing" [value]="replacement()" (keydown.enter)="onCommitEdit($event)"
-      (keydown.escape)="onCancelEdit()" (blur)="onCommitEdit($event)" />
+    <input #editInput class="good good--editing" [value]="replacement()"
+      (keydown)="onInputKeydown($event)"
+      (blur)="onInputBlur($event)" />
+    <button class="issue__action issue__action--confirm" (click)="onConfirm($event)" tabindex="-1">✓</button>
+    <button class="issue__action issue__action--cancel"  (click)="onCancelEdit($event)" tabindex="-1">✕</button>
     } @else {
     <span class="good" data-hint="fix" (click)="onFix($event)">{{ replacement() }}</span>
     <button class="issue__edit" (click)="onEdit($event)">✎ EDIT</button>
@@ -12,4 +15,3 @@
     <div class="issue__hint">{{correction().hint}}</div>
   </div>
 }
-

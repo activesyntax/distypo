@@ -23,12 +23,19 @@ export class CorrectionView {
   private readonly editInput =
     viewChild<ElementRef<HTMLInputElement>>('editInput');
 
-  constructor(private correctionService: CorrectionService) {
+  /**
+   * Set to true by keydown handlers (Enter / Escape) so that the
+   * subsequent blur event knows the action was already handled and
+   * must not trigger a second commit/cancel.
+   */
+  private _keyHandled = false;
 
+  constructor(private correctionService: CorrectionService) {
     effect(() => {
       const isEditing = this.isEditing();
       const input = this.editInput();
       if (isEditing && input) {
+        this._keyHandled = false;
         input.nativeElement.focus();
         input.nativeElement.select();
       }
@@ -61,17 +68,44 @@ export class CorrectionView {
     this.correctionService.edit(this.correction().id);
   }
 
+  onInputKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      this._keyHandled = true;
+      this._commitFromInput(e.target as HTMLInputElement);
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      this._keyHandled = true;
+      this.correctionService.cancelEdit();
+    }
+  }
 
-  onCommitEdit(e: Event) {
-    const value = (e.target as HTMLInputElement).value.trim();
+  onInputBlur(e: FocusEvent) {
+    if (this._keyHandled) {
+      this._keyHandled = false;
+      return;
+    }
+    // Blur without a preceding key action → commit (user clicked away)
+    this._commitFromInput(e.target as HTMLInputElement);
+  }
+
+  onConfirm(e: MouseEvent) {
+    e.stopPropagation();
+    const input = this.editInput()?.nativeElement;
+    if (input) this._commitFromInput(input);
+  }
+
+  onCancelEdit(e?: MouseEvent) {
+    e?.stopPropagation();
+    this.correctionService.cancelEdit();
+  }
+
+  private _commitFromInput(input: HTMLInputElement) {
+    const value = input.value.trim();
     if (value) {
       this.correctionService.commitEdit(this.correction().id, value);
     } else {
       this.correctionService.cancelEdit();
     }
-  }
-
-  onCancelEdit() {
-    this.correctionService.cancelEdit();
   }
 }

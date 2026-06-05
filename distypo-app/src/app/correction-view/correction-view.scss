@@ -16,11 +16,8 @@
     .issue {
       position: relative;
       transition: padding 140ms ease;
-      // font-size: larger;
       border-bottom: 1px solid rgba(0, 0, 0, 0.8);
 
-
-      // &.selected {
         padding-left: 0.6rem;
         border-left: 3px solid #6b6357;
 
@@ -64,7 +61,6 @@
         .good::after { color: #0a6b2c; }
 
         .issue__edit { display: inline-flex; }
-      // }
 
 
     &__hint {
@@ -91,10 +87,44 @@
         vertical-align: 0.15em;
 
         &:hover {
-
           border: 1px solid rgba(0, 0, 0, 0.6);
           background: rgba(0, 0, 0, 0.04);
           cursor: pointer;
+        }
+      }
+
+      &__action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.3em;
+        padding: 0.25em 0.4em;
+        font: 500 0.85em/1 var(--font-ui);
+        border-radius: 3px;
+        cursor: pointer;
+        vertical-align: 0.15em;
+        transition: background 100ms ease, border-color 100ms ease;
+
+        &--confirm {
+          color: #0a6b2c;
+          background: rgba(10, 107, 44, 0.08);
+          border: 1px solid rgba(10, 107, 44, 0.45);
+
+          &:hover {
+            background: rgba(10, 107, 44, 0.18);
+            border-color: rgba(10, 107, 44, 0.7);
+          }
+        }
+
+        &--cancel {
+          color: #b00020;
+          background: rgba(176, 0, 32, 0.07);
+          border: 1px solid rgba(176, 0, 32, 0.35);
+
+          &:hover {
+            background: rgba(176, 0, 32, 0.15);
+            border-color: rgba(176, 0, 32, 0.6);
+          }
         }
       }
 
