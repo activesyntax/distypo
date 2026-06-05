@@ -143,12 +143,21 @@ export function resolveCorrectionSegment(
 
   console.log('Original text', originalText);
   return segment.corrections
-    .filter(c => statusOf(c.id).kind === 'fixed')
-    .reduce((text: string, correction: Correction) => correctedText(text, correction, findRule), originalText);
+    .map(c => ({ correction: c, status: statusOf(c.id) }))
+    .filter(({ status }) => status.kind === 'fixed')
+    .reduce(
+      (text, { correction, status }) =>
+        correctedText(text, correction, status, findRule),
+      originalText
+    );
 }
 
 
-function correctedText(text: string, correction: Correction, findRule: FindRule): string {
+function correctedText(text: string, correction: Correction, status: CorrectionStatus, findRule: FindRule): string {
+
+  if (status.kind === 'fixed' && status.customReplacement) {
+    return status.customReplacement;
+  }
 
   const rule = findRule(correction.ruleId);
 
@@ -170,7 +179,5 @@ function correctedText(text: string, correction: Correction, findRule: FindRule)
 
   console.log('Corrected text', correctedText);
 
-
   return correctedText;
-
 }
