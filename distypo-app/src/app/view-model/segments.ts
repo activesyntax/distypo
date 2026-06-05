@@ -75,8 +75,8 @@ export function contextRange(content: string, correction: Correction): Interval 
   const spaceAfter = findWhitespaceAfter(content, correction.range.end);
 
   const start = spaceBefore !== undefined ? spaceBefore + 1 : 0;
-  const end = spaceAfter ?? content.length;
-  // const end = spaceAfter !== undefined ? spaceAfter + 1 : content.length;
+  // const end = spaceAfter ?? content.length;
+  const end = spaceAfter !== undefined ? spaceAfter + 1 : content.length;
 
   return interval(start, end);
 }

@@ -80,8 +80,8 @@
     outline: none;
     box-shadow: none;
 
-    font-family: 'Source Serif 4 Variable', Georgia, serif;
-    font-size: 1.2625rem;
+    font-family: var(--font-document-family);
+    font-size: var(--font-document-size);
     line-height: 1.7;
     color: #1a1a1a;
 
@@ -109,8 +109,8 @@
       background: rgba(0, 0, 0, 0.4);
     }
 
-    font-family: 'Source Serif 4 Variable', Georgia, serif;
-    font-size: 1.0625rem;
+    font-family: var(--font-document-family);
+    font-size: var(--font-document-size);
     line-height: 1.7;
 
     p {

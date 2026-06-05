@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@fontsource-variable/source-serif-4';
+@use '@fontsource-variable/inter';
+
+:root {
+  --font-document-family: 'Source Serif 4 Variable', Georgia, serif;
+  --font-document-size: 1.4rem;
+  --font-header-size: 1.5rem;
+}
