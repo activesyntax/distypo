@@ -2,7 +2,9 @@ import { computed, inject, Injectable } from '@angular/core';
 import { RuleService } from '@app/config/rule.service';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { DocumentState } from '@app/state/document-state';
-import { InlineCorrectionSegment, resolveCorrectionSegment, toSegments } from '@app/view-model/segments';
+import { InlineCorrectionSegment } from '@app/view-model/segment';
+import { toSegments } from '@app/view-model/segment-operations';
+import { resolveCorrectionSegment } from '@app/view-model/segment-resolver';
 
 @Injectable({
   providedIn: 'root',

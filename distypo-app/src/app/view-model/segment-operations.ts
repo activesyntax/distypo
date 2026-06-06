@@ -1,34 +1,10 @@
-import { CorrectionStatus } from "@app/state/correction-status";
-import { RuleId } from "@config/rules";
-import { CorrectionId } from "@core/domain/model";
-import { Rule } from "@core/domain/rules";
 import { Correction, LintedDocument } from "@core/index";
 import { complement, intersection, interval, Interval, intervalCompare, union } from "@utils/interval";
 
-import { createGuid, UniqId } from "@utils/identity";
+import { createGuid } from "@utils/identity";
 import { contextRange } from "@app/view-model/context";
+import { CorrectionSegment, Segment, InlineCorrectionSegment } from "./segment";
 
-export type SegmentId = UniqId<"SegmentId">;
-type IdentifiedSegment = { id: SegmentId };
-
-export type TextSegment = IdentifiedSegment & { kind: 'text'; text: string; range: Interval };
-export type CorrectionSegment = IdentifiedSegment & {
-  kind: 'correction';
-  correction: Correction;
-  range: Interval;
-  context: {
-    originalRange: Interval;
-    original: string;
-    replacement: string;
-  }
-};
-export type InlineCorrectionSegment = IdentifiedSegment & {
-  kind: 'inline-correction';
-  corrections: Correction[];
-  range: Interval;
-}
-
-export type Segment = TextSegment | CorrectionSegment | InlineCorrectionSegment;
 
 export function toCorrectionSegment(correction: Correction, content: string): CorrectionSegment {
 
@@ -108,48 +84,3 @@ function intersectiingSegments(interval: Interval, segments: CorrectionSegment[]
   return segments.filter(s => intersection(s.context.originalRange, interval) !== undefined);
 }
 
-export type FindRule = (id: RuleId) => Rule | undefined;
-export type GetCorrectionStatus = (id: CorrectionId) => CorrectionStatus;
-
-export function resolveCorrectionSegment(
-  segment: InlineCorrectionSegment,
-  content: string,
-  statusOf: GetCorrectionStatus,
-  findRule: FindRule
-): string {
-  const originalText = content.slice(segment.range.start, segment.range.end);
-
-  return segment.corrections
-    .map(c => ({ correction: c, status: statusOf(c.id) }))
-    .filter(({ status }) => status.kind === 'fixed')
-    .reduce(
-      (text, { correction, status }) =>
-        correctedText(text, correction, status, findRule),
-      originalText
-    );
-}
-
-
-function correctedText(text: string, correction: Correction, status: CorrectionStatus, findRule: FindRule): string {
-
-  if (status.kind === 'fixed' && status.customReplacement) {
-    return status.customReplacement;
-  }
-
-  const rule = findRule(correction.ruleId);
-
-  if (!rule) {
-    console.warn('Could not find rule for correction', correction);
-    return text;
-  }
-
-  const match = text.matchAll(rule.regex).next().value;
-  if (!match) {
-    console.warn('Could not find match for rule', rule.name, 'Text: ', text);
-    return text;
-  }
-
-  const correctedText = text.slice(0, match.index) + rule.corrector(match) + text.slice(match.index + match[0].length);
-
-  return correctedText;
-}

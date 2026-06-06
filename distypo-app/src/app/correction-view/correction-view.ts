@@ -7,7 +7,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { CorrectionService } from './services/correction.service';
-import { CorrectionSegment } from '@app/view-model/segments';
+import { CorrectionSegment } from '@app/view-model/segment';
 
 @Component({
   selector: 'app-correction-view',
@@ -23,19 +23,11 @@ export class CorrectionView {
   private readonly editInput =
     viewChild<ElementRef<HTMLInputElement>>('editInput');
 
-  /**
-   * Set to true by keydown handlers (Enter / Escape) so that the
-   * subsequent blur event knows the action was already handled and
-   * must not trigger a second commit/cancel.
-   */
-  private _keyHandled = false;
-
   constructor(private correctionService: CorrectionService) {
     effect(() => {
       const isEditing = this.isEditing();
       const input = this.editInput();
       if (isEditing && input) {
-        this._keyHandled = false;
         input.nativeElement.focus();
         input.nativeElement.select();
       }
@@ -71,12 +63,10 @@ export class CorrectionView {
   onInputKeydown(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       e.preventDefault();
-      this._keyHandled = true;
       this._commitFromInput(e.target as HTMLInputElement);
     } else if (e.key === 'Escape') {
       debugger;
       e.preventDefault();
-      this._keyHandled = true;
       this.correctionService.cancelEdit();
     }
   }
