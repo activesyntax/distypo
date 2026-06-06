@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentRef } from '@angular/core';
 import { InlineCorrectionView } from './inline-correction-view';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
-import { OutputDocument } from '@app/state/output-document';
 import { Correction, CorrectionId } from '@core/domain/model';
 import { interval } from '@utils/interval';
 import { Config } from '@config/config';
@@ -50,7 +49,6 @@ describe('InlineCorrectionView', () => {
           },
         },
         {
-          provide: OutputDocument,
           useValue: {
             correctionText: () => 'mock context text',
           },
