@@ -33,13 +33,10 @@ export class DocumentState {
     const lintedDocument = this.linted();
     if (!lintedDocument) return undefined;
 
-    return polish(this.plainText());
+    const plainText = this.segmentService.asPlainText(lintedDocument, this.segments());
+    return polish(plainText);
   });
 
-  readonly plainText = computed(() => {
-    const doc = this.linted();
-    return doc ? this.segmentService.asPlainText(doc, this.segments()) : '';
-  });
 
   readonly segments = computed(() => {
     const doc = this.linted();

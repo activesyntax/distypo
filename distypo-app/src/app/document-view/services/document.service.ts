@@ -27,7 +27,7 @@ export class DocumentService {
 
   saveAsFile(filename: string): void {
 
-    const text = this.documentState.plainText();
+    const text = this.documentState.polished()?.content ?? '';
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
