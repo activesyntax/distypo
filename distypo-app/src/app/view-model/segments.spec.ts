@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { inlineCorrectionSegments } from '@app/view-model/segments';
-import { CorrectionSegment } from '@app/view-model/segments';
 import { Correction } from '@core/index';
 import { interval } from '@utils/interval';
 import { CorrectionId } from '@core/domain/model';
 import { Config } from '@config/config';
 import { createGuid } from '@utils/identity';
+import { CorrectionSegment } from './segment';
+import { inlineCorrectionSegments } from './segment-operations';
 
 function makeCorrection(id: string, start: number, end: number): Correction {
   return {
