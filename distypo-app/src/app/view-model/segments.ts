@@ -60,24 +60,36 @@ export const toTextSegment = (range: Interval, text: string): Segment => ({
 
 const isWhitespace = (ch: string): boolean => /[\s]/.test(ch);
 
-const findWhitespaceBefore = (content: string, end: number): number | undefined => {
-  const idx = [...content.slice(0, end)].findLastIndex(isWhitespace);
-  return idx === -1 ? undefined : idx;
-};
 
-const findWhitespaceAfter = (content: string, start: number): number | undefined => {
-  const idx = [...content.slice(start)].findIndex(isWhitespace);
-  return idx === -1 ? undefined : idx + start;
-};
+function contextEnd(content: string, correction: Correction) {
 
+  for (let end = correction.range.end; end < content.length; end++) {
+    if (isWhitespace(content[end])) {
+      return end;
+    }
+  }
+  return content.length - 1;
+}
+
+function contextStart(content: string, correction: Correction) {
+
+  for (let start = correction.range.start; start >= 0; start--) {
+    if (isWhitespace(content[start])) {
+      return start;
+    }
+  }
+  return 0;
+}
 
 export function contextRange(content: string, correction: Correction): Interval {
-  const spaceBefore = findWhitespaceBefore(content, correction.range.start);
-  const spaceAfter = findWhitespaceAfter(content, correction.range.end);
 
-  const start = spaceBefore !== undefined ? spaceBefore : 0;
-  const end = spaceAfter !== undefined ? spaceAfter : content.length;
+  console.log("CORRECTION RANGE", correction.range, content.slice(correction.range.start, correction.range.end));
 
+  const start = contextStart(content, correction);
+  const end = contextEnd(content, correction);
+
+  console.log("CONTEXT:", correction.range, start, end);
+  // return interval(correction.range.start, correction.range.end);
   return interval(start, end);
 }
 
