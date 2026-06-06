@@ -1,22 +1,28 @@
 .demo {
-  display: flex;
+  display: inline-flex;
   align-items: baseline;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  border-left: 3px solid #6b6357;
-  margin-left: 0.25rem;
-  margin-top: 0.75rem;
-  font-size: 14pt;
-  background: #ffffff;
-  border-radius: 0 4px 4px 0;
-  color: #444444;
+  gap: 0.5rem;
+  padding: 3px 10px;
+  margin-top: 6px;
+  background: var(--mat-sys-surface-variant);
+  border-radius: 6px;
+  font-size: 12pt;
 }
 
 .bad {
-  color: #b00020;
+  color: var(--mat-sys-error);
   font-style: italic;
 }
 
 .good {
-  color: #0a6b2c;
+  color: var(--mat-sys-primary);
+}
+
+.demo-wrap {
+  display: block;
+}
+
+.arrow {
+  color: var(--mat-sys-outline);
+  font-style: normal;
 }
