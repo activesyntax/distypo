@@ -6,6 +6,7 @@ import { Correction, LintedDocument } from "@core/index";
 import { complement, intersection, interval, Interval, intervalCompare, union } from "@utils/interval";
 
 import { createGuid, UniqId } from "@utils/identity";
+import { contextRange } from "@app/view-model/context";
 
 export type SegmentId = UniqId<"SegmentId">;
 type IdentifiedSegment = { id: SegmentId };
@@ -57,41 +58,6 @@ export const toTextSegment = (range: Interval, text: string): Segment => ({
   text: text,
   range,
 });
-
-const isWhitespace = (ch: string): boolean => /[\s]/.test(ch);
-
-
-function contextEnd(content: string, correction: Correction) {
-
-  for (let end = correction.range.end; end < content.length; end++) {
-    if (isWhitespace(content[end])) {
-      return end;
-    }
-  }
-  return content.length - 1;
-}
-
-function contextStart(content: string, correction: Correction) {
-
-  for (let start = correction.range.start; start >= 0; start--) {
-    if (isWhitespace(content[start])) {
-      return start;
-    }
-  }
-  return 0;
-}
-
-export function contextRange(content: string, correction: Correction): Interval {
-
-  console.log("CORRECTION RANGE", correction.range, content.slice(correction.range.start, correction.range.end));
-
-  const start = contextStart(content, correction);
-  const end = contextEnd(content, correction);
-
-  console.log("CONTEXT:", correction.range, start, end);
-  // return interval(correction.range.start, correction.range.end);
-  return interval(start, end);
-}
 
 export function toSegments(document: LintedDocument): Segment[] {
   const correctionSegments: CorrectionSegment[] = document.corrections.map(c => toCorrectionSegment(c, document.content));
