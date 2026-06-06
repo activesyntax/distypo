@@ -1,5 +1,5 @@
-@if (overallStatus().kind !== 'pending') {
-<span class="highlight" (click)="onUndo($event)" [attr.data-status]="overallStatus().kind">
+@if (hasChanged()){
+<span class="highlight pointer"  (click)="onUndo($event)" [attr.data-status]="overallStatus().kind">
   {{ issueContext() }}
   <button class="highlight__undo">↶ UNDO</button>
 </span>

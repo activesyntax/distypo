@@ -7,7 +7,8 @@ import { complement, intersection, interval, Interval, intervalCompare, union } 
 
 import { createGuid, UniqId } from "@utils/identity";
 
-type IdentifiedSegment = { id: UniqId<"SegmentId"> };
+export type SegmentId = UniqId<"SegmentId">;
+type IdentifiedSegment = { id: SegmentId };
 
 export type TextSegment = IdentifiedSegment & { kind: 'text'; text: string; range: Interval };
 export type CorrectionSegment = IdentifiedSegment & {

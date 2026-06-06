@@ -10,7 +10,7 @@
 
   &__undo {
     position: absolute;
-    bottom: 100%;          // touches word's top edge — no gap, no bridge needed
+    bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
@@ -32,7 +32,12 @@
     pointer-events: auto;
   }
 }
-    .highlight[data-status="pending"] { text-decoration: underline wavy #E58017; }
-    .highlight[data-status="fixed"]   { text-decoration: none; cursor: pointer;}
-    .highlight[data-status="kept"]    { text-decoration: none; cursor: pointer;}
+
+.pointer {
+  cursor: pointer;
+}
+
+.highlight[data-status="pending"] { text-decoration: underline wavy #E58017; }
+.highlight[data-status="fixed"]   { text-decoration: none; }
+.highlight[data-status="kept"]    { text-decoration: none; }
 

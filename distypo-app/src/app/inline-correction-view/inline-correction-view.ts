@@ -15,12 +15,15 @@ export class InlineCorrectionView {
   readonly correctionService = inject(CorrectionService);
   readonly outputDocument = inject(OutputDocument);
 
+  readonly statuses = computed(() => this.segment().corrections.map(c => this.correctionService.statusOf(c.id)));
+
   readonly overallStatus = computed(() => {
-    const statuses = this.segment().corrections.map(c => this.correctionService.statusOf(c.id));
-    if (statuses.every(s => s.kind === 'fixed')) return { kind: 'fixed' } as const;
-    if (statuses.every(s => s.kind === 'kept')) return { kind: 'kept' } as const;
+    if (this.statuses().every(s => s.kind === 'fixed')) return { kind: 'fixed' } as const;
+    if (this.statuses().every(s => s.kind === 'kept')) return { kind: 'kept' } as const;
     return { kind: 'pending' } as const;
   });
+
+  readonly hasChanged = computed(() => this.statuses().some((s) => s.kind === 'fixed' || s.kind === 'kept'));
 
   readonly issueContext = computed(() =>
     this.outputDocument.correctionText(this.segment())
