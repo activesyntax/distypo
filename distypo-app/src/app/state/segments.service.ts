@@ -3,9 +3,9 @@ import { RuleService } from '@app/config/rule.service';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { CorrectionStatus } from '@app/state/correction-status';
 import { Correction } from '@core/index';
-import { InlineCorrectionSegment } from '../segment';
 import { DocumentState } from '@app/state/document-state';
-import { toSegments } from '../segment-operations';
+import { InlineCorrectionSegment } from '@app/view-model/segment';
+import { toSegments } from '@app/view-model/segment-operations';
 
 @Injectable({
   providedIn: 'root',

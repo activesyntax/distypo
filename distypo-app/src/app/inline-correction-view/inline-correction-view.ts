@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
+import { CorrectionSegmentResolver } from '@app/state/segments.service';
 import { InlineCorrectionSegment } from '@app/view-model/segment';
-import { CorrectionSegmentResolver } from '@app/view-model/services/correction-segment-resolver.service';
 
 @Component({
   selector: 'app-inline-correction-view',

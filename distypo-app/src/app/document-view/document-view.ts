@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DocumentState } from '@app/state/document-state';
 import { ContentSourceStore } from '@app/state/source/content-source-store';
 import { InlineCorrectionView } from "@app/inline-correction-view/inline-correction-view";
-import { CorrectionSegmentResolver } from '@app/view-model/services/correction-segment-resolver.service';
+import { CorrectionSegmentResolver } from '@app/state/segments.service';
 
 
 @Component({
@@ -19,14 +19,14 @@ export class DocumentView {
   documentState = inject(DocumentState);
   private documentService = inject(DocumentService);
   private contentSourceStore = inject(ContentSourceStore);
-  private segmentResolver = inject(CorrectionSegmentResolver);
+  private segmentService = inject(CorrectionSegmentResolver);
 
   readonly copied = signal(false);
 
   readonly rawText = this.contentSourceStore.draftText;
 
-  readonly segments = computed(() => this.segmentResolver.segments());
-  readonly plainText = computed(() => this.segmentResolver.plainText());
+  readonly segments = computed(() => this.segmentService.segments());
+  readonly plainText = computed(() => this.segmentService.plainText());
 
   // private readonly DEMO_TEXT = `The meeting starts at noon.        we started. The quick brown fox. independent issues `;
 
@@ -60,7 +60,7 @@ export class DocumentView {
 
   async copy() {
     try {
-      await this.documentService.copyToClipboard(this.segmentResolver.plainText());
+      await this.documentService.copyToClipboard(this.segmentService.plainText());
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 1500);
     } catch {
