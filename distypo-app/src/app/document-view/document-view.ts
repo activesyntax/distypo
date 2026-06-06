@@ -47,7 +47,6 @@ export class DocumentView {
   }
 
   private focusTextarea() {
-    console.log(this.textareaEl());
     this.textareaEl()?.nativeElement.focus();
   }
   clearTextt() {

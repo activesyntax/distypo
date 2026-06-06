@@ -58,7 +58,7 @@ export const toTextSegment = (range: Interval, text: string): Segment => ({
   range,
 });
 
-const isWhitespace = (ch: string): boolean => /[\s\u00A0]/.test(ch);
+const isWhitespace = (ch: string): boolean => /[\s]/.test(ch);
 
 const findWhitespaceBefore = (content: string, end: number): number | undefined => {
   const idx = [...content.slice(0, end)].findLastIndex(isWhitespace);
@@ -75,9 +75,8 @@ export function contextRange(content: string, correction: Correction): Interval 
   const spaceBefore = findWhitespaceBefore(content, correction.range.start);
   const spaceAfter = findWhitespaceAfter(content, correction.range.end);
 
-  const start = spaceBefore !== undefined ? spaceBefore + 1 : 0;
-  // const end = spaceAfter ?? content.length;
-  const end = spaceAfter !== undefined ? spaceAfter + 1 : content.length;
+  const start = spaceBefore !== undefined ? spaceBefore : 0;
+  const end = spaceAfter !== undefined ? spaceAfter : content.length;
 
   return interval(start, end);
 }
@@ -142,7 +141,6 @@ export function resolveCorrectionSegment(
 ): string {
   const originalText = content.slice(segment.range.start, segment.range.end);
 
-  console.log('Original text', originalText);
   return segment.corrections
     .map(c => ({ correction: c, status: statusOf(c.id) }))
     .filter(({ status }) => status.kind === 'fixed')
@@ -162,8 +160,6 @@ function correctedText(text: string, correction: Correction, status: CorrectionS
 
   const rule = findRule(correction.ruleId);
 
-  console.log('Correcting text:', text, ' with correction: ', correction);
-
   if (!rule) {
     console.warn('Could not find rule for correction', correction);
     return text;
@@ -175,10 +171,7 @@ function correctedText(text: string, correction: Correction, status: CorrectionS
     return text;
   }
 
-  console.log('Match', match);
   const correctedText = text.slice(0, match.index) + rule.corrector(match) + text.slice(match.index + match[0].length);
-
-  console.log('Corrected text', correctedText);
 
   return correctedText;
 }
