@@ -4,11 +4,14 @@ import { countWords, countSentences, countLines } from '@utils/text-stats';
 import { ContentSourceStore } from './source/content-source-store';
 import { rawDocument } from '@core/domain/raw-document';
 import { RuleService } from '@app/config/rule.service';
+import { CorrectionSegmentResolver } from './segments.service';
+import { toSegments } from '@app/view-model/segment-operations';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentState {
   private readonly sourceStore = inject(ContentSourceStore);
   private readonly rules = inject(RuleService);
+  private readonly segmentService = inject(CorrectionSegmentResolver);
 
   readonly loading = this.sourceStore.loading;
   readonly error = this.sourceStore.error;
@@ -30,9 +33,18 @@ export class DocumentState {
     const lintedDocument = this.linted();
     if (!lintedDocument) return undefined;
 
-    return polish(lintedDocument);
+    return polish(this.plainText());
   });
 
+  readonly plainText = computed(() => {
+    const doc = this.linted();
+    return doc ? this.segmentService.asPlainText(doc, this.segments()) : '';
+  });
+
+  readonly segments = computed(() => {
+    const doc = this.linted();
+    return doc ? toSegments(doc) : [];
+  });
 
 
   readonly contentSizeBytes = computed(() => {

@@ -1,5 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
+import { DocumentState } from '@app/state/document-state';
 import { CorrectionSegmentResolver } from '@app/state/segments.service';
 import { InlineCorrectionSegment } from '@app/view-model/segment';
 
@@ -14,6 +15,7 @@ export class InlineCorrectionView {
   readonly segment = input.required<InlineCorrectionSegment>();
   readonly correctionService = inject(CorrectionService);
   readonly segmentResolver = inject(CorrectionSegmentResolver);
+  readonly documentState = inject(DocumentState);
 
   readonly statuses = computed(() => this.segment().corrections.map(c => this.correctionService.statusOf(c.id)));
 
@@ -25,9 +27,10 @@ export class InlineCorrectionView {
 
   readonly hasChanged = computed(() => this.statuses().some((s) => s.kind === 'fixed' || s.kind === 'kept'));
 
-  readonly issueContext = computed(() =>
-    this.segmentResolver.resolve(this.segment())
-  );
+  readonly issueContext = computed(() => {
+    const doc = this.documentState.linted();
+    return doc ? this.segmentResolver.resolve(doc, this.segment()) : "";
+  });
 
   onUndo(e: MouseEvent) {
     e.stopPropagation();

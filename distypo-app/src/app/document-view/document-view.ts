@@ -25,8 +25,8 @@ export class DocumentView {
 
   readonly rawText = this.contentSourceStore.draftText;
 
-  readonly segments = computed(() => this.segmentService.segments());
-  readonly plainText = computed(() => this.segmentService.plainText());
+  readonly segments = computed(() => this.documentState.segments());
+  readonly plainText = computed(() => this.documentState.plainText());
 
   // private readonly DEMO_TEXT = `The meeting starts at noon.        we started. The quick brown fox. independent issues `;
 
@@ -60,7 +60,7 @@ export class DocumentView {
 
   async copy() {
     try {
-      await this.documentService.copyToClipboard(this.segmentService.plainText());
+      await this.documentService.copyToClipboard(this.documentState.plainText());
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 1500);
     } catch {

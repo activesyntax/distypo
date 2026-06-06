@@ -2,10 +2,8 @@ import { computed, inject, Injectable } from '@angular/core';
 import { RuleService } from '@app/config/rule.service';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { CorrectionStatus } from '@app/state/correction-status';
-import { Correction } from '@core/index';
-import { DocumentState } from '@app/state/document-state';
-import { InlineCorrectionSegment } from '@app/view-model/segment';
-import { toSegments } from '@app/view-model/segment-operations';
+import { Correction, LintedDocument } from '@core/index';
+import { InlineCorrectionSegment, Segment } from '@app/view-model/segment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +11,10 @@ import { toSegments } from '@app/view-model/segment-operations';
 export class CorrectionSegmentResolver {
   private corrections = inject(CorrectionService);
   private rules = inject(RuleService);
-  private documentState = inject(DocumentState);
 
 
-  resolve(segment: InlineCorrectionSegment): string {
-    const content = this.documentState.linted()!.content
+  resolve(lintedDocument: LintedDocument, segment: InlineCorrectionSegment): string {
+    const content = lintedDocument.content
 
     const originalText = content.slice(segment.range.start, segment.range.end);
 
@@ -31,17 +28,11 @@ export class CorrectionSegmentResolver {
       );
   }
 
-  readonly plainText = computed(() => this.asPlainText());
 
-  readonly segments = computed(() => {
-    const doc = this.documentState.linted();
-    return doc ? toSegments(doc) : [];
-  });
-
-  private asPlainText(): string {
-    return this.segments()
+  asPlainText(lintedDocument: LintedDocument, segments: Segment[]): string {
+    return segments
       .filter(s => s.kind !== 'correction')
-      .map(s => (s.kind === 'text' ? s.text : this.resolve(s)))
+      .map(s => (s.kind === 'text' ? s.text : this.resolve(lintedDocument, s)))
       .join('');
   }
 
