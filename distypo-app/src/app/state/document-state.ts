@@ -1,5 +1,5 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { lint, LintedDocument } from '@core/index';
+import { lint, LintedDocument, polish, PolishedDocument } from '@core/index';
 import { countWords, countSentences, countLines } from '@utils/text-stats';
 import { ContentSourceStore } from './source/content-source-store';
 import { rawDocument } from '@core/domain/raw-document';
@@ -25,6 +25,15 @@ export class DocumentState {
 
     return lint(rawDocument, this.rules.activeRules());
   });
+
+  readonly polished = computed<PolishedDocument | undefined>(() => {
+    const lintedDocument = this.linted();
+    if (!lintedDocument) return undefined;
+
+    return polish(lintedDocument);
+  });
+
+
 
   readonly contentSizeBytes = computed(() => {
     const content = this.sourceStore.content();

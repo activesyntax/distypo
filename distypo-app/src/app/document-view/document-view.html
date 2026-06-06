@@ -29,7 +29,7 @@
     type="button"
     class="last"
     (click)="copy()"
-    [disabled]="!outputDocument.plainText()"
+    [disabled]="!plainText()"
     [attr.aria-label]="copied() ? 'Copied' : 'Copy document'">
     <mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
     <span>{{ copied() ? 'Copied' : 'Copy' }}</span>
@@ -61,7 +61,7 @@
 
         @if (documentState.linted(); as document) {
 
-        @for (segment of outputDocument.segments(); track segment.id) {
+        @for (segment of segments(); track segment.id) {
           @switch (segment.kind) {
             @case ('text') {
               <span class="segment-text">{{ segment.text }}</span>

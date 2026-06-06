@@ -2,12 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { DocumentState } from '@app/state/document-state';
 import { ContentSourceStore } from '@app/state/source/content-source-store';
+import { CorrectionSegmentResolver } from '@app/view-model/services/correction-segment-resolver.service';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentService {
 
   private readonly corrections = inject(CorrectionService);
   private documentState = inject(DocumentState);
+  private segmentResolver = inject(CorrectionSegmentResolver);
 
   private contentSourceStore = inject(ContentSourceStore);
 
@@ -23,7 +25,9 @@ export class DocumentService {
     this.contentSourceStore.setText('');
   }
 
-  saveAsFile(text: string, filename = 'corrected-document.txt'): void {
+  saveAsFile(filename: string): void {
+
+    const text = this.segmentResolver.plainText();
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

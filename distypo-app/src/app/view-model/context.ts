@@ -13,7 +13,7 @@ export function contextRange(content: string, correction: Correction): Interval 
 
 function contextEnd(content: string, correction: Correction) {
 
-  for (let end = correction.range.end; end < content.length; end++) {
+  for (let end = correction.range.end; end <= content.length; end++) {
     if (isWhitespace(content[end])) {
       return end;
     }

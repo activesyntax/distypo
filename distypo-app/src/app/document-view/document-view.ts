@@ -1,12 +1,12 @@
-import { afterNextRender, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { CorrectionView } from '@app/correction-view/correction-view';
 import { DocumentService } from './services/document.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DocumentState } from '@app/state/document-state';
-import { OutputDocument } from '@app/state/output-document';
 import { ContentSourceStore } from '@app/state/source/content-source-store';
 import { InlineCorrectionView } from "@app/inline-correction-view/inline-correction-view";
+import { CorrectionSegmentResolver } from '@app/view-model/services/correction-segment-resolver.service';
 
 
 @Component({
@@ -17,13 +17,16 @@ import { InlineCorrectionView } from "@app/inline-correction-view/inline-correct
 })
 export class DocumentView {
   documentState = inject(DocumentState);
-  outputDocument = inject(OutputDocument);
   private documentService = inject(DocumentService);
   private contentSourceStore = inject(ContentSourceStore);
+  private segmentResolver = inject(CorrectionSegmentResolver);
 
   readonly copied = signal(false);
 
   readonly rawText = this.contentSourceStore.draftText;
+
+  readonly segments = computed(() => this.segmentResolver.segments());
+  readonly plainText = computed(() => this.segmentResolver.plainText());
 
   // private readonly DEMO_TEXT = `The meeting starts at noon.        we started. The quick brown fox. independent issues `;
 
@@ -57,7 +60,7 @@ export class DocumentView {
 
   async copy() {
     try {
-      await this.documentService.copyToClipboard(this.outputDocument.plainText());
+      await this.documentService.copyToClipboard(this.segmentResolver.plainText());
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 1500);
     } catch {
