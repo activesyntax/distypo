@@ -1,43 +1,36 @@
 <mat-sidenav-container class="workspace" autosize>
 
   <!-- SIDENAV -->
-  <mat-sidenav #sidenav mode="side" opened>
+  <mat-sidenav mode="side" opened>
     <mat-nav-list>
-
-      <a mat-list-item (click)="view.set('document')" [activated]="view() === 'document'">
+      <a mat-list-item routerLink="/" routerLinkActive #rlaDoc="routerLinkActive"
+         [routerLinkActiveOptions]="{ exact: true }"
+         [activated]="rlaDoc.isActive">
         <mat-icon matListItemIcon>description</mat-icon>
         <span matListItemTitle>Document</span>
       </a>
-
-      <a mat-list-item (click)="view.set('settings')" [activated]="view() === 'settings'">
+      <a mat-list-item routerLink="/settings" routerLinkActive #rlaSet="routerLinkActive"
+         [activated]="rlaSet.isActive">
         <mat-icon matListItemIcon>settings</mat-icon>
         <span matListItemTitle>Settings</span>
       </a>
-      <a mat-list-item (click)="view.set('about')" [activated]="view() === 'about'">
+      <a mat-list-item routerLink="/about" routerLinkActive #rlaAbout="routerLinkActive"
+         [activated]="rlaAbout.isActive">
         <mat-icon matListItemIcon>info_outline</mat-icon>
         <span matListItemTitle>About</span>
       </a>
     </mat-nav-list>
 
-
     <!-- SUMMARY -->
-<!-- // TODO file loaded -->
-    @if (true) {
-      <div class="info-panel">
-        <app-issues></app-issues>
-
-        <app-document-info></app-document-info>
-      </div>
-    }
-
+    <div class="info-panel">
+      <app-issues />
+      <app-document-info />
+    </div>
   </mat-sidenav>
 
   <!-- CONTENT -->
   <mat-sidenav-content>
-    @switch (view()) {
-      @case ('document') { <app-document /> }
-      @case ('settings') { <app-settings /> }
-      @case ('about') { <app-about/> }
-    }
+    <router-outlet />
   </mat-sidenav-content>
+
 </mat-sidenav-container>
