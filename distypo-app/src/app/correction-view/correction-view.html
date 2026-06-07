@@ -1,7 +1,7 @@
 @if (status().kind === 'pending') {
   <div class="issue">
     <span class="bad" data-hint="keep" (click)="onKeep($event)">{{ original() }}</span>
-    →
+    <span class="arrow">→</span>
     @if (isEditing()) {
     <input #editInput class="good good--editing" [value]="replacement()"
       (keydown)="onInputKeydown($event)"

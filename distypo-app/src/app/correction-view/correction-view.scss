@@ -13,6 +13,10 @@
   border-radius: 2px;
 }
 
+.arrow {
+  padding: 0 1rem 0;
+}
+
     .issue {
       position: relative;
       transition: padding 140ms ease;
@@ -24,6 +28,12 @@
         margin-left: -0.6rem;
         margin-top: 1.15em;
         margin-bottom: 1.15em;
+
+        background: #e6e6e6;
+        border-radius: 0 4px 4px 0;                        // ← add (matches left border edge)
+        padding-right: 0.6rem;                             // ← add (so bg doesn't clip text flush)
+        padding-top: 0.25rem;                              // ← add
+        padding-bottom: 0.25rem;
 
         .bad,
         .good {
@@ -47,7 +57,9 @@
           font-style: normal;
           letter-spacing: 0.06em;
           text-transform: uppercase;
-          background: #f6f3ee;
+
+          // background: #f6f3ee;
+          background: transparent;
           white-space: nowrap;
           pointer-events: none;
         }
