@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DocumentState } from '@app/state/document-state';
 import { ContentSourceStore } from '@app/state/source/content-source-store';
 import { InlineCorrectionView } from "@app/inline-correction-view/inline-correction-view";
+import { Config } from '@config/config';
 
 
 @Component({
@@ -26,9 +27,6 @@ export class DocumentView {
   readonly segments = computed(() => this.documentState.segments());
   readonly plainText = computed(() => this.documentState.polished()?.content ?? '');
 
-  // private readonly DEMO_TEXT = `The meeting starts at noon.        we started. The quick brown fox. independent issues `;
-
-  private readonly DEMO_TEXT = `the meeting starts at noon.We started.  The quick  brown fox...  are you serious ? "hello," she said. Read pages 12-18 - then decide. The result( see figure 3 )is clear`;
 
   private textareaEl = viewChild<ElementRef<HTMLTextAreaElement>>('rawtext');
 
@@ -40,7 +38,7 @@ export class DocumentView {
   }
 
   insertDemoText() {
-    this.rawText.set(this.DEMO_TEXT);
+    this.rawText.set(Config.demoTextLong);
   }
 
   constructor() {
