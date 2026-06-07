@@ -150,6 +150,7 @@
   text-decoration: none;
   transition: opacity 0.15s;
 
+  margin-top: 1rem;
   mat-icon {
     font-size: 16px;
     width: 16px;
@@ -207,14 +208,43 @@
 .brand-text {
   .brand-name {
     font-weight: 500;
-    font-size: 15px;
+    font-size: 15pt;
     margin: 0 0 2px;
     color: var(--mat-sys-on-surface);
   }
 
   .brand-desc {
-    font-size: 13px;
+    font-size: 12pt;
     color: var(--mat-sys-on-surface-variant);
     margin: 0;
+  }
+}
+.screenshot-wrap {
+  margin: 0 0 1.75rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--mat-sys-outline-variant);
+}
+
+.screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.brand-logo {
+  width: auto;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.text-link {
+  color: var(--mat-sys-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
