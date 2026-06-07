@@ -137,16 +137,16 @@
   }
 }
 
-.coffee-link {
+.support-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 16px;
   border-radius: 99px;
-  font-size: 13px;
+  font-size: 12pt;
   font-weight: 500;
   color: var(--mat-sys-on-tertiary-container);
-  background: var(--mat-sys-tertiary-container);
+  background: var(--mat-sys-secondary-container);
   text-decoration: none;
   transition: opacity 0.15s;
 
@@ -190,7 +190,7 @@
   align-items: center;
   gap: 1rem;
 
- .coffee-link {
+ .support-link {
     margin-left: auto; // pushes it to the far right
     white-space: nowrap;
     flex-shrink: 0;
