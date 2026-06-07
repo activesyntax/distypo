@@ -25,15 +25,16 @@
         padding-left: 0.6rem;
         border-left: 3px solid #6b6357;
 
-        margin-left: -0.6rem;
+        margin-left: -0.8rem;
         margin-top: 1.15em;
         margin-bottom: 1.15em;
 
         background: #e6e6e6;
-        border-radius: 0 4px 4px 0;                        // ← add (matches left border edge)
-        padding-right: 0.6rem;                             // ← add (so bg doesn't clip text flush)
-        padding-top: 0.25rem;                              // ← add
+        border-radius: 0 4px 4px 0;
+        padding-right: 0.6rem;
+        padding-top: 1.7rem;
         padding-bottom: 0.25rem;
+        padding-left: 1rem;
 
         .bad,
         .good {
