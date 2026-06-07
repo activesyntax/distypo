@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Workspace } from './workspace';
+import { provideRouter } from '@angular/router';
 
 describe('Workspace', () => {
   let component: Workspace;
@@ -8,6 +9,7 @@ describe('Workspace', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Workspace],
+      providers: [provideRouter([])],
     })
       .overrideComponent(Workspace, {
         set: {
