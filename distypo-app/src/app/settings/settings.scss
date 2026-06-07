@@ -34,11 +34,13 @@
 .rule-toggle-row {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 50px;
 
   .rule-description {
-    font-size: 13pt;
+    font-size: 14pt;
     line-height: 1.5;
     color: var(--mat-sys-on-surface-variant);
+    margin-left: 1rem;
+    display: inline-block;
   }
 }
