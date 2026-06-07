@@ -1,6 +1,6 @@
 import { httpResource } from "@angular/common/http";
 import { Injectable, signal, computed, Signal } from "@angular/core";
-import { ContentSource, defaultSource, emptySource, FileContentSource } from "./content-source";
+import { ContentSource, emptySource } from "./content-source";
 
 @Injectable({ providedIn: 'root' })
 export class ContentSourceStore {

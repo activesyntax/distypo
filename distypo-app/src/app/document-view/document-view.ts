@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { DocumentState } from '@app/state/document-state';
 import { ContentSourceStore } from '@app/state/source/content-source-store';
 import { InlineCorrectionView } from "@app/inline-correction-view/inline-correction-view";
-import { CorrectionSegmentResolver } from '@app/state/segments.service';
 
 
 @Component({
