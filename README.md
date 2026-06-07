@@ -117,6 +117,14 @@ npm run build      # production build
 
 ---
 
+## 💖 Support the Development
+
+This project is currently under active development. If you'd like to support the journey, help cover future hosting costs, or just buy the developer a coffee, you can donate directly via Revolut!
+
+[![Donate via Revolut](https://img.shields.io/badge/Donate-Revolut-0075EB.svg?style=for-the-badge&logo=revolut&logoColor=white)](https://revolut.me/jozsefputz)
+
+*Supports credit cards, debit cards, Apple Pay, and native Revolut transfers.*
+
 ## License
 
 [MIT](./LICENSE) — © 2026 [Active Syntax](https://github.com/activesyntax)
