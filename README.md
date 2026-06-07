@@ -77,12 +77,17 @@ DocumentState.raw                     // computed: RawDocument
     ↓ + RuleService.activeRules()
 DocumentState.linted                  // computed: LintedDocument with Corrections[]
     ↓
-DocumentState.segments                // computed: TextSegment[] | CorrectionSegment[]
+DocumentState.segments                // computed: Segment[] (TextSegment | CorrectionSegment | InlineCorrectionSegment)
     ↓ + CorrectionService.statuses()
 View                                  // components render segments reactively
+
+DocumentState.linted + DocumentState.segments + CorrectionService.statuses()
+    ↓ (on save / copy)
+DocumentState.polished                // computed: PolishedDocument — resolved on demand,
+                                      // not part of the display pipeline
 ```
 
-Polish (applying fixes) is a separate pass triggered on export or "fix all", keeping the display and output concerns separate.
+Polish (applying fixes) is computed from the already-resolved plain text of the current segment state. It is only consumed at the point of export or copy-to-clipboard, keeping display and output concerns separate.
 
 ---
 
@@ -114,4 +119,4 @@ npm run build      # production build
 
 ## License
 
-MIT — © 2026 [Active Syntax](https://github.com/activesyntax)
+[MIT](./LICENSE) — © 2026 [Active Syntax](https://github.com/activesyntax)
