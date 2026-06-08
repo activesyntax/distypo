@@ -9,7 +9,6 @@ export class ContentSourceStore {
   readonly draftText = signal('');
   readonly source = this._source.asReadonly();
 
-
   readonly content = computed<string | undefined>(() => {
     const src = this._source();
     if (src.kind === 'text') return src.text;

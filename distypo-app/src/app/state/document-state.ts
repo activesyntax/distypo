@@ -1,4 +1,4 @@
-import { computed, inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { lint, LintedDocument, polish, PolishedDocument } from '@core/index';
 import { countWords, countSentences, countLines } from '@utils/text-stats';
 import { ContentSourceStore } from './source/content-source-store';
@@ -43,15 +43,22 @@ export class DocumentState {
     return doc ? toSegments(doc) : [];
   });
 
+  readonly content = computed(() => {
 
-  readonly contentSizeBytes = computed(() => {
-    const content = this.sourceStore.content();
-    return content ? new TextEncoder().encode(content).length : 0;
+    if (!this.linted())
+      return this.sourceStore.draftText();
+
+    const content = this.polished()?.content;
+    return content ?? '';
   });
 
-  readonly wordCount = computed(() => countWords(this.sourceStore.content() ?? ''));
-  readonly sentenceCount = computed(() => countSentences(this.sourceStore.content() ?? ''));
-  readonly lineCount = computed(() => countLines(this.sourceStore.content() ?? ''));
+  readonly contentSizeBytes = computed(() => {
+    return this.content() ? new TextEncoder().encode(this.content()).length : 0;
+  });
+
+  readonly wordCount = computed(() => countWords(this.content()));
+  readonly sentenceCount = computed(() => countSentences(this.content()));
+  readonly lineCount = computed(() => countLines(this.content()));
 
 
 }

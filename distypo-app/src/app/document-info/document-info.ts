@@ -11,6 +11,8 @@ import { formatBytes } from '@utils/format';
 })
 export class DocumentInfo {
   documentState = inject(DocumentState);
+
+  // TODO:pipe
   formattedSize = computed(() => formatBytes(this.documentState.contentSizeBytes()));
 }
 

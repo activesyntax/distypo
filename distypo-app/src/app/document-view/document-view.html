@@ -2,7 +2,7 @@
 
 <div class="article-frame__toolbar">
 
-    @if (!documentState.linted() && !rawText()) {
+    @if (!documentState.linted() && !contentSourceStore.draftText()) {
       <button
         matButton="outlined"
         type="button"
@@ -13,7 +13,7 @@
       </button>
     }
 
-    @if (rawText()) {
+    @if (contentSourceStore.draftText()) {
       <button
         matButton="outlined"
         type="button"
@@ -44,7 +44,7 @@
         #rawtext
         class="article-frame__input"
         placeholder="Paste your text here then click Analyse button..."
-        [value]="rawText()"
+        [value]="contentSourceStore.draftText()"
         (input)="onInput($event)"
       ></textarea>
     }

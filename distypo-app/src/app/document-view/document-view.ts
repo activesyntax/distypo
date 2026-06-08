@@ -18,15 +18,13 @@ import { Config } from '@config/config';
 export class DocumentView {
   documentState = inject(DocumentState);
   private documentService = inject(DocumentService);
-  private contentSourceStore = inject(ContentSourceStore);
+
+  readonly contentSourceStore = inject(ContentSourceStore);
 
   readonly copied = signal(false);
 
-  readonly rawText = this.contentSourceStore.draftText;
-
   readonly segments = computed(() => this.documentState.segments());
   readonly plainText = computed(() => this.documentState.polished()?.content ?? '');
-
 
   private textareaEl = viewChild<ElementRef<HTMLTextAreaElement>>('rawtext');
 
@@ -34,11 +32,11 @@ export class DocumentView {
     const el = event.target as HTMLTextAreaElement;
     el.style.height = 'auto';
     el.style.height = el.scrollHeight + 'px';
-    this.rawText.set(el.value);
+    this.contentSourceStore.draftText.set(el.value);
   }
 
   insertDemoText() {
-    this.rawText.set(Config.demoTextLong);
+    this.contentSourceStore.draftText.set(Config.demoTextLong);
   }
 
   constructor() {
@@ -49,7 +47,6 @@ export class DocumentView {
     this.textareaEl()?.nativeElement.focus();
   }
   clearTextt() {
-    this.rawText.set('');
     this.documentService.clear();
     setTimeout(() => this.focusTextarea());
   }

@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { CorrectionService } from '@app/correction-view/services/correction.service';
 import { DocumentState } from '@app/state/document-state';
-import { CorrectionSegmentResolver } from '@app/state/segments.service';
 import { ContentSourceStore } from '@app/state/source/content-source-store';
 
 @Injectable({ providedIn: 'root' })
@@ -9,7 +8,6 @@ export class DocumentService {
 
   private readonly corrections = inject(CorrectionService);
   private documentState = inject(DocumentState);
-  private segmentService = inject(CorrectionSegmentResolver);
 
   private contentSourceStore = inject(ContentSourceStore);
 
@@ -22,6 +20,7 @@ export class DocumentService {
   }
 
   clear() {
+    this.contentSourceStore.draftText.set('');
     this.contentSourceStore.setText('');
   }
 
